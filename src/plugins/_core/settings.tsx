@@ -71,12 +71,12 @@ export default definePlugin({
         return [
             {
                 section: SectionTypes.HEADER,
-                label: "Vencord",
+                label: "Toblerone",
                 className: "vc-settings-header"
             },
             {
                 section: "VencordSettings",
-                label: "Vencord",
+                label: "Toblerone",
                 element: require("@components/VencordSettings/VencordTab").default,
                 className: "vc-settings"
             },
@@ -98,19 +98,19 @@ export default definePlugin({
                 element: require("@components/VencordSettings/UpdaterTab").default,
                 className: "vc-updater"
             },
-            {
-                section: "VencordCloud",
-                label: "Cloud",
-                element: require("@components/VencordSettings/CloudTab").default,
-                className: "vc-cloud"
-            },
+            //{
+            //    section: "VencordCloud",
+            //    label: "Cloud",
+            //    element: require("@components/VencordSettings/CloudTab").default,
+            //    className: "vc-cloud"
+            //},
             {
                 section: "VencordSettingsSync",
                 label: "Backup & Restore",
                 element: require("@components/VencordSettings/BackupAndRestoreTab").default,
                 className: "vc-backup-restore"
             },
-            IS_DEV && {
+            {
                 section: "VencordPatchHelper",
                 label: "Patch Helper",
                 element: require("@components/VencordSettings/PatchHelperTab").default,

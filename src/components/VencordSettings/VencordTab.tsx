@@ -80,11 +80,6 @@ function VencordSettings() {
                 title: "Enable window transparency.",
                 note: "You need a theme that supports transparency or this will do nothing. Will stop the window from being resizable. Requires a full restart"
             },
-            !IS_WEB && isWindows && {
-                key: "winCtrlQ",
-                title: "Register Ctrl+Q as shortcut to close Discord (Alternative to Alt+F4)",
-                note: "Requires a full restart"
-            },
             IS_DISCORD_DESKTOP && {
                 key: "disableMinSize",
                 title: "Disable minimum window size",
@@ -93,10 +88,9 @@ function VencordSettings() {
         ];
 
     return (
-        <SettingsTab title="Vencord Settings">
-            <DonateCard image={donateImage} />
-            <Forms.FormSection title="Quick Actions">
-                <Card className={cl("quick-actions-card")}>
+        <SettingsTab title="Tobler, uh. settings (or something)">
+            <InfoCard/>
+            <Card className={cl("quick-actions-card")}>
                     <React.Fragment>
                         {!IS_WEB && (
                             <Button
@@ -119,18 +113,9 @@ function VencordSettings() {
                                 Open Settings Folder
                             </Button>
                         )}
-                        <Button
-                            onClick={() => VencordNative.native.openExternal("https://github.com/Vendicated/Vencord")}
-                            size={Button.Sizes.SMALL}
-                            disabled={settingsDirPending}>
-                            Open in GitHub
-                        </Button>
                     </React.Fragment>
                 </Card>
-            </Forms.FormSection>
-
             <Forms.FormDivider />
-
             <Forms.FormSection className={Margins.top16} title="Settings" tag="h5">
                 <Forms.FormText className={Margins.bottom20}>
                     Hint: You can change the position of this settings section in the settings of the "Settings" plugin!
@@ -212,7 +197,7 @@ function VencordSettings() {
                     serialize={identity} />
             </>}
 
-            {typeof Notification !== "undefined" && <NotificationSection settings={settings.notifications} />}
+            {/*typeof Notification !== "undefined" && <NotificationSection settings={settings.notifications} />*/}
         </SettingsTab>
     );
 }
@@ -300,27 +285,20 @@ function NotificationSection({ settings }: { settings: typeof Settings["notifica
     );
 }
 
-interface DonateCardProps {
-    image: string;
-}
-
-function DonateCard({ image }: DonateCardProps) {
+function InfoCard() {
     return (
-        <Card className={cl("card", "donate")}>
+        <Card className={cl("card", "settings-info")}>
             <div>
-                <Forms.FormTitle tag="h5">Support the Project</Forms.FormTitle>
-                <Forms.FormText>Please consider supporting the development of Vencord by donating!</Forms.FormText>
-                <DonateButton style={{ transform: "translateX(-1em)" }} />
+                <Forms.FormTitle tag="h5">Info</Forms.FormTitle>
+                <Forms.FormText>This is the settings tab- The window to tons of cool features. You could also just click the "Restart Client" button 50 times, its your choice.</Forms.FormText>
             </div>
             <img
                 role="presentation"
-                src={image}
+                src={"https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExemxxaGtwY3Fyam54OHF4cTJ2ajJwcWlpZ2lzamtyZmhsbTN1b2tpYiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/CGUPvuvcTiwCVieKhC/giphy.gif"}
                 alt=""
                 height={128}
                 style={{
-                    imageRendering: image === SHIGGY_DONATE_IMAGE ? "pixelated" : void 0,
-                    marginLeft: "auto",
-                    transform: image === DEFAULT_DONATE_IMAGE ? "rotate(10deg)" : void 0
+                    marginLeft: "auto"
                 }}
             />
         </Card>

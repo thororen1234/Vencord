@@ -38,7 +38,6 @@ export interface Settings {
     enabledThemes: string[];
     frameless: boolean;
     transparent: boolean;
-    winCtrlQ: boolean;
     macosVibrancyStyle:
     | "content"
     | "fullscreen-ui"
@@ -87,7 +86,6 @@ const DefaultSettings: Settings = {
     enableReactDevtools: false,
     frameless: false,
     transparent: false,
-    winCtrlQ: false,
     macosVibrancyStyle: undefined,
     disableMinSize: false,
     winNativeTitleBar: false,

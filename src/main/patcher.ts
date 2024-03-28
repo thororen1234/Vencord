@@ -23,6 +23,7 @@ import { dirname, join } from "path";
 import { initIpc } from "./ipcMain";
 import { RendererSettings } from "./settings";
 import { IS_VANILLA } from "./utils/constants";
+import { rebuildAndRestart } from "@utils/Rebuild";
 
 console.log("[Vencord] Starting up...");
 
@@ -43,30 +44,6 @@ app.setAppPath(asarPath);
 
 if (!IS_VANILLA) {
     const settings = RendererSettings.store;
-    // Repatch after host updates on Windows
-    if (process.platform === "win32") {
-        require("./patchWin32Updater");
-
-        if (settings.winCtrlQ) {
-            const originalBuild = Menu.buildFromTemplate;
-            Menu.buildFromTemplate = function (template) {
-                if (template[0]?.label === "&File") {
-                    const { submenu } = template[0];
-                    if (Array.isArray(submenu)) {
-                        submenu.push({
-                            label: "Quit (Hidden)",
-                            visible: false,
-                            acceleratorWorksWhenHidden: true,
-                            accelerator: "Control+Q",
-                            click: () => app.quit()
-                        });
-                    }
-                }
-                return originalBuild.call(this, template);
-            };
-        }
-    }
-
     class BrowserWindow extends electron.BrowserWindow {
         constructor(options: BrowserWindowConstructorOptions) {
             if (options?.webPreferences?.preload && options.title) {
