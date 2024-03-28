@@ -22,7 +22,7 @@ import * as DataStore from "@api/DataStore";
 import { showNotice } from "@api/Notices";
 import { Settings, useSettings } from "@api/Settings";
 import { classNameFactory } from "@api/Styles";
-import { CogWheel, InfoIcon, StarIcon } from "@components/Icons";
+import { CogWheel, FavouriteIcon, InfoIcon } from "@components/Icons";
 import PluginModal from "@components/PluginSettings/PluginModal";
 import { AddonCard } from "@components/VencordSettings/AddonCard";
 import { SettingsTab } from "@components/VencordSettings/shared";
@@ -148,6 +148,15 @@ export function PluginCard({ plugin, disabled, onRestartNeeded, onMouseEnter, on
         settings.enabled = !wasEnabled;
     }
 
+    function favouritePlugin() {
+        settings.favourited =  !settings.favourited;
+    }
+
+    function isPluginFavourited() {
+        return settings.favourited;
+    }
+
+
     return (
         <AddonCard
             name={plugin.name}
@@ -165,9 +174,9 @@ export function PluginCard({ plugin, disabled, onRestartNeeded, onMouseEnter, on
                         : <InfoIcon />}
                 </button>
             }
-            starButton={
-                <button role="switch" onClick={() => console.log("yippee")} className={classes(ButtonClasses.button, cl("star-button"))}>
-                    {<StarIcon isStarred={false}/>}
+            favButton={
+                <button role="switch" onClick={() => favouritePlugin()} className={classes(ButtonClasses.button, cl("pin-button"))}>
+                    <FavouriteIcon isFavourited={isPluginFavourited()}></FavouriteIcon>
                 </button>
             }
         />
@@ -222,24 +231,37 @@ export default function PluginSettings() {
     const sortedPlugins = React.useMemo(() => Object.values(Plugins)
         .sort((a, b) => a.name.localeCompare(b.name)), []);
 
-    const [searchValue, setSearchValue] = React.useState({ value: "", status: SearchStatus.ALL });
+    const [searchValue, setSearchValue] = React.useState({ value: "", status: (SearchStatus.ALL) });
 
     const onSearch = (query: string) => setSearchValue(prev => ({ ...prev, value: query }));
     const onStatusChange = (status: SearchStatus) => setSearchValue(prev => ({ ...prev, status }));
 
-    const pluginFilter = (plugin: typeof Plugins[keyof typeof Plugins]) => {
+    const pluginFilter = (plugin: typeof Plugins[keyof typeof Plugins], favourite : boolean) => {
         const enabled = settings.plugins[plugin.name]?.enabled;
-        if (enabled && searchValue.status === SearchStatus.DISABLED) return false;
-        if (!enabled && searchValue.status === SearchStatus.ENABLED) return false;
-        if (searchValue.status === SearchStatus.NEW && !newPlugins?.includes(plugin.name)) return false;
-        if (!searchValue.value.length) return true;
-
         const v = searchValue.value.toLowerCase();
-        return (
-            plugin.name.toLowerCase().includes(v) ||
-            plugin.description.toLowerCase().includes(v) ||
-            plugin.tags?.some(t => t.toLowerCase().includes(v))
-        );
+        const matchesSearch =
+        plugin.name.toLowerCase().includes(v) ||
+        plugin.description.toLowerCase().includes(v) ||
+        plugin.tags?.some(t => t.toLowerCase().includes(v));
+        let favTrue = settings.plugins[plugin.name]?.favourited;
+
+        //return values
+        let returnValueEnabled = enabled && matchesSearch;
+        let returnValueDisabled = !enabled && matchesSearch;
+        let returnValueNew = newPlugins?.includes(plugin.name) && matchesSearch;
+        let returnValueAll = matchesSearch;
+
+        switch (searchValue.status) {
+            case SearchStatus.ALL:
+                return favourite ? (returnValueAll && favTrue) : returnValueAll;
+            case SearchStatus.DISABLED:
+                return favourite ? (returnValueDisabled && favTrue) : returnValueDisabled;
+            case SearchStatus.ENABLED:
+                return favourite ? (returnValueEnabled && favTrue) : returnValueEnabled;
+            case SearchStatus.NEW:
+                return favourite ? (returnValueNew && favTrue) : returnValueNew;
+        }
+
     };
 
     const [newPlugins] = useAwaiter(() => DataStore.get("Vencord_existingPlugins").then((cachedPlugins: Record<string, number> | undefined) => {
@@ -259,75 +281,115 @@ export default function PluginSettings() {
         return lodash.isEqual(newPlugins, sortedPluginNames) ? [] : newPlugins;
     }));
 
-    type P = JSX.Element | JSX.Element[];
-    let plugins: P, requiredPlugins: P;
-    if (sortedPlugins?.length) {
-        plugins = [];
-        requiredPlugins = [];
-
-        for (const p of sortedPlugins) {
-            if (!p.options && p.name.endsWith("API") && searchValue.value !== "API")
-                continue;
-
-            if (!pluginFilter(p)) continue;
-
-            const isRequired = p.required || depMap[p.name]?.some(d => settings.plugins[d].enabled);
-
-            if (isRequired) {
-                const tooltipText = p.required
-                    ? "This plugin is required for Vencord to function."
-                    : makeDependencyList(depMap[p.name]?.filter(d => settings.plugins[d].enabled));
-
-                requiredPlugins.push(
-                    <Tooltip text={tooltipText} key={p.name}>
-                        {({ onMouseLeave, onMouseEnter }) => (
-                            <PluginCard
-                                onMouseLeave={onMouseLeave}
-                                onMouseEnter={onMouseEnter}
-                                onRestartNeeded={name => changes.handleChange(name)}
-                                disabled={true}
-                                plugin={p}
-                            />
-                        )}
-                    </Tooltip>
-                );
-            } else {
-                plugins.push(
-                    <PluginCard
-                        onRestartNeeded={name => changes.handleChange(name)}
-                        disabled={false}
-                        plugin={p}
-                        isNew={newPlugins?.includes(p.name)}
-                        key={p.name}
-                    />
-                );
+    function pluginFilterAll(plugins, favourite)
+    {
+        for (const plugin of plugins)
+        {
+            if(pluginFilter(plugin,favourite))
+            {
+                return true;
             }
-
         }
-    } else {
-        plugins = requiredPlugins = <Text variant="text-md/normal">No plugins meet search criteria.</Text>;
+        return false;
     }
+    
+    function PluginList(props) {
+        type P = JSX.Element | JSX.Element[];
+        let plugins: P, requiredPlugins: P;
+        if (sortedPlugins?.length) {
+            plugins = [];
+            requiredPlugins = [];
+            for (const p of sortedPlugins) {
+                if (!p.options && p.name.endsWith("API") && searchValue.value !== "API")
+                    continue;
+    
+                if (!pluginFilter(p, props.favourited)) continue;
+    
+                const isRequired = p.required || depMap[p.name]?.some(d => settings.plugins[d].enabled);
+    
+                if (isRequired) {
+                    const tooltipText = p.required
+                        ? "This plugin is required for Vencord to function."
+                        : makeDependencyList(depMap[p.name]?.filter(d => settings.plugins[d].enabled));
+    
+                    requiredPlugins.push(
+                        <Tooltip text={tooltipText} key={p.name}>
+                            {({ onMouseLeave, onMouseEnter }) => (
+                                <PluginCard
+                                    onMouseLeave={onMouseLeave}
+                                    onMouseEnter={onMouseEnter}
+                                    onRestartNeeded={name => changes.handleChange(name)}
+                                    disabled={true}
+                                    plugin={p}
+                                />
+                            )}
+                        </Tooltip>
+                    );
+                } else if (props.favourited && settings.plugins[p.name].favourited || !props.favourited && !settings.plugins[p.name].favourited){
+                    plugins.push(
+                        <PluginCard
+                            onRestartNeeded={name => changes.handleChange(name)}
+                            disabled={false}
+                            plugin={p}
+                            isNew={newPlugins?.includes(p.name)}
+                            key={p.name}
+                        />
+                    );
+                }
+            }
+        } else {
+            plugins = [];
+            requiredPlugins = [];
+        }
+    
+        // Display a message if there are no plugins meeting the search criteria
+        if (plugins.length === 0 && requiredPlugins.length === 0) {
+            plugins = <Text variant="text-md/normal">No plugins meet search criteria.</Text>;
+        }
+    
+        return (
+            <>
+                {props.required && requiredPlugins}
+                {!props.required && plugins}
+            </>
+        );
+    }
+    
+    const isAnyPluginFavorited = pluginFilterAll(sortedPlugins, true);
+
+    const options = [
+        { label: "All", value: SearchStatus.ALL },
+        { label: "Enabled", value: SearchStatus.ENABLED },
+        { label: "Disabled", value: SearchStatus.DISABLED },
+    ]; 
+    if(settings.newPlugins) { options.push({ label: "New", value: SearchStatus.NEW }); }
 
     return (
         <SettingsTab title="Plugins">
             <ReloadRequiredCard required={changes.hasChanges} />
 
+            {isAnyPluginFavorited &&             
+                <>
+                    <Forms.FormTitle className={Margins.top20}>Favourite Plugins</Forms.FormTitle>
+                    <div className={cl("grid")}>
+                        <PluginList required={false} favourited={true}></PluginList>
+                    </div>
+                </>
+            
+            }
+
             <Forms.FormTitle tag="h5" className={classes(Margins.top20, Margins.bottom8)}>
                 Filters
             </Forms.FormTitle>
 
+            
             <div className={cl("filter-controls")}>
                 <TextInput autoFocus value={searchValue.value} placeholder="Search for a plugin..." onChange={onSearch} className={Margins.bottom20} />
                 <div className={InputStyles.inputWrapper}>
                     <Select
                         className={InputStyles.inputDefault}
-                        options={[
-                            { label: "Show All", value: SearchStatus.ALL, default: true },
-                            { label: "Show Enabled", value: SearchStatus.ENABLED },
-                            { label: "Show Disabled", value: SearchStatus.DISABLED },
-                            { label: "Show New", value: SearchStatus.NEW }
-                        ]}
                         serialize={String}
+                        options={options}
                         select={onStatusChange}
                         isSelected={v => v === searchValue.status}
                         closeOnSelect={true}
@@ -336,9 +398,8 @@ export default function PluginSettings() {
             </div>
 
             <Forms.FormTitle className={Margins.top20}>Plugins</Forms.FormTitle>
-
             <div className={cl("grid")}>
-                {plugins}
+                <PluginList required={false} favourited={false}></PluginList>
             </div>
 
             <Forms.FormDivider className={Margins.top20} />
@@ -347,7 +408,7 @@ export default function PluginSettings() {
                 Required Plugins
             </Forms.FormTitle>
             <div className={cl("grid")}>
-                {requiredPlugins}
+                <PluginList required={true} favourite={false}></PluginList>
             </div>
         </SettingsTab >
     );

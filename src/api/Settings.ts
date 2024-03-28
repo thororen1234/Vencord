@@ -52,11 +52,14 @@ export interface Settings {
     | "under-page"
     | "window"
     | undefined;
+    macosTranslucency: boolean | undefined;
     disableMinSize: boolean;
     winNativeTitleBar: boolean;
+    newPlugins: boolean;
     plugins: {
         [plugin: string]: {
             enabled: boolean;
+            favourited: boolean;
             [setting: string]: any;
         };
     };
@@ -83,11 +86,14 @@ const DefaultSettings: Settings = {
     useQuickCss: true,
     themeLinks: [],
     enabledThemes: [],
-    enableReactDevtools: false,
+    enableReactDevtools: true,
     frameless: false,
     transparent: false,
+    // Replaced by macosVibrancyStyle
+    macosTranslucency: undefined,
     macosVibrancyStyle: undefined,
     disableMinSize: false,
+    newPlugins: false,
     winNativeTitleBar: false,
     plugins: {},
 
@@ -105,7 +111,6 @@ const DefaultSettings: Settings = {
         settingsSyncVersion: 0
     }
 };
-
 const settings = VencordNative.settings.get();
 mergeDefaults(settings, DefaultSettings);
 

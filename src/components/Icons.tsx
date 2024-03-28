@@ -32,13 +32,6 @@ interface IconProps extends SVGProps<SVGSVGElement> {
     width?: string | number;
 }
 
-interface StarProps extends SVGProps<SVGSVGElement> {
-    className?: string;
-    height?: string | number;
-    width?: string | number;
-    isStarred: boolean;
-}
-
 function Icon({ height = 24, width = 24, className, children, viewBox, ...svgProps }: PropsWithChildren<BaseIconProps>) {
     return (
         <svg
@@ -139,22 +132,7 @@ export function InfoIcon(props: IconProps) {
     );
 }
 
-export function StarIcon(props: StarProps) {
-    return (
-        <Icon
-            {...props}
-            className={classes(props.className, "vc-star-icon")}
-            viewBox="0 0 24 24"
-        >
-            <path
-                fill="currentColor"
-                d={props.isStarred ? "M10.81 2.86c.38-1.15 2-1.15 2.38 0l1.89 5.83h6.12c1.2 0 1.71 1.54.73 2.25l-4.95 3.6 1.9 5.82a1.25 1.25 0 0 1-1.93 1.4L12 18.16l-4.95 3.6c-.98.7-2.3-.25-1.92-1.4l1.89-5.82-4.95-3.6a1.25 1.25 0 0 1 .73-2.25h6.12l1.9-5.83Z" : ""}
-            />
-        </Icon>
-    );
-}
-
-export function OwnerCrownIcon(props: IconProps)  {
+export function OwnerCrownIcon(props: IconProps) {
     return (
         <Icon
             aria-label={i18n.Messages.GUILD_OWNER}
@@ -244,6 +222,21 @@ export function CogWheel(props: IconProps) {
     );
 }
 
+
+
+interface FavProps extends IconProps {
+    isFavourited : boolean;
+}
+
+
+export function FavouriteIcon(props: FavProps) {
+    return (
+        <Icon className={classes(props.className, "vc-favourite")} {...props} fill="none" viewBox="0 1 24 24">
+            {props.isFavourited && <path fill="currentColor" d="M10.81 2.86c.38-1.15 2-1.15 2.38 0l1.89 5.83h6.12c1.2 0 1.71 1.54.73 2.25l-4.95 3.6 1.9 5.82a1.25 1.25 0 0 1-1.93 1.4L12 18.16l-4.95 3.6c-.98.7-2.3-.25-1.92-1.4l1.89-5.82-4.95-3.6a1.25 1.25 0 0 1 .73-2.25h6.12l1.9-5.83Z"></path>}
+            {!props.isFavourited && <path fill="currentColor" fill-rule="evenodd" d="M2.07 10.94a1.25 1.25 0 0 1 .73-2.25h6.12l1.9-5.83c.37-1.15 2-1.15 2.37 0l1.89 5.83h6.12c1.2 0 1.71 1.54.73 2.25l-4.95 3.6 1.9 5.82a1.25 1.25 0 0 1-1.93 1.4L12 18.16l-4.95 3.6c-.98.7-2.3-.25-1.92-1.4l1.89-5.82-4.95-3.6Zm11.55-.25h5.26l-4.25 3.09 1.62 5-4.25-3.1-4.25 3.1 1.62-5-4.25-3.1h5.26l1.62-5 1.62 5Z" clip-rule="evenodd"></path>}
+        </Icon>
+    );
+}
 export function ReplyIcon(props: IconProps) {
     return (
         <Icon

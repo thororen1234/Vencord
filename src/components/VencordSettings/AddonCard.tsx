@@ -22,6 +22,7 @@ import { classNameFactory } from "@api/Styles";
 import { Badge } from "@components/Badge";
 import { Switch } from "@components/Switch";
 import { Text } from "@webpack/common";
+import { Settings } from "@api/Settings";
 import type { MouseEventHandler, ReactNode } from "react";
 
 const cl = classNameFactory("vc-addon-");
@@ -37,12 +38,12 @@ interface Props {
     onMouseLeave?: MouseEventHandler<HTMLDivElement>;
 
     infoButton?: ReactNode;
-    starButton?: ReactNode;
+    favButton?: ReactNode;
     footer?: ReactNode;
     author?: ReactNode;
 }
 
-export function AddonCard({ disabled, isNew, name, infoButton, footer, author, enabled, starButton, setEnabled, description, onMouseEnter, onMouseLeave }: Props) {
+export function AddonCard({ disabled, isNew, name, infoButton, favButton, footer, author, enabled, setEnabled, description, onMouseEnter, onMouseLeave }: Props) {
     return (
         <div
             className={cl("card", { "card-disabled": disabled })}
@@ -52,7 +53,7 @@ export function AddonCard({ disabled, isNew, name, infoButton, footer, author, e
             <div className={cl("header")}>
                 <div className={cl("name-author")}>
                     <Text variant="text-md/bold" className={cl("name")}>
-                        {name}{isNew && <Badge text="NEW" color="#ED4245" />}
+                        {name}{(isNew && Settings.newPlugins) && <Badge text="NEW" color="#ED4245" />}
                     </Text>
                     {!!author && (
                         <Text variant="text-md/normal" className={cl("author")}>
@@ -61,8 +62,8 @@ export function AddonCard({ disabled, isNew, name, infoButton, footer, author, e
                     )}
                 </div>
 
+                {favButton}
                 {infoButton}
-                {starButton}
 
                 <Switch
                     checked={enabled}

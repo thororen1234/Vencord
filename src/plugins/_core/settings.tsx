@@ -16,10 +16,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+import { addContextMenuPatch } from "@api/ContextMenu";
 import { Settings } from "@api/Settings";
 import { Devs } from "@utils/constants";
 import definePlugin, { OptionType } from "@utils/types";
-import { React } from "@webpack/common";
+import { React, SettingsRouter } from "@webpack/common";
 
 import gitHash from "~git-hash";
 
@@ -28,6 +29,23 @@ export default definePlugin({
     description: "Adds Settings UI and debug info",
     authors: [Devs.Ven, Devs.Megu],
     required: true,
+
+    start() {
+        // The settings shortcuts in the user settings cog context menu
+        // read the elements from a hardcoded map which for obvious reason
+        // doesn't contain our sections. This patches the actions of our
+        // sections to manually use SettingsRouter (which only works on desktop
+        // but the context menu is usually not available on mobile anyway)
+        addContextMenuPatch("user-settings-cog", children => () => {
+            const section = children.find(c => Array.isArray(c) && c.some(it => it?.props?.id === "VencordSettings")) as any;
+            section?.forEach(c => {
+                const id = c?.props?.id;
+                if (id?.startsWith("Vencord") || id?.startsWith("Vesktop")) {
+                    c.props.action = () => SettingsRouter.open(id);
+                }
+            });
+        });
+    },
 
     patches: [{
         find: ".versionHash",
@@ -57,12 +75,6 @@ export default definePlugin({
             },
             replace: "...$self.makeSettingsCategories($1),$&"
         }
-    }, {
-        find: "Messages.USER_SETTINGS_ACTIONS_MENU_LABEL",
-        replacement: {
-            match: /(?<=function\((\i),\i\)\{)(?=let \i=Object.values\(\i.UserSettingsSections\).*?(\i)\.default\.open\()/,
-            replace: "$2.default.open($1);return;"
-        }
     }],
 
     customSections: [] as ((SectionTypes: Record<string, unknown>) => any)[],
@@ -76,7 +88,7 @@ export default definePlugin({
             },
             {
                 section: "VencordSettings",
-                label: "Toblerone",
+                label: "Settings",
                 element: require("@components/VencordSettings/VencordTab").default,
                 className: "vc-settings"
             },
@@ -92,29 +104,17 @@ export default definePlugin({
                 element: require("@components/VencordSettings/ThemesTab").default,
                 className: "vc-themes"
             },
-            !IS_UPDATER_DISABLED && {
-                section: "VencordUpdater",
-                label: "Updater",
+            {
+                section: "VencordUpdates",
+                label: "Update",
                 element: require("@components/VencordSettings/UpdaterTab").default,
                 className: "vc-updater"
             },
-            //{
-            //    section: "VencordCloud",
-            //    label: "Cloud",
-            //    element: require("@components/VencordSettings/CloudTab").default,
-            //    className: "vc-cloud"
-            //},
             {
-                section: "VencordSettingsSync",
-                label: "Backup & Restore",
-                element: require("@components/VencordSettings/BackupAndRestoreTab").default,
-                className: "vc-backup-restore"
-            },
-            {
-                section: "VencordPatchHelper",
+                section: "VencordPatchHelp",
                 label: "Patch Helper",
                 element: require("@components/VencordSettings/PatchHelperTab").default,
-                className: "vc-patch-helper"
+                className: "vc-patcher"
             },
             ...this.customSections.map(func => func(SectionTypes)),
             {
@@ -126,7 +126,7 @@ export default definePlugin({
     options: {
         settingsLocation: {
             type: OptionType.SELECT,
-            description: "Where to put the Vencord settings section",
+            description: "Where to put the Samcord settings section",
             options: [
                 { label: "At the very top", value: "top" },
                 { label: "Above the Nitro section", value: "aboveNitro" },
