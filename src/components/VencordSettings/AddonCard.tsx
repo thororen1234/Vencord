@@ -37,11 +37,12 @@ interface Props {
     onMouseLeave?: MouseEventHandler<HTMLDivElement>;
 
     infoButton?: ReactNode;
+    starButton?: ReactNode;
     footer?: ReactNode;
     author?: ReactNode;
 }
 
-export function AddonCard({ disabled, isNew, name, infoButton, footer, author, enabled, setEnabled, description, onMouseEnter, onMouseLeave }: Props) {
+export function AddonCard({ disabled, isNew, name, infoButton, footer, author, enabled, starButton, setEnabled, description, onMouseEnter, onMouseLeave }: Props) {
     return (
         <div
             className={cl("card", { "card-disabled": disabled })}
@@ -61,6 +62,7 @@ export function AddonCard({ disabled, isNew, name, infoButton, footer, author, e
                 </div>
 
                 {infoButton}
+                {starButton}
 
                 <Switch
                     checked={enabled}

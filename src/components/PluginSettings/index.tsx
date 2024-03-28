@@ -22,7 +22,7 @@ import * as DataStore from "@api/DataStore";
 import { showNotice } from "@api/Notices";
 import { Settings, useSettings } from "@api/Settings";
 import { classNameFactory } from "@api/Styles";
-import { CogWheel, InfoIcon } from "@components/Icons";
+import { CogWheel, InfoIcon, StarIcon } from "@components/Icons";
 import PluginModal from "@components/PluginSettings/PluginModal";
 import { AddonCard } from "@components/VencordSettings/AddonCard";
 import { SettingsTab } from "@components/VencordSettings/shared";
@@ -163,6 +163,11 @@ export function PluginCard({ plugin, disabled, onRestartNeeded, onMouseEnter, on
                     {plugin.options && !isObjectEmpty(plugin.options)
                         ? <CogWheel />
                         : <InfoIcon />}
+                </button>
+            }
+            starButton={
+                <button role="switch" onClick={() => console.log("yippee")} className={classes(ButtonClasses.button, cl("star-button"))}>
+                    {<StarIcon isStarred={false}/>}
                 </button>
             }
         />

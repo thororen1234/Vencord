@@ -2,6 +2,8 @@
 
 Triangles n shit
 
+## WARNING: This is heavily in development, don't expect a fluid experience, it will be incredibly buggy and will most likely piss you off
+
 ## Features
 
 -   Kinda hard to install unless youre a dev
