@@ -143,7 +143,7 @@ export function StarIcon(props: StarProps) {
     return (
         <Icon
             {...props}
-            className={classes(props.className, "vc-info-icon")}
+            className={classes(props.className, "vc-star-icon")}
             viewBox="0 0 24 24"
         >
             <path
