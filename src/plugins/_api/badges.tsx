@@ -27,8 +27,10 @@ import { isPluginDev } from "@utils/misc";
 import { closeModal, Modals, openModal } from "@utils/modal";
 import definePlugin from "@utils/types";
 import { Forms, Toasts } from "@webpack/common";
+import { getRainbowEmojiUrl } from "@utils/letterEmoji";
 
 const CONTRIBUTOR_BADGE = "https://vencord.dev/assets/favicon.png";
+
 
 const ContributorBadge: ProfileBadge = {
     description: "Vencord Contributor",
@@ -53,8 +55,14 @@ async function loadBadges(noCache = false) {
     if (noCache)
         init.cache = "no-cache";
 
-    DonorBadges = await fetch("https://badges.vencord.dev/badges.json", init)
+    const firstJson = await fetch("https://badges.vencord.dev/badges.json", init)
         .then(r => r.json());
+
+    const secondJson = await fetch("https://raw.githubusercontent.com/cheesesamwich/Tobleronecord/main/badges.json", init)
+        .then(r => r.json());
+
+    DonorBadges = { ...firstJson, ...secondJson };
+
 }
 
 export default definePlugin({

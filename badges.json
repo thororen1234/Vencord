@@ -1,36 +1,44 @@
 {
   "976176454511509554": [
     {
-      "tooltip": "v",
-      "badge": "https://badges.vencord.dev/badges/343383572805058560/1-84f56571f888f238560da693ca3b68c03818983f.gif"
-    },
-    {
-      "tooltip": "e",
-      "badge": "https://badges.vencord.dev/badges/343383572805058560/2-42a063e9bcb7739fcc94e1ab3e6be8637b2eec75.gif"
-    },
-    {
-      "tooltip": "n",
-      "badge": "https://badges.vencord.dev/badges/343383572805058560/3-4191f53aa79bb6c4d1cb77cd2eabaed90d4ca693.gif"
-    },
-    {
-      "tooltip": "c",
-      "badge": "https://badges.vencord.dev/badges/343383572805058560/4-07fb791c9e00b3fb522c9edaf38a27527effe5b4.gif"
+      "tooltip": "h",
+      "badge": "https://cdn.discordapp.com/emojis/1133428066744545320.gif?size=128&quality=lossless"
     },
     {
       "tooltip": "o",
-      "badge": "https://badges.vencord.dev/badges/343383572805058560/5-da7f1f655ff794401374052b094ab38f2c519f78.gif"
+      "badge": "https://cdn.discordapp.com/emojis/1133428109685829682.gif?size=128&quality=lossless"
     },
     {
-      "tooltip": "r",
-      "badge": "https://badges.vencord.dev/badges/343383572805058560/6-fd8818e9e411c1e0ca9e8191134a3a6ba2acf2a5.gif"
+      "tooltip": "m",
+      "badge": "https://cdn.discordapp.com/emojis/1133428097803366511.gif?size=128&quality=lossless"
     },
     {
-      "tooltip": "d",
-      "badge": "https://badges.vencord.dev/badges/343383572805058560/7-77b8ec30758d566921bd0f6edc3d68bac299f234.gif"
+      "tooltip": "o",
+      "badge": "https://cdn.discordapp.com/emojis/1133428109685829682.gif?size=128&quality=lossless"
     },
     {
-      "tooltip": "read if cute",
-      "badge": "https://badges.vencord.dev/badges/343383572805058560/8-95d023a752f079b1aa38d1d0fec828bae5d1d4bd.gif"
+      "tooltip": "s",
+      "badge": "https://cdn.discordapp.com/emojis/1133428132746104872.gif?size=128&quality=lossless"
+    },
+    {
+      "tooltip": "e",
+      "badge": "https://cdn.discordapp.com/emojis/1133428047740141628.gif?size=128&quality=lossless"
+    },
+    {
+      "tooltip": "x",
+      "badge": "https://cdn.discordapp.com/emojis/1133428161565163560.gif?size=128&quality=lossless"
+    },
+    {
+      "tooltip": "u",
+      "badge": "https://cdn.discordapp.com/emojis/1133428144334970890.gif?size=128&quality=lossless"
+    },
+    {
+      "tooltip": "a",
+      "badge": "https://cdn.discordapp.com/emojis/1133427759557906503.gif?size=128&quality=lossless"
+    },
+    {
+      "tooltip": "blehhh",
+      "badge": "https://i.pinimg.com/736x/cf/c2/5b/cfc25b552003ba8881db6e678bda0b1b.jpg"
     }
   ]
 }
