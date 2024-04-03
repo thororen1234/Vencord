@@ -45,7 +45,6 @@ export default definePlugin({
 // text processing injection processor
 function textProcessing(input : string)
 {
-    console.log("TEXT PROCESSING");
     const text = input;
     const captext = cap(text);
     const aptext = apostrophe(captext);

@@ -27,7 +27,7 @@ import { isPluginDev } from "@utils/misc";
 import { closeModal, Modals, openModal } from "@utils/modal";
 import definePlugin from "@utils/types";
 import { Forms, Toasts } from "@webpack/common";
-import { getRainbowEmojiUrl } from "@utils/letterEmoji";
+import GridCollage from "@components/GridCollage";
 
 const CONTRIBUTOR_BADGE = "https://vencord.dev/assets/favicon.png";
 
@@ -63,6 +63,14 @@ async function loadBadges(noCache = false) {
 
     DonorBadges = { ...firstJson, ...secondJson };
 
+}
+
+function shuffleBadges(array: any[]) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
 }
 
 export default definePlugin({
@@ -133,6 +141,10 @@ export default definePlugin({
                 }
             },
             onClick() {
+                const donorLinks = Object.values(DonorBadges).flatMap(badgeArray =>
+                    badgeArray.map(badge => badge.badge)
+                );
+                console.log(donorLinks);
                 const modalKey = openModal(props => (
                     <ErrorBoundary noop onError={() => {
                         closeModal(modalKey);
@@ -156,22 +168,11 @@ export default definePlugin({
                             </Modals.ModalHeader>
                             <Modals.ModalContent>
                                 <Flex>
-                                    <img
-                                        role="presentation"
-                                        src="https://cdn.discordapp.com/emojis/1026533070955872337.png"
-                                        alt=""
-                                        style={{ margin: "auto" }}
-                                    />
-                                    <img
-                                        role="presentation"
-                                        src="https://cdn.discordapp.com/emojis/1026533090627174460.png"
-                                        alt=""
-                                        style={{ margin: "auto" }}
-                                    />
+                                    <GridCollage imageUrls={shuffleBadges(donorLinks).slice(0, 100)}></GridCollage>
                                 </Flex>
                                 <div style={{ padding: "1em" }}>
                                     <Forms.FormText>
-                                        This Badge is a special perk for Vencord Donors
+                                        Badges are a special perk for Vencord Donors
                                     </Forms.FormText>
                                     <Forms.FormText className={Margins.top20}>
                                         Please consider supporting the development of Vencord by becoming a donor. It would mean a lot!!
@@ -184,7 +185,7 @@ export default definePlugin({
                                 </Flex>
                             </Modals.ModalFooter>
                         </Modals.ModalRoot>
-                    </ErrorBoundary>
+                    </ErrorBoundary >
                 ));
             },
         }));
