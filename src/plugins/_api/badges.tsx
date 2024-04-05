@@ -141,9 +141,11 @@ export default definePlugin({
                 }
             },
             onClick() {
-                const donorLinks = Object.values(DonorBadges).flatMap(badgeArray =>
+                let donorLinks = Object.values(DonorBadges).flatMap(badgeArray =>
                     badgeArray.map(badge => badge.badge)
                 );
+                donorLinks = shuffleBadges(donorLinks);
+
                 console.log(donorLinks);
                 const modalKey = openModal(props => (
                     <ErrorBoundary noop onError={() => {
@@ -168,7 +170,7 @@ export default definePlugin({
                             </Modals.ModalHeader>
                             <Modals.ModalContent>
                                 <Flex>
-                                    <GridCollage imageUrls={shuffleBadges(donorLinks).slice(0, 100)}></GridCollage>
+                                    <GridCollage imageUrls={donorLinks.slice(0, 100)}></GridCollage>
                                 </Flex>
                                 <div style={{ padding: "1em" }}>
                                     <Forms.FormText>
