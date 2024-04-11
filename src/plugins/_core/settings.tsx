@@ -111,6 +111,12 @@ export default definePlugin({
                 className: "vc-updater"
             },
             {
+                section: "VencordRestore",
+                label: "Restore",
+                element: require("@components/VencordSettings/BackupAndRestoreTab").default,
+                className: "vc-restore"
+            },
+            {
                 section: "VencordPatchHelp",
                 label: "Patch Helper",
                 element: require("@components/VencordSettings/PatchHelperTab").default,
