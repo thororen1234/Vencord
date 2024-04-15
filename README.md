@@ -6,12 +6,8 @@ A vencord fork focused on quality of life features and more plugins (AND A SICK 
 
 -   More plugins than stock vencord
 -   Plugin favourites
--   Quality of life settings
-
-## Previews
-![image](https://github.com/cheesesamwich/Tobleronecord/assets/149597648/154f31fb-fa4c-4709-b07f-17a0bc93e15e)
-![image](https://github.com/cheesesamwich/Tobleronecord/assets/149597648/e68fdc98-5490-49d5-94cc-961e96c477d9)
-
+-   Various quality of life settings
+  
 ## Installing / Uninstalling
 
 Follow the [Vencord plugin guide](https://github.com/Vendicated/Vencord/blob/main/docs/1_INSTALLING.md), it's originally for vencord but works fine for this too
@@ -33,3 +29,7 @@ Regardless, if your account is very important to you and it getting disabled wou
 ALSO, People still have the right to ban you from their server for whatever reason they like, showcasing your client mods may lead to yourself being banned from that server.
 
 </details>
+
+## Previews
+![image](https://github.com/cheesesamwich/Tobleronecord/assets/149597648/154f31fb-fa4c-4709-b07f-17a0bc93e15e)
+![image](https://github.com/cheesesamwich/Tobleronecord/assets/149597648/e68fdc98-5490-49d5-94cc-961e96c477d9)
