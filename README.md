@@ -10,6 +10,7 @@ Triangles n shit
 
 ## Previews
 ![image](https://github.com/cheesesamwich/Tobleronecord/assets/149597648/154f31fb-fa4c-4709-b07f-17a0bc93e15e)
+![image](https://github.com/cheesesamwich/Tobleronecord/assets/149597648/e68fdc98-5490-49d5-94cc-961e96c477d9)
 
 ## Installing / Uninstalling
 
