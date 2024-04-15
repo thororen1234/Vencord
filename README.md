@@ -2,14 +2,14 @@
 
 Triangles n shit
 
-## WARNING: This is heavily in development, don't expect a fluid experience, it will be incredibly buggy and will most likely piss you off
-
 ## Features
 
--   Kinda hard to install unless youre a dev
--   Cool plugins
--   Plugin Favouriting
--   Meow
+-   More plugins than stock vencord
+-   Plugin favourites
+-   Quality of life settings
+
+## Previews
+![image](https://github.com/cheesesamwich/Tobleronecord/assets/149597648/154f31fb-fa4c-4709-b07f-17a0bc93e15e)
 
 ## Installing / Uninstalling
 
