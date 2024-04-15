@@ -1,6 +1,6 @@
 # Tobleronecord
 
-Triangles n shit
+A vencord fork focused on quality of life features and more plugins (AND A SICK ASS NAME)
 
 ## Features
 
