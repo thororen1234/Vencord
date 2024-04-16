@@ -118,7 +118,7 @@ function utilityDock({ children }: { children: ReactNode[]; }) {
 
 export default definePlugin({
     name: "utilityDock",
-    description: "Adds a button on your titlebar with multiple useful scenarios (definitely not just vencordToolbox except its not ass vee PLEASE dont sue me xoxo)",
+    description: "Adds a button on your titlebar with multiple useful features",
     authors:
         [
             {
