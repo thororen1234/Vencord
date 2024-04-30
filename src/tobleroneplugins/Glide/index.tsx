@@ -104,10 +104,18 @@ const lofipopTheme = {
     brand: "944068",
     name: "Lofi Pop"
 }; 
-    
+   
+const oakenTheme = {
+    bgcol: "471b05",
+    accentcol: "4e2009",
+    textcol: "ffffff",
+    brand: "903e14",
+    name: "Oaken"
+}; 
+
 let setPreset;
 
-const themes = [amoledTheme, solarTheme, indigoTheme, grapeFruitTheme, crimsonTheme, azureTheme, blackberryTheme, porpleTheme, charcoalTheme, lofipopTheme];
+const themes = [amoledTheme, solarTheme, indigoTheme, grapeFruitTheme, crimsonTheme, azureTheme, blackberryTheme, porpleTheme, charcoalTheme, lofipopTheme, oakenTheme];
 
 function LoadPreset()
 {
