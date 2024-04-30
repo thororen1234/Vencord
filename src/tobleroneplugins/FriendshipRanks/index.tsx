@@ -129,7 +129,7 @@ function getBadgesToApply()
 
 export default definePlugin({
     name: "FriendshipRanks",
-    description: "Adds badges showcasing your friendship strength",
+    description: "Adds badges showcasing how long you have been friends with a user for",
     authors: [
         Devs.Samwich
     ],
