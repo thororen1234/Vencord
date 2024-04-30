@@ -48,7 +48,7 @@ function WebsiteIcon() {
     return <img src={src} alt="Website" />;
 }
 
-function ContributorModal({ user }: { user: User; }) {
+export function ContributorModal({ user }: { user: User; }) {
     useSettings();
 
     const profile = useStateFromStores([UserProfileStore], () => UserProfileStore.getUserProfile(user.id));

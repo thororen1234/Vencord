@@ -36,6 +36,8 @@ import type { ComponentType, Ref, SyntheticEvent } from "react";
 import { AddonCard } from "./AddonCard";
 import { SettingsTab, wrapTab } from "./shared";
 
+import { renderBrowseThemes, Theme, getThemeList } from "./BrowseThemes";
+
 type FileInput = ComponentType<{
     ref: Ref<HTMLInputElement>;
     onChange: (e: SyntheticEvent<HTMLInputElement>) => void;
@@ -142,7 +144,8 @@ function ThemeCard({ theme, enabled, onChange, onDelete }: ThemeCardProps) {
 
 enum ThemeTab {
     LOCAL,
-    ONLINE
+    ONLINE,
+    BROWSE
 }
 
 function ThemesTab() {
@@ -153,6 +156,17 @@ function ThemesTab() {
     const [themeText, setThemeText] = useState(settings.themeLinks.join("\n"));
     const [userThemes, setUserThemes] = useState<UserThemeHeader[] | null>(null);
     const [themeDir, , themeDirPending] = useAwaiter(VencordNative.themes.getThemesDir);
+
+    const [themes, setThemes] = useState<Theme[]>([]);
+
+    useEffect(() => {
+        async function fetchThemes() {
+            const themesData = await getThemeList();
+            setThemes(themesData);
+        }
+        fetchThemes();
+    }, []);
+
 
     useEffect(() => {
         refreshLocalThemes();
@@ -201,17 +215,6 @@ function ThemesTab() {
     function renderLocalThemes() {
         return (
             <>
-                <Card className="vc-settings-card">
-                    <Forms.FormTitle tag="h5">Find Themes:</Forms.FormTitle>
-                    <div style={{ marginBottom: ".5em", display: "flex", flexDirection: "column" }}>
-                        <Link style={{ marginRight: ".5em" }} href="https://betterdiscord.app/themes">
-                            BetterDiscord Themes
-                        </Link>
-                        <Link href="https://github.com/search?q=discord+theme">GitHub</Link>
-                    </div>
-                    <Forms.FormText>If using the BD site, click on "Download" and place the downloaded .theme.css file into your themes folder.</Forms.FormText>
-                </Card>
-
                 <Forms.FormSection title="Local Themes">
                     <Card className="vc-settings-quick-actions-card">
                         <>
@@ -337,18 +340,19 @@ function ThemesTab() {
                     className="vc-settings-tab-bar-item"
                     id={ThemeTab.LOCAL}
                 >
-                    Local Themes
+                    Local CSS
                 </TabBar.Item>
                 <TabBar.Item
                     className="vc-settings-tab-bar-item"
                     id={ThemeTab.ONLINE}
                 >
-                    Online Themes
-                </TabBar.Item>
+                    Online Links
+                </TabBar.Item>          
             </TabBar>
 
             {currentTab === ThemeTab.LOCAL && renderLocalThemes()}
             {currentTab === ThemeTab.ONLINE && renderOnlineThemes()}
+            {currentTab === ThemeTab.BROWSE && renderBrowseThemes(themes, setThemes)}
         </SettingsTab>
     );
 }

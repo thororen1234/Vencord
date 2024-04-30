@@ -17,44 +17,12 @@ import { Menu } from "@webpack/common";
 import style from "./style.css?managed";
 
 const settings = definePluginSettings({
-    setting: {
+    except: {
         type: OptionType.STRING,
         description: "",
         default: ""
     }
 });
-
-export default definePlugin({
-    name: "NoDefaultEmojis",
-    description: "Stops default emojis showing in the autocomplete. (You can add exceptions)",
-    authors:
-    [
-        Devs.Samwich
-    ],
-    settings,
-    patches: [
-        {
-            find: "default.Messages.EMOJI_MATCHING",
-            replacement: {
-                match: /renderResults\(e\){/,
-                replace: "renderResults(e){ e.results.emojis = e.results.emojis.filter(emoji => !emoji.uniqueName || Vencord.Settings.plugins.NoDefaultEmojis.except.split(',\\ ').includes(emoji.uniqueName));"
-            }
-        }
-    ],
-    start()
-    {
-        enableStyle(style);
-        addContextMenuPatch("expression-picker", expressionPickerPatch);
-        addContextMenuPatch("message", messageContextMenuPatch);
-    },
-    stop()
-    {
-        disableStyle(style);
-    }
-});
-
-
-
 
 const expressionPickerPatch: NavContextMenuPatchCallback = (children, props: { target: HTMLElement; }) => () => {
     const { id, type, name } = props?.target?.dataset;
@@ -114,3 +82,40 @@ function isEmojiExcepted(name)
 {
     return settings.store.except.split(", ").includes(name);
 }
+
+
+export default definePlugin({
+    name: "NoDefaultEmojis",
+    description: "Stops default emojis showing in the autocomplete. (You can add exceptions)",
+    authors:
+    [
+        Devs.Samwich
+    ],
+    settings,
+    patches: [
+        {
+            find: "default.Messages.EMOJI_MATCHING",
+            replacement: {
+                match: /renderResults\(e\){/,
+                replace: "renderResults(e){ e.results.emojis = e.results.emojis.filter(emoji => !emoji.uniqueName || Vencord.Settings.plugins.NoDefaultEmojis.except.split(',\\ ').includes(emoji.uniqueName));"
+            }
+        }
+    ],
+    contextMenus: 
+    {
+        "expression-picker": expressionPickerPatch,
+        "message": messageContextMenuPatch
+    },
+    start()
+    {
+        enableStyle(style);
+    },
+    stop()
+    {
+        disableStyle(style);
+    }
+});
+
+
+
+

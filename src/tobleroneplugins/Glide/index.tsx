@@ -160,7 +160,7 @@ function CopyPresetComponent() {
         currentUser.id === "976176454511509554" && (
             <>
                 <Forms.FormSection>
-                    <Forms.FormTitle>{"Plugin name"}</Forms.FormTitle>
+                    <Forms.FormTitle>{"Preset name"}</Forms.FormTitle>
                     <TextInput
                         type="text"
                         value={inputtedName}

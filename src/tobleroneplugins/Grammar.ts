@@ -4,45 +4,40 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { addPreSendListener, removePreSendListener, } from "@api/MessageEvents";
+import { SendListener, addPreSendListener, removePreSendListener, } from "@api/MessageEvents";
 import { Settings } from "@api/Settings";
 import { Devs } from "@utils/constants";
 import definePlugin, { OptionType } from "@utils/types";
+
+let presendObject : SendListener = (channelId, msg) =>
+{
+    msg.content = textProcessing(msg.content);
+}
+
 export default definePlugin({
     name: "Grammar",
-    description: "Literally just fixes your grammar (dumbass)",
+    description: "Adds apostrophes to words and capitalises new words",
     authors: [
         Devs.Samwich
     ],
     dependencies: ["MessageEventsAPI"],
     start()
     {
-        this.preSend = addPreSendListener((channelId, msg) => {
-            msg.content = textProcessing(msg.content);
-        });
+        addPreSendListener(presendObject);
     },
     stop()
     {
-        this.preSend = removePreSendListener((channelId, msg) => {
-            msg.content = textProcessing(msg.content);
-        });
+        removePreSendListener(presendObject);
     },
     options: {
         blockedWords: {
             type: OptionType.STRING,
             description: "Words that will not be capitalised",
             default: ""
-        },
-        apostropheWords: {
-            type: OptionType.STRING,
-            description: "Words that will be apostrophised",
-            default: "wasn't, can't, don't, won't, isn't, aren't, haven't, hasn't, hadn't, doesn't, didn't, shouldn't, wouldn't, couldn't, i'm, you're, he's, she's, it's, they're, that's, who's, what's, there's, here's, how's, where's, when's, why's, let's, you'll, I'll, they'll, he'll, she'll, it'll, I've, you've, we've, they've, you'd, he'd, she'd, it'd, we'd, they'd"
         }
     }
 });
 
-
-// text processing injection processor
 function textProcessing(input : string)
 {
     const text = input;
@@ -50,10 +45,10 @@ function textProcessing(input : string)
     const aptext = apostrophe(captext);
     return aptext;
 }
-// the function to add the apostrophe
+
 function apostrophe(textInput: string): string
 {
-    const corrected = Settings.plugins.Grammar.apostropheWords.toLowerCase();
+    const corrected = "wasn't, can't, don't, won't, isn't, aren't, haven't, hasn't, hadn't, doesn't, didn't, shouldn't, wouldn't, couldn't, i'm, you're, he's, she's, it's, they're, that's, who's, what's, there's, here's, how's, where's, when's, why's, let's, you'll, I'll, they'll, it'll, I've, you've, we've, they've, you'd, he'd, she'd, it'd, we'd, they'd".toLowerCase();
     const words: string[] = corrected.split(", ");
     const wordsInputted = textInput.split(" ");
 
@@ -67,6 +62,7 @@ function apostrophe(textInput: string): string
     });
     return wordsInputted.join(" ");
 }
+
 function getCapData(str : string)
 {
     const booleanArray: boolean[] = [];
@@ -77,9 +73,11 @@ function getCapData(str : string)
     return booleanArray;
 
 }
+
 function removeApostrophes(str: string): string {
     return str.replace(/'/g, "");
 }
+
 function restoreCap(str: string, data: boolean[]): string {
     let resultString = "";
     let dataIndex = 0;
@@ -98,9 +96,7 @@ function restoreCap(str: string, data: boolean[]): string {
     return resultString;
 }
 
-// the function to capitalise the string
 function cap(textInput: string): string {
-
 
     const sentences = textInput.split(/(?<=\w\.)\s/);
 

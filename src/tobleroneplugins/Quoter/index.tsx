@@ -15,26 +15,10 @@ import { Message } from "discord-types/general";
 
 enum ImageStyle
 {
-    inspirational,
-    whisperToilet
+    inspirational
 }
 
-let recentmessage: Message;
-let grayscale;
-let setStyle : ImageStyle = ImageStyle.inspirational;
-export default definePlugin({
-    name: "Quoter",
-    description: "Adds the ability to create a quote image from a message",
-    authors: [Devs.Samwich],
-    start() {
-        addContextMenuPatch("message", messagePatch);
-    },
-    stop() {
-        removeContextMenuPatch("message", messagePatch);
-    }
-});
-
-const messagePatch: NavContextMenuPatchCallback = (children, { message }) => () => {
+const messagePatch: NavContextMenuPatchCallback = (children, { message }) => {
     recentmessage = message;
     if (!message.content) return;
 
@@ -54,6 +38,18 @@ const messagePatch: NavContextMenuPatchCallback = (children, { message }) => () 
         />
     );
 };
+
+let recentmessage: Message;
+let grayscale;
+let setStyle : ImageStyle = ImageStyle.inspirational;
+export default definePlugin({
+    name: "Quoter",
+    description: "Adds the ability to create an inspirational quote image from a message",
+    authors: [Devs.Samwich],
+    contextMenus: {
+        "message": messagePatch
+    }
+});
 
 export function QuoteIcon({
     height = 24,
@@ -150,32 +146,6 @@ async function createQuoteImage(avatarUrl: string, name: string, quoteOld: strin
             preparingSentence.length = 0;
             lines.length = 0;
             return await canvasToBlob(canvas);
-
-            break;
-        case ImageStyle.whisperToilet:
-            canvas.width = 777;
-            canvas.height = 547;
-            ctx.fillStyle = "#FFFFFF";
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            const whisperBlob = await fetchImageAsBlob("https://files.catbox.moe/j1abpw.png");
-            const whisper = new Image();
-            const whisperPromise = new Promise<void>(resolve => {
-                whisper.onload = () => resolve();
-                whisper.src = URL.createObjectURL(whisperBlob);
-            });
-            await Promise.all([whisperPromise]);
-
-            ctx.drawImage(whisper, 0, 197, 777, 350);
-            ctx.fillStyle = "#000"; // Set text color to black
-            ctx.font = "40px sans-serif";
-            wrapText(ctx, quote, 0, 78, 777, 40); // This is where the text is wrapped
-            preparingSentence.length = 0;
-            lines.length = 0;
-
-            return await canvasToBlob(canvas);
-            break;
-
     }
 
     function canvasToBlob(canvas: HTMLCanvasElement): Promise<Blob> {
@@ -253,7 +223,7 @@ function QuoteModal(props: ModalProps) {
                 <img src={""} id={"quoterPreview"} style={{ borderRadius: "20px", width: "100%" }}></img>
                 <br></br><br></br>
                 <Switch value={gray} onChange={setGray}>Grayscale</Switch>
-                <Select look={1} options={[{ label:"Inspirational", value:ImageStyle.inspirational, default: true, },{ label:"Whisper", value:ImageStyle.whisperToilet }]} select={v => registerStyleChange(v)} isSelected={v => v == setStyle} serialize={v => v}></Select>
+                <Select look={1} options={Object.keys(ImageStyle).filter(key => isNaN(parseInt(key, 10))).map(key => ({ label: key.charAt(0).toUpperCase() + key.slice(1), value: ImageStyle[key as keyof typeof ImageStyle] }))} select={v => registerStyleChange(v)} isSelected={v => v == setStyle} serialize={v => v}></Select>
                 <br/>
                 <Button color={Button.Colors.BRAND_NEW} size={Button.Sizes.SMALL} onClick={() => Export()} style={{ display: "inline-block", marginRight: "5px" }}>Export</Button>
                 <Button color={Button.Colors.BRAND_NEW} size={Button.Sizes.SMALL} onClick={() => SendInChat(props.onClose)} style={{ display: "inline-block" }}>Send</Button>

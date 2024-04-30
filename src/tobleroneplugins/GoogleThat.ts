@@ -5,6 +5,7 @@
  */
 
 import { ApplicationCommandOptionType,findOption } from "@api/Commands";
+import { Devs } from "@utils/constants";
 import definePlugin from "@utils/types";
 
 function generateGoogleLink(query) {
@@ -15,18 +16,13 @@ function generateGoogleLink(query) {
 
 export default definePlugin({
     name: "GoogleThat",
-    description: "answer dumbass questions faster :3",
-    authors: [
-        {
-            id: 976176454511509554n,
-            name: "Sam",
-        },
-    ],
+    description: "Adds a command to send a google search link to something",
+    authors: [ Devs.Samwich ],
     dependencies: ["CommandsAPI"],
     commands: [
         {
-            name: "google",
-            description: ":3",
+            name: "googlethat",
+            description: "send a google search link to something",
             options: [
                 {
                     name: "input",
