@@ -36,7 +36,7 @@ async function setRpc(disable?: boolean, details?: string) {
 function getCurrentDate(): string {
     const today = new Date();
     const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, '0'); // Month is zero-based
+    const month = String(today.getMonth() + 1).padStart(2, '0');
     const day = String(today.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
 }
@@ -46,7 +46,7 @@ function getCurrentTime(): string {
     let hour = today.getHours();
     const minute = today.getMinutes();
     const ampm = hour >= 12 ? 'PM' : 'AM';
-    hour = hour % 12 || 12; // Convert hour to 12-hour format
+    hour = hour % 12 || 12
 
     const formattedHour = String(hour).padStart(2, '0');
     const formattedMinute = String(minute).padStart(2, '0');
