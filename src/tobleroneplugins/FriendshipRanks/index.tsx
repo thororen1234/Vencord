@@ -50,7 +50,7 @@ let ranks : rankInfo[] =
     },
     {
         title: "Star",
-        description: "Your friendship is truly strong (1 Year)",
+        description: "Your friendship has been going on for a WHILE (1 Year)",
         requirement: 365,
         assetURL: "https://files.catbox.moe/7bpe7v.png"
     },
