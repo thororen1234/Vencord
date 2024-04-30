@@ -59,6 +59,12 @@ let ranks : rankInfo[] =
         description: "Your friendship has gone through thick and thin- a whole 2 years!",
         requirement: 730,
         assetURL: "https://files.catbox.moe/0yp9mp.png"
+    },
+    {
+        title: "Besties",
+        description: "How do you even manage this??? (5 Years)",
+        assetURL: "https://files.catbox.moe/qojb7d.webp",
+        requirement: 1826.25
     }
 ]
 
