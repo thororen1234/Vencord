@@ -12,11 +12,17 @@ import definePlugin from "@utils/types";
 import { Button, Menu, Switch, Text, UploadHandler, useEffect, useState } from "@webpack/common";
 import { Select } from "@webpack/common";
 import { Message } from "discord-types/general";
+import { ApplicationCommandInputType, ApplicationCommandOptionType } from "@api/Commands";
+import { findOption } from "@api/Commands";
+import { DataStore } from "@api/index";
+import { currentNotice } from "@api/Notices";
+import { Integer } from "type-fest";
 
 enum ImageStyle
 {
     inspirational
 }
+
 
 const messagePatch: NavContextMenuPatchCallback = (children, { message }) => {
     recentmessage = message;
@@ -28,14 +34,30 @@ const messagePatch: NavContextMenuPatchCallback = (children, { message }) => {
     group.splice(
         group.findIndex(c => c?.props?.id === "copy-text") + 1,
         0,
-        <Menu.MenuItem
-            id="vc-quote"
-            label="Quote"
-            icon={QuoteIcon}
-            action={async () => {
-                openModal(props => <QuoteModal {...props} />);
-            }}
-        />
+        <Menu.MenuItem label="Quote" id="vc-quote-parent">
+            <Menu.MenuItem
+                id="vc-quote-create"
+                label="Create Quote"
+                icon={QuoteIcon}
+                action={async () => {
+                    openModal(props => <QuoteModal {...props} />);
+                }}
+            />
+            <Menu.MenuItem
+                id="vc-quote-save"
+                label="Save Quote"
+                icon={QuoteIcon}
+                action={ async () => {
+                    let currentData = await DataStore.get("vc-quoter-savedquotes");
+                    if (currentData == null || !currentData.length) {
+                        await DataStore.set("vc-quoter-savedquotes", [message]);
+                        return;
+                    }
+                    currentData.push(message);
+                    await DataStore.set("vc-quoter-savedquotes", currentData);
+                }}
+            />
+        </Menu.MenuItem>
     );
 };
 
@@ -47,8 +69,38 @@ export default definePlugin({
     description: "Adds the ability to create an inspirational quote image from a message",
     authors: [Devs.Samwich],
     contextMenus: {
-        "message": messagePatch
-    }
+        "message": messagePatch, messagePatch
+        
+    },
+    
+    dependencies: ["CommandsAPI"],
+    commands: [
+        {
+            name: "quote",
+            description: "Get a saved quote image",
+            options: [
+                {
+                    name: "index",
+                    description: "The quote number",
+                    type: ApplicationCommandOptionType.NUMBER,
+                    required: true,
+                }],
+            execute: async opts => {
+                {
+                    let savedQuotes : Message[] | undefined = await DataStore.get("vc-quoter-savedquotes");
+
+                    let enteredIndex : number = findOption(opts, "index", 0);
+    
+                    if(savedQuotes == null || !savedQuotes.length || savedQuotes.length < enteredIndex) { return; }
+
+                    recentmessage = savedQuotes[enteredIndex];
+
+                    openModal(props => <QuoteModal {...props} />);
+                }
+            },
+            inputType: ApplicationCommandInputType.BUILT_IN
+        }
+    ]
 });
 
 export function QuoteIcon({
