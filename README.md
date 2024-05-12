@@ -31,5 +31,6 @@ ALSO, People still have the right to ban you from their server for whatever reas
 </details>
 
 ## Previews
+### (Note: Some plugins showcased in the plugins list screenshot are not in tobleronecord, you can find a full list of the plugins [here](https://github.com/cheesesamwich/Tobleronecord/tree/main/src/tobleroneplugins))
 ![image](https://github.com/cheesesamwich/Tobleronecord/assets/149597648/154f31fb-fa4c-4709-b07f-17a0bc93e15e)
 ![image](https://github.com/cheesesamwich/Tobleronecord/assets/149597648/e68fdc98-5490-49d5-94cc-961e96c477d9)
