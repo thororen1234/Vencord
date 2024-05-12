@@ -5,33 +5,51 @@
  */
 
 import { ApplicationCommandOptionType,findOption } from "@api/Commands";
+import { definePluginSettings } from "@api/Settings";
 import { Devs } from "@utils/constants";
-import definePlugin from "@utils/types";
+import definePlugin, { OptionType } from "@utils/types";
 
-function generateGoogleLink(query) {
-    const modifiedQuery = encodeURIComponent(query);
-    const googleLink = "https://www.google.com/search?q=" + modifiedQuery;
-    return googleLink;
+function getMessage(opts)
+{
+    const inputOption = findOption(opts, "input", "");
+    const queryURL = "https://www.google.com/search?q=" + encodeURIComponent(inputOption);
+    if(settings.store.hyperlink)
+    {
+        return `[${inputOption}](${queryURL})`;
+    }
+    else
+    {
+        return queryURL;
+    }
 }
+
+const settings = definePluginSettings({
+    hyperlink: {
+        type: OptionType.BOOLEAN,
+        description: "If the sent link should hyperlink with the query as the label",
+        default: true
+    }
+});
 
 export default definePlugin({
     name: "GoogleThat",
-    description: "Adds a command to send a google search link to something",
-    authors: [ Devs.Samwich ],
+    description: "Adds a command to send a google search link to a query",
+    authors: [Devs.Samwich],
     dependencies: ["CommandsAPI"],
+    settings,
     commands: [
         {
             name: "googlethat",
-            description: "send a google search link to something",
+            description: "send a google search link to a query",
             options: [
                 {
                     name: "input",
-                    description: "what you want the google search to link to",
+                    description: "The search query",
                     type: ApplicationCommandOptionType.STRING,
                     required: true,
                 }],
             execute: opts => ({
-                content: generateGoogleLink(findOption(opts, "input", "")),
+                content: getMessage(opts)
             }),
         }
     ]
