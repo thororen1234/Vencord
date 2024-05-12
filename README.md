@@ -10,7 +10,7 @@ A vencord fork focused on quality of life features and more plugins (AND A SICK 
   
 ## Installing / Uninstalling
 
-Follow the [Installation Documentation](https://raw.githubusercontent.com/cheesesamwich/Tobleronecord/main/docs/1_INSTALLING.md)
+Follow the [Installation Documentation](https://github.com/cheesesamwich/Tobleronecord/blob/main/docs/1_INSTALLING.md)
 
 ## Disclaimer
 
