@@ -10,7 +10,7 @@ A vencord fork focused on quality of life features and more plugins (AND A SICK 
   
 ## Installing / Uninstalling
 
-Follow the [Vencord plugin guide](https://github.com/Vendicated/Vencord/blob/main/docs/1_INSTALLING.md), it's originally for vencord but works fine for this too
+Follow the [Installation Documentation](https://raw.githubusercontent.com/cheesesamwich/Tobleronecord/main/docs/1_INSTALLING.md)
 
 ## Disclaimer
 
@@ -18,7 +18,7 @@ Discord is trademark of Discord Inc. and solely mentioned for the sake of descri
 Mention of it does not imply any affiliation with or endorsement by Discord Inc.
 
 <details>
-<summary>Using Tobleronecord violates Discord's terms of service</summary>
+<summary>TOS Notice</summary>
    
 Client modifications ARE against Discord’s Terms of Service.
 
