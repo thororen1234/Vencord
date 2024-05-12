@@ -19,8 +19,8 @@ Mention of it does not imply any affiliation with or endorsement by Discord Inc.
 
 <details>
 <summary>Using Tobleronecord violates Discord's terms of service</summary>
-
-Client modifications are against Discord’s Terms of Service.
+   
+Client modifications ARE against Discord’s Terms of Service.
 
 However, Discord is pretty indifferent about them and there are no known cases of users getting banned for using client mods! So you should generally be fine as long as you don’t use any plugins that implement abusive behaviour. But no worries, all inbuilt plugins are safe to use! (i hope, oops, dont quote me on that.)
 
