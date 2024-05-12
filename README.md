@@ -5,7 +5,7 @@ A vencord fork focused on quality of life features and more plugins (AND A SICK 
 ## Features
 
 -   More plugins than stock vencord
--   Plugin favourites
+-   Plugin favouriting
 -   Various quality of life settings
   
 ## Installing / Uninstalling
