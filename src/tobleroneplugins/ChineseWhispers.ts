@@ -4,7 +4,7 @@ import definePlugin, { OptionType } from "@utils/types";
 import { definePluginSettings } from "@api/Settings";
 import { lang } from "moment";
 
-const languages: string[] = [
+let languages: string[] = [
     "en",
     "af",   // Afrikaans
     "sq",   // Albanian
@@ -56,16 +56,29 @@ const languages: string[] = [
 const settings = definePluginSettings({
     intensity: {
         type: OptionType.SLIDER,
-        description: "",
+        description: "How many languages the message is translated between- More for more distortion, less for minor changes",
         default: languages.length,
         markers: Array(languages.length - 2).fill(0).map((_, index) => index + 2),
         stickToMarkers: true,
+    },
+    shuffle: {
+        type: OptionType.BOOLEAN,
+        description: "If the languages array should be shuffled with every message. Better variety but you will not be able to reproduce messages",
+        default: true
     }
 });
 
 export async function comedicChineseWhispers(inputText: string, language : string[]): Promise<string> {
     let currentText = inputText;
+    if(settings.store.shuffle)
+    {
+        languages = languages.map(value => ({ value, sort: Math.random() }))
+        .sort((a, b) => a.sort - b.sort)
+        .map(({ value }) => value)
+    }
 
+    language = language.concat("en");
+    
     for (let i = 0; i < language.length; i++) {
         const sourceLang = i === 0 ? "auto" : language[i - 1];
         const targetLang = language[i];
@@ -79,8 +92,8 @@ export async function comedicChineseWhispers(inputText: string, language : strin
 }
 
 async function translateText(sourceLang: string, targetLang: string, text: string): Promise<string> {
-    const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${sourceLang}&tl=${targetLang}&dt=t&dj=1&q=${encodeURIComponent(text)}`;
     
+    const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${sourceLang}&tl=${targetLang}&dt=t&dj=1&q=${encodeURIComponent(text)}`;
     const response = await fetch(url);
     if (!response.ok) {
         throw new Error(`Failed to translate "${text}" from ${sourceLang} to ${targetLang}: ${response.status} ${response.statusText}`);
@@ -94,7 +107,7 @@ async function translateText(sourceLang: string, targetLang: string, text: strin
 
 let presendObject : SendListener = async (channelId, msg) =>
 {
-    msg.content = await comedicChineseWhispers(msg.content, languages.slice(0, settings.store.intensity).concat("en"));
+    msg.content = await comedicChineseWhispers(msg.content, languages.slice(0, settings.store.intensity));
 }
 
 export default definePlugin({

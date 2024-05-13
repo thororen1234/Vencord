@@ -4,18 +4,26 @@ import { Devs } from "@utils/constants";
 import { getCurrentChannel, openInviteModal } from "@utils/discord";
 import { ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalProps, ModalRoot, ModalSize, openModal } from "@utils/modal";
 import definePlugin from "@utils/types";
+import { definePluginSettings } from "@api/Settings";
+import { OptionType } from "@utils/types";
 import { Button, Text } from "@webpack/common";
+
+function openInfoModal()
+{
+    openModal(props => <IntroductionModal {...props} />);
+}
 
 export default definePlugin({
     name: "Introduction",
     description: "Shows a quick modal saying hi on your first opening (I KNOW THE MODAL IS CURSED I DON'T KNOW HOW TO FIX IT)",
     authors: [Devs.Samwich],
     required: true,
+    settingsAboutComponent: () => <Button onClick={openInfoModal}>Open Modal</Button>,
     start()
     {
         if(!VencordNative.settings.get().isFirstTime)
         {
-            openModal(props => <IntroductionModal {...props} />);
+            openInfoModal()
         }
     }
 });
