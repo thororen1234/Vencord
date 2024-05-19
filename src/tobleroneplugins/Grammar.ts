@@ -5,7 +5,7 @@
  */
 
 import { SendListener, addPreSendListener, removePreSendListener, } from "@api/MessageEvents";
-import { Settings } from "@api/Settings";
+import { Settings, definePluginSettings } from "@api/Settings";
 import { Devs } from "@utils/constants";
 import definePlugin, { OptionType } from "@utils/types";
 
@@ -14,9 +14,22 @@ let presendObject : SendListener = (channelId, msg) =>
     msg.content = textProcessing(msg.content);
 }
 
+const settings = definePluginSettings(
+    {
+        blockedWords: {
+            type: OptionType.STRING,
+            description: "Words that will not be capitalised",
+            default: ""
+        },
+        correctWords: {
+            type: OptionType.BOOLEAN,
+            description: "If some shorthands should be corrected to their better forms- eg: \"ur\" to \"you're\"",
+            default: true
+        }
+    })
 export default definePlugin({
     name: "Grammar",
-    description: "Adds apostrophes to words and capitalises new words",
+    description: "Tweaks your messages to make them look nicer and have better grammar",
     authors: [
         Devs.Samwich
     ],
@@ -29,23 +42,36 @@ export default definePlugin({
     {
         removePreSendListener(presendObject);
     },
-    options: {
-        blockedWords: {
-            type: OptionType.STRING,
-            description: "Words that will not be capitalised",
-            default: ""
-        }
-    }
+    settings
 });
 
 function textProcessing(input : string)
 {
-    const text = input;
-    const captext = cap(text);
-    const aptext = apostrophe(captext);
-    return aptext;
+    let text = input;
+    if(settings.store.correctWords) { text = formalWords(text); }
+    text = cap(text);
+    text = apostrophe(text);
+    return text;
 }
 
+function formalWords(textInput : string)
+{
+    interface WordMap 
+    {
+        [key: string]: string;
+    }
+
+    //idk anything else to put here lmao
+    const wordDictionary: WordMap = {
+        "ur": "youre",
+        "u": "you",
+        "r": "are",
+        "thx": "thanks"
+    };
+
+    return textInput.split(' ').map(word => wordDictionary[word] || word).join(' ');
+      
+}
 function apostrophe(textInput: string): string
 {
     const corrected = "wasn't, can't, don't, won't, isn't, aren't, haven't, hasn't, hadn't, doesn't, didn't, shouldn't, wouldn't, couldn't, i'm, you're, he's, she's, it's, they're, that's, who's, what's, there's, here's, how's, where's, when's, why's, let's, you'll, I'll, they'll, it'll, I've, you've, we've, they've, you'd, he'd, she'd, it'd, we'd, they'd".toLowerCase();
