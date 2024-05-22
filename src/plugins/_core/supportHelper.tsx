@@ -49,9 +49,10 @@ const TrustedRolesIds = [
 
 export default definePlugin({
     name: "SupportHelper",
-    required: true,
+    required: false,
     description: "Helps us provide support to you",
     authors: [Devs.Ven],
+    enabledByDefault: true,
     dependencies: ["CommandsAPI"],
 
     patches: [{
