@@ -1,17 +1,12 @@
-/*
- * Vencord, a Discord client mod
- * Copyright (c) 2024 Vendicated and contributors
- * SPDX-License-Identifier: GPL-3.0-or-later
- */
-
 import { addContextMenuPatch, findGroupChildrenByChildId, NavContextMenuPatchCallback, removeContextMenuPatch } from "@api/ContextMenu";
 import { Devs } from "@utils/constants";
 import { getCurrentChannel } from "@utils/discord";
 import { ModalCloseButton, ModalContent, ModalHeader, ModalProps, ModalRoot, ModalSize, openModal } from "@utils/modal";
 import definePlugin from "@utils/types";
-import { Button, Menu, Switch, Text, UploadHandler, useEffect, useState } from "@webpack/common";
-import { Select } from "@webpack/common";
+import { Button, Menu, Switch, Text, UploadHandler, useEffect, useState, Select } from "@webpack/common";
 import { Message } from "discord-types/general";
+import { QuoteIcon } from "./components";
+import { wrapText, canvasToBlob, FixUpQuote, fetchImageAsBlob} from "./utils";
 
 enum ImageStyle
 {
@@ -26,8 +21,7 @@ const messagePatch: NavContextMenuPatchCallback = (children, { message }) => {
     if (!group) return;
 
     group.splice(
-        group.findIndex(c => c?.props?.id === "copy-text") + 1,
-        0,
+        group.findIndex(c => c?.props?.id === "copy-text") + 1, 0,
         <Menu.MenuItem
             id="vc-quote"
             label="Quote"
@@ -42,6 +36,7 @@ const messagePatch: NavContextMenuPatchCallback = (children, { message }) => {
 let recentmessage: Message;
 let grayscale;
 let setStyle : ImageStyle = ImageStyle.inspirational;
+
 export default definePlugin({
     name: "Quoter",
     description: "Adds the ability to create an inspirational quote image from a message",
@@ -51,27 +46,9 @@ export default definePlugin({
     }
 });
 
-export function QuoteIcon({
-    height = 24,
-    width = 24,
-    className
-}: {
-    height?: number;
-    width?: number;
-    className?: string;
-}) {
-    return (
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-            <path
-                d="M21 3C21.5523 3 22 3.44772 22 4V18C22 18.5523 21.5523 19 21 19H6.455L2 22.5V4C2 3.44772 2.44772 3 3 3H21ZM20 5H4V18.385L5.76333 17H20V5ZM10.5153 7.4116L10.9616 8.1004C9.29402 9.0027 9.32317 10.4519 9.32317 10.7645C9.47827 10.7431 9.64107 10.7403 9.80236 10.7553C10.7045 10.8389 11.4156 11.5795 11.4156 12.5C11.4156 13.4665 10.6321 14.25 9.66558 14.25C9.12905 14.25 8.61598 14.0048 8.29171 13.6605C7.77658 13.1137 7.5 12.5 7.5 11.5052C7.5 9.75543 8.72825 8.18684 10.5153 7.4116ZM15.5153 7.4116L15.9616 8.1004C14.294 9.0027 14.3232 10.4519 14.3232 10.7645C14.4783 10.7431 14.6411 10.7403 14.8024 10.7553C15.7045 10.8389 16.4156 11.5795 16.4156 12.5C16.4156 13.4665 15.6321 14.25 14.6656 14.25C14.1291 14.25 13.616 14.0048 13.2917 13.6605C12.7766 13.1137 12.5 12.5 12.5 11.5052C12.5 9.75543 13.7283 8.18684 15.5153 7.4116Z"
-            ></path>
-        </svg>
-    );
-}
-
 function sizeUpgrade(url) {
     const u = new URL(url);
-    u.searchParams.set("size", "1024");
+    u.searchParams.set("size", "512");
     return u.toString();
 }
 
@@ -79,7 +56,7 @@ let preparingSentence: string[] = [];
 const lines: string[] = [];
 
 async function createQuoteImage(avatarUrl: string, name: string, quoteOld: string, grayScale: boolean): Promise<Blob> {
-    const quote = removeCustomEmojis(quoteOld);
+    const quote = FixUpQuote(quoteOld);
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
 
@@ -118,15 +95,16 @@ async function createQuoteImage(avatarUrl: string, name: string, quoteOld: strin
 
             await Promise.all([avatarPromise, fadePromise]);
 
-            if (grayScale) {
-                ctx.drawImage(avatar, 0, 0, cardHeight, cardHeight);
+            ctx.drawImage(avatar, 0, 0, cardHeight, cardHeight);
+
+            if (grayScale)
+            {
                 ctx.globalCompositeOperation = "saturation";
                 ctx.fillStyle = "#fff";
                 ctx.fillRect(0, 0, cardWidth, cardHeight);
                 ctx.globalCompositeOperation = "source-over";
-            } else {
-                ctx.drawImage(avatar, 0, 0, cardHeight, cardHeight);
             }
+
             ctx.drawImage(fade, cardHeight - 400, 0, 400, cardHeight);
 
             ctx.fillStyle = "#fff";
@@ -134,7 +112,7 @@ async function createQuoteImage(avatarUrl: string, name: string, quoteOld: strin
             const quoteWidth = cardWidth / 2 - 50;
             const quoteX = ((cardWidth - cardHeight));
             const quoteY = cardHeight / 2 - 10;
-            wrapText(ctx, quote, quoteX, quoteY, quoteWidth, 20);
+            wrapText(ctx, `"${quote}"`, quoteX, quoteY, quoteWidth, 20, preparingSentence, lines);
 
             const wrappedTextHeight = lines.length * 25;
 
@@ -147,62 +125,12 @@ async function createQuoteImage(avatarUrl: string, name: string, quoteOld: strin
             lines.length = 0;
             return await canvasToBlob(canvas);
     }
+}
 
-    function canvasToBlob(canvas: HTMLCanvasElement): Promise<Blob> {
-        return new Promise<Blob>(resolve => {
-            canvas.toBlob(blob => {
-                if (blob) {
-                    resolve(blob);
-                } else {
-                    throw new Error("Failed to create Blob");
-                }
-            }, "image/png");
-        });
-    }
-
-
-    function wrapText(
-        context: CanvasRenderingContext2D,
-        text: string,
-        x: number,
-        y: number,
-        maxWidth: number,
-        lineHeight: number
-    ) {
-        const words = text.split(" ");
-        for (let i = 0; i < words.length; i++) {
-            const workSentence = preparingSentence.join(" ") + " " + words[i];
-
-            if (context.measureText(workSentence).width > maxWidth) {
-                lines.push(preparingSentence.join(" "));
-                preparingSentence = [words[i]];
-            } else {
-                preparingSentence.push(words[i]);
-            }
-        }
-
-        lines.push(preparingSentence.join(" "));
-
-        lines.forEach(element => {
-            const lineWidth = context.measureText(element).width;
-            const xOffset = (maxWidth - lineWidth) / 2;
-
-            y += lineHeight;
-            context.fillText(element, x + xOffset, y);
-        });
-    }
-
-    async function fetchImageAsBlob(url: string): Promise<Blob> {
-        const response = await fetch(url);
-        const blob = await response.blob();
-        return blob;
-    }
-
-    function removeCustomEmojis(quote) {
-        const emojiRegex = /<a?:(\w+):(\d+)>/g;
-        return quote.replace(emojiRegex, "");
-    }
-
+function registerStyleChange(style)
+{
+    setStyle = style;
+    GeneratePreview();
 }
 
 function QuoteModal(props: ModalProps) {
@@ -223,7 +151,11 @@ function QuoteModal(props: ModalProps) {
                 <img src={""} id={"quoterPreview"} style={{ borderRadius: "20px", width: "100%" }}></img>
                 <br></br><br></br>
                 <Switch value={gray} onChange={setGray}>Grayscale</Switch>
-                <Select look={1} options={Object.keys(ImageStyle).filter(key => isNaN(parseInt(key, 10))).map(key => ({ label: key.charAt(0).toUpperCase() + key.slice(1), value: ImageStyle[key as keyof typeof ImageStyle] }))} select={v => registerStyleChange(v)} isSelected={v => v == setStyle} serialize={v => v}></Select>
+                <Select look={1} 
+                    options={Object.keys(ImageStyle).filter(key => isNaN(parseInt(key, 10))).map(key => ({ label: key.charAt(0).toUpperCase() + key.slice(1), 
+                    value: ImageStyle[key as keyof typeof ImageStyle] }))} 
+                    select={v => registerStyleChange(v)} isSelected={v => v == setStyle} 
+                    serialize={v => v}></Select>
                 <br/>
                 <Button color={Button.Colors.BRAND_NEW} size={Button.Sizes.SMALL} onClick={() => Export()} style={{ display: "inline-block", marginRight: "5px" }}>Export</Button>
                 <Button color={Button.Colors.BRAND_NEW} size={Button.Sizes.SMALL} onClick={() => SendInChat(props.onClose)} style={{ display: "inline-block" }}>Send</Button>
@@ -233,11 +165,6 @@ function QuoteModal(props: ModalProps) {
     );
 }
 
-function registerStyleChange(style)
-{
-    setStyle = style;
-    GeneratePreview();
-}
 async function SendInChat(onClose) {
     const image = await createQuoteImage(sizeUpgrade(recentmessage.author.getAvatarURL()), recentmessage.author.username, recentmessage.content, grayscale);
     const preview = generateFileNamePreview(recentmessage.content);
