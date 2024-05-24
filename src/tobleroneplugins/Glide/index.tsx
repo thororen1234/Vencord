@@ -15,8 +15,10 @@ import { UserStore } from "@webpack/common";
 import { TextInput } from "@webpack/common";
 import { useState } from "@webpack/common";
 import { Margins } from "@utils/margins";
+import { darkenColorHex, generateRandomColorHex, saturateColorHex } from "./generateTheme";
+import { themes } from "./themeDefinitions";
 
-interface ThemePreset {
+export interface ThemePreset {
     bgcol: string;
     accentcol: string;
     textcol: string;
@@ -24,98 +26,8 @@ interface ThemePreset {
     name: string;
 }
 
-const solarTheme = {
-    bgcol: "0e2936",
-    accentcol: "0c2430",
-    textcol: "99b0bd",
-    brand: "124057",
-    name: "Solar"
-};
-
-const amoledTheme = {
-    bgcol: "000000",
-    accentcol: "020202",
-    textcol: "c0d5e4",
-    brand: "070707",
-    name: "Amoled"
-};
-
-const indigoTheme = {
-    bgcol: "0e0e36",
-    accentcol: "0e0c30",
-    textcol: "bdbfd8",
-    brand: "171750",
-    name: "Indigo"
-};
-
-const grapeFruitTheme = {
-    bgcol: "8a2b5f",
-    accentcol: "812658",
-    textcol: "ffedfb",
-    brand: "b23982",
-    name: "Grapefruit"
-};
-
-
-const crimsonTheme= {
-    bgcol: "410b05",
-    accentcol: "360803",
-    textcol: "f8e6e6",
-    brand: "681109",
-    name: "Crimson"
-};
-
-const azureTheme = {
-    bgcol: "184e66",
-    accentcol: "215a72",
-    textcol: "d0efff",
-    brand: "2d718f",
-    name: "Azure"
-};
-
-const blackberryTheme = {
-    bgcol: "1d091a",
-    accentcol: "240d21",
-    textcol: "f3e1f0",
-    brand: "411837",
-    name: "Blackberry"
-};
-
-const porpleTheme = {
-    bgcol: "1f073b",
-    accentcol: "250b44",
-    textcol: "dfd7e9",
-    brand: "340d63",
-    name: "Porple"
-}; 
-
-const charcoalTheme = {
-    bgcol: "0a0a0a",
-    accentcol: "0f0f0f",
-    textcol: "c9c9c9",
-    brand: "0a0a0a",
-    name: "Charcoal"
-}; 
-    
-const lofipopTheme = {
-    bgcol: "00345b",
-    accentcol: "002f53",
-    textcol: "e7d8df",
-    brand: "944068",
-    name: "Lofi Pop"
-}; 
-   
-const oakenTheme = {
-    bgcol: "471b05",
-    accentcol: "4e2009",
-    textcol: "ffffff",
-    brand: "903e14",
-    name: "Oaken"
-}; 
-
 let setPreset;
 
-const themes = [amoledTheme, solarTheme, indigoTheme, grapeFruitTheme, crimsonTheme, azureTheme, blackberryTheme, porpleTheme, charcoalTheme, lofipopTheme, oakenTheme];
 
 function LoadPreset()
 {
@@ -145,13 +57,13 @@ function copyPreset(name : string)
 {
     let template = 
     `
-const ${name.toLowerCase().replaceAll(" ", "")}Theme = {
+{
     bgcol: "${settings.store.Primary}",
     accentcol: "${settings.store.Accent}",
     textcol: "${settings.store.Text}",
     brand: "${settings.store.Brand}",
     name: "${name}"
-}; 
+}
     `
     if (Clipboard.SUPPORTS_COPY) {
         Clipboard.copy(template);
@@ -179,6 +91,9 @@ function CopyPresetComponent() {
                 <Button onClick={() => {
                     copyPreset(inputtedName);
                 }}>Copy preset</Button>
+                <Button onClick={() => {
+                    generateAndApplyProceduralTheme();
+                }}>Generate Random</Button>
             </>
         )
         || 
@@ -190,6 +105,20 @@ function CopyPresetComponent() {
 
 const ColorPicker = findComponentByCodeLazy(".Messages.USER_SETTINGS_PROFILE_COLOR_SELECT_COLOR", ".BACKGROUND_PRIMARY)");
 
+export function generateAndApplyProceduralTheme() {
+    
+    const randomBackgroundColor = generateRandomColorHex();
+    const accentColor = darkenColorHex(randomBackgroundColor);
+    const textColor = "ddd0d0";
+    const brandColor = saturateColorHex(randomBackgroundColor);
+
+    settings.store.Primary = randomBackgroundColor;
+    settings.store.Accent = accentColor;
+    settings.store.Text = textColor;
+    settings.store.Brand = brandColor;
+
+    injectCSS();
+}
 
 const settings = definePluginSettings({
     serverListAnim: {
