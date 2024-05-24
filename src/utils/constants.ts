@@ -510,7 +510,48 @@ export const Devs = /* #__PURE__*/ Object.freeze({
         name: "verticalsync",
         id: 328165170536775680n
     },
+    MrDiamond: 
+    {
+        name: "MrDiamond",
+        id: 523338295644782592n
+    }
 } satisfies Record<string, Dev>);
+
+export const SuncordDevs = /* #__PURE__*/ Object.freeze({
+    nyx: {
+        name: "verticalsync",
+        id: 328165170536775680n,
+    },
+    bhop: {
+        name: "femeie",
+        id: 442626774841556992n,
+    },
+    Drag: {
+        name: "dragalt_",
+        id: 1189903210564038697n,
+    },
+    Woosh: {
+        name: "w00shh.",
+        id: 689165844835860522n,
+    },
+    Cortex: {
+        name: "Cortex",
+        id: 825069530376044594n,
+    },
+    thororen: {
+        name: "thororen",
+        id: 848339671629299742n
+    },
+    nexpid: {
+        name: "Nexpid",
+        id: 853550207039832084n
+    },
+    KrystalSkull: {
+        name: "krystalskullofficial",
+        id: 929208515883569182n
+    }
+} satisfies Record<string, Dev>);
+
 
 // iife so #__PURE__ works correctly
 export const DevsById = /* #__PURE__*/ (() =>

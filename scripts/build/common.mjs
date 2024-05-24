@@ -82,7 +82,7 @@ export const globPlugins = kind => ({
         });
 
         build.onLoad({ filter, namespace: "import-plugins" }, async () => {
-            const pluginDirs = ["plugins/_api", "plugins/_core", "plugins", "userplugins", "tobleroneplugins"];
+            const pluginDirs = ["plugins/_api", "plugins/_core", "plugins", "userplugins", "tobleroneplugins", "tobleroneplugins/_suncordplugins"];
             let code = "";
             let plugins = "\n";
             let i = 0;
