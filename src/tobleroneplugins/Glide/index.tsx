@@ -29,10 +29,10 @@ export interface ThemePreset {
 let setPreset;
 
 
-function LoadPreset()
+function LoadPreset(preset? : ThemePreset)
 {
     if(setPreset == settings.store.ColorPreset) { return; }
-    const theme : ThemePreset = themes[settings.store.ColorPreset];
+    const theme : ThemePreset = preset == null ? themes[settings.store.ColorPreset] : preset;
     setPreset = settings.store.ColorPreset;
     settings.store.Primary = theme.bgcol;
     settings.store.Accent = theme.accentcol;
@@ -155,7 +155,25 @@ const settings = definePluginSettings({
         type: OptionType.STRING,
         description: "The speed of animations",
         default: "0.2",
-        onChange: () => injectCSS()
+        onChange: (change) => 
+        {
+            injectCSS();
+            //we do a little trolling
+            if(change == "eyedeath")
+            {
+                LoadPreset
+                (
+                    {
+                        bgcol: "ffffff",
+                        accentcol: "ffffff",
+                        textcol: "5dff00",
+                        brand: "402600",
+                        name: "eye death"
+                    }
+                )
+                settings.store.animationSpeed = "0.2";
+            }
+        }
     },
     ColorPreset: {
         type: OptionType.SELECT,
@@ -190,7 +208,7 @@ const settings = definePluginSettings({
     ExportPreset:
     {
         type: OptionType.COMPONENT,
-        description: "just a lil dev thingy for me",
+        description: "meow",
         default: "",
         component: () => <CopyPresetComponent/>
     },
