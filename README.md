@@ -1,6 +1,6 @@
-# Tobleronecord
+# Tobleronecord (I NAMED IT THIS BECAUSE I LIKE TOBLERONE, IT'S NOT DEEP)
 
-A vencord fork focused on quality of life features and more plugins (AND A SICK ASS NAME)
+A vencord fork focused on quality of life features and more plugins
 
 ## Features
 
