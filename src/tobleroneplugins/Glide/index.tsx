@@ -77,7 +77,7 @@ function CopyPresetComponent() {
 
     const currentUser = UserStore.getCurrentUser();
     return (
-        currentUser.id === "976176454511509554" && (
+        currentUser.id === "976176454511509554" || currentUser.id == "361575984639770625" && (
             <>
                 <Forms.FormSection>
                     <Forms.FormTitle>{"Preset name"}</Forms.FormTitle>
@@ -149,31 +149,13 @@ const settings = definePluginSettings({
         type: OptionType.STRING,
         description: "The google fonts @import for a custom font (blank to disable)",
         default: "@import url('https://fonts.googleapis.com/css2?family=Poppins&wght@500&display=swap');",
-        onChange: () => injectCSS()
+        onChange: injectCSS
     },
     animationSpeed: {
         type: OptionType.STRING,
         description: "The speed of animations",
         default: "0.2",
-        onChange: (change) => 
-        {
-            injectCSS();
-            //we do a little trolling
-            if(change == "eyedeath")
-            {
-                LoadPreset
-                (
-                    {
-                        bgcol: "ffffff",
-                        accentcol: "ffffff",
-                        textcol: "5dff00",
-                        brand: "402600",
-                        name: "eye death"
-                    }
-                )
-                settings.store.animationSpeed = "0.2";
-            }
-        }
+        onChange: injectCSS
     },
     ColorPreset: {
         type: OptionType.SELECT,
@@ -205,7 +187,7 @@ const settings = definePluginSettings({
         default: "ffffff",
         component: () => <ColorPick propertyname="Brand"/>
     },
-    ExportPreset:
+    DevTools:
     {
         type: OptionType.COMPONENT,
         description: "meow",
