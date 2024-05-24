@@ -77,7 +77,7 @@ function CopyPresetComponent() {
 
     const currentUser = UserStore.getCurrentUser();
     return (
-        currentUser.id === "976176454511509554" || currentUser.id == "361575984639770625" && (
+        (currentUser.id === "976176454511509554" || currentUser.id == "361575984639770625") && (
             <>
                 <Forms.FormSection>
                     <Forms.FormTitle>{"Preset name"}</Forms.FormTitle>

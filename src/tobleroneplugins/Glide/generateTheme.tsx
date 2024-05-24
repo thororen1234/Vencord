@@ -19,5 +19,6 @@ export function darkenColorHex(color: string): string {
 }
 
 export function saturateColorHex(color: string): string {
+    //i should really do something with this at some point :P
     return color;
 }
