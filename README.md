@@ -34,3 +34,19 @@ ALSO, People still have the right to ban you from their server for whatever reas
 ### (Note: Some plugins showcased in the plugins list screenshot are not in tobleronecord, you can find a full list of the plugins [here](https://github.com/cheesesamwich/Tobleronecord/tree/main/src/tobleroneplugins))
 ![image](https://github.com/cheesesamwich/Tobleronecord/assets/149597648/154f31fb-fa4c-4709-b07f-17a0bc93e15e)
 ![image](https://github.com/cheesesamwich/Tobleronecord/assets/149597648/e68fdc98-5490-49d5-94cc-961e96c477d9)
+
+<details>
+<summary>Attributions</summary>
+
+Here you can find credits for all of the code I used in tobleronecord
+
+### Toblerone Plugins
+
+A LOT are by me, otherwise the developer is credited in the authors field of the plugin.
+
+### Suncord Plugins (tobleroneplugins/_suncordplugins)
+
+Tobleronecord includes a few plugins (and utils they require) originally from [Suncord](https://github.com/verticalsync/Suncord). All authors *should* have been credited in the authors field of their plugins, but there might be a few null references to the devs construct.
+If you are one of the original authors and have concerns about the inclusion, removal, or attribution of your code, feel free to contact me on discord :3.
+
+</details>
