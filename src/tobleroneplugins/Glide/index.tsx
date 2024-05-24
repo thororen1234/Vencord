@@ -395,12 +395,11 @@ function getCSS(fontName)
                 }
         ` : ""}
         /*Tooltips*/
-        ${!Settings.plugins.Glide.tooltips ? `
-            [class*="tooltip"]
-            {
-                display: none !important;
-            }
-        ` : ""}
+        [class*="tooltip"]
+        {
+            ${!Settings.plugins.Glide.tooltips ? "display: none !important;" : ""}
+            background-color: var(--mutedaccent);
+        }
         /*Root configs*/
         :root
         {
