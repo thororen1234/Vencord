@@ -327,7 +327,6 @@ function getCSS(fontName)
         [class*="tooltip"]
         {
             ${!Settings.plugins.Glide.tooltips ? "display: none !important;" : ""}
-            background-color: var(--mutedaccent);
         }
         /*Root configs*/
         :root
@@ -415,7 +414,6 @@ function getCSS(fontName)
             --bg-overlay-app-frame: var(--bgcol);
 
             /*shop*/
-            --background-floating: var(--bgcol);
             --background-mentioned-hover: var(--bgcol) !important;
             --background-mentioned: var(--bgcol) !important;
 
@@ -440,11 +438,16 @@ function getCSS(fontName)
             --channels-default: var(--mutedtext);
             --interactive-normal: var(--text) !important;
             --white-500: var(--text);
+
 }
 
 
         /*EXTRA COLORS*/
 
+                [class*="tooltipPrimary__"]
+                {
+                    background-color: var(--mutedaccent) !important;
+                }
                 /*sorry, forgot to document what these are when i was adding them*/
                 .inspector__80c84, .scroller_ac6d1c, .unicodeShortcut__01a83
                 {

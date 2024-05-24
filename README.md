@@ -42,11 +42,10 @@ Here you can find credits for all of the code I used in tobleronecord
 
 ### Toblerone Plugins
 
-A LOT are by me, otherwise the developer is credited in the authors field of the plugin.
+Most stock toblerone plugins are created by yours truly, otherwise they are attributed in the authors field of the plugin.
 
-### Suncord/Equicord Plugins
+### Other Authors
 
-Tobleronecord includes a few plugins (and utils they require) originally from [Suncord](https://github.com/verticalsync/Suncord) or [Equicord](https://github.com/Equicord/Equicord). All authors *should* have been credited in the authors field of their plugins, but there might be a few null references to the devs construct.
-If you are one of the original authors and have concerns about the inclusion, removal, or attribution of your code, feel free to contact me on discord :3.
+Tobleronecord includes quite a few plugins not originally from me. Usually the devs are credited as the author of the plugin, but in the case where it's just a null reference, you can most likely find more information about them on the [Suncord](https://github.com/verticalsync/Suncord) or [Equicord](https://github.com/Equicord/Equicord) repos (where a lot of the plugins are from)
 
 </details>

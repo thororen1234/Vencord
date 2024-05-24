@@ -49,17 +49,11 @@ async function loadBadges(noCache = false) {
     DonorBadges = {};
 
     const init = {} as RequestInit;
-    if (noCache)
+    if (noCache) {
         init.cache = "no-cache";
+    }
 
-    const firstJson = await fetch("https://badges.vencord.dev/badges.json", init)
-        .then(r => r.json());
-
-    const secondJson = await fetch("https://raw.githubusercontent.com/cheesesamwich/Tobleronecord/main/badges.json", init)
-        .then(r => r.json());
-
-    DonorBadges = { ...firstJson, ...secondJson };
-
+    DonorBadges = await fetch("https://raw.githubusercontent.com/cheesesamwich/Tobleronecord/main/badges.json", init).then(r => r.json());
 }
 
 function shuffleBadges(array: any[]) {
