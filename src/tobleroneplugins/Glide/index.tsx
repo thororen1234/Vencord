@@ -448,6 +448,10 @@ function getCSS(fontName)
                 {
                     background-color: var(--mutedaccent) !important;
                 }
+                [class*="tooltipPointer_"]
+                {
+                    border-top-color: var(--mutedaccent) !important;
+                }
                 /*sorry, forgot to document what these are when i was adding them*/
                 .inspector__80c84, .scroller_ac6d1c, .unicodeShortcut__01a83
                 {
