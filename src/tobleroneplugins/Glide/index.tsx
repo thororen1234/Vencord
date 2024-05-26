@@ -754,8 +754,9 @@ export default definePlugin({
             injectedStyle.remove();
         }
     },
-    startAt: StartAt.DOMContentLoaded
-
+    startAt: StartAt.DOMContentLoaded,
+    //preview thing, kinda low effort but eh
+    settingsAboutComponent: () => <img src="https://files.catbox.moe/j8y2gt.webp" width="568px" border-radius="30px" ></img>
 });
 
 
