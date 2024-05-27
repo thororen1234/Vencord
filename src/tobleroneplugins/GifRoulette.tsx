@@ -15,9 +15,9 @@ function getMessage(opts, other)
 
     if(other.guild != null)
     {
-        if(other.guild.ownerId != null)
+        if(other.guild.ownerId != null && settings.store.pingOwnerChance && Math.random() <= 0.1)
         {
-            ownerPing = settings.store.pingOwnerChance && Math.random() <= 0.1 ? `<@${other.guild.ownerId}>` : "";
+            ownerPing = `<@${other.guild.ownerId}>`;
         }
     }
 
