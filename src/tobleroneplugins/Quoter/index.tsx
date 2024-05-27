@@ -172,10 +172,10 @@ function QuoteModal(props: ModalProps) {
             <ModalContent scrollbarType="none">
                 <img src={""} id={"quoterPreview"} style={{ borderRadius: "20px", width: "100%" }}></img>
                 <br></br><br></br>
-                {isUserCustomCapable} && 
-                {
+                {isUserCustomCapable && 
+                (
                     <TextInput onChange={(change) => customMessage = change} placeholder="Custom Message"></TextInput>
-                }
+                )}
                 <Switch value={gray} onChange={setGray}>Grayscale</Switch>
                 <Select look={1} 
                     options={Object.keys(ImageStyle).filter(key => isNaN(parseInt(key, 10))).map(key => ({ label: key.charAt(0).toUpperCase() + key.slice(1), 
