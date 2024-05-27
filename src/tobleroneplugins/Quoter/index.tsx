@@ -3,7 +3,7 @@ import { Devs } from "@utils/constants";
 import { getCurrentChannel } from "@utils/discord";
 import { ModalCloseButton, ModalContent, ModalHeader, ModalProps, ModalRoot, ModalSize, openModal } from "@utils/modal";
 import definePlugin from "@utils/types";
-import { Button, Menu, Switch, Text, UploadHandler, useEffect, useState, Select } from "@webpack/common";
+import { Button, Menu, Switch, Text, UploadHandler, useEffect, useState, Select, TextInput, UserStore } from "@webpack/common";
 import { Message } from "discord-types/general";
 import { QuoteIcon } from "./components";
 import { wrapText, canvasToBlob, FixUpQuote, fetchImageAsBlob } from "./utils";
@@ -42,7 +42,8 @@ const messagePatch: NavContextMenuPatchCallback = (children, { message }) => {
 let recentmessage: Message;
 let grayscale;
 let setStyle : ImageStyle = ImageStyle.inspirational;
-
+let customMessage : string = "";
+let isUserCustomCapable = false;
 export default definePlugin({
     name: "Quoter",
     description: "Adds the ability to create an inspirational quote image from a message",
@@ -62,7 +63,15 @@ let preparingSentence: string[] = [];
 const lines: string[] = [];
 
 async function createQuoteImage(avatarUrl: string, name: string, quoteOld: string, grayScale: boolean): Promise<Blob> {
-    const quote = FixUpQuote(quoteOld);
+    let quote;
+    if(isUserCustomCapable && customMessage.length > 0)
+    {
+        quote = FixUpQuote(customMessage);
+    }
+    else
+    {
+        quote = FixUpQuote(quoteOld);
+    }
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
 
@@ -139,7 +148,14 @@ function registerStyleChange(style)
     GeneratePreview();
 }
 
+async function setIsUserCustomCapable()
+{
+    let allowList : string[] = await fetch("https://raw.githubusercontent.com/cheesesamwich/Tobleronecord/main/src/quoterusers.json").then(e => e.json());
+    isUserCustomCapable = allowList.includes(UserStore.getCurrentUser().id);
+}
+
 function QuoteModal(props: ModalProps) {
+    setIsUserCustomCapable();
     const [gray, setGray] = useState(true);
     useEffect(() => {
         grayscale = gray;
@@ -156,6 +172,10 @@ function QuoteModal(props: ModalProps) {
             <ModalContent scrollbarType="none">
                 <img src={""} id={"quoterPreview"} style={{ borderRadius: "20px", width: "100%" }}></img>
                 <br></br><br></br>
+                isUserCustomCapable && 
+                {
+                    <TextInput onChange={(change) => customMessage = change} placeholder="Custom Message"></TextInput>
+                }
                 <Switch value={gray} onChange={setGray}>Grayscale</Switch>
                 <Select look={1} 
                     options={Object.keys(ImageStyle).filter(key => isNaN(parseInt(key, 10))).map(key => ({ label: key.charAt(0).toUpperCase() + key.slice(1), 
