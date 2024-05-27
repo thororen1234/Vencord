@@ -174,7 +174,10 @@ function QuoteModal(props: ModalProps) {
                 <br></br><br></br>
                 {isUserCustomCapable && 
                 (
-                    <TextInput onChange={(change) => customMessage = change} placeholder="Custom Message"></TextInput>
+                    <>
+                        <TextInput onChange={(change) => {customMessage = change; GeneratePreview()}} placeholder="Custom Message"></TextInput>
+                        <br/>
+                    </>
                 )}
                 <Switch value={gray} onChange={setGray}>Grayscale</Switch>
                 <Select look={1} 
