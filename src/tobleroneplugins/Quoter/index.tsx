@@ -154,6 +154,7 @@ async function setIsUserCustomCapable()
     isUserCustomCapable = allowList.includes(UserStore.getCurrentUser().id);
 }
 
+
 function QuoteModal(props: ModalProps) {
     setIsUserCustomCapable();
     const [gray, setGray] = useState(true);
@@ -161,6 +162,11 @@ function QuoteModal(props: ModalProps) {
         grayscale = gray;
         GeneratePreview();
     }, [gray]);
+    const [custom, setCustom] = useState("");
+    useEffect(() => {
+        customMessage = custom;
+        GeneratePreview();
+    }, [custom]);
     return (
         <ModalRoot {...props} size={ModalSize.MEDIUM}>
             <ModalHeader separator={false}>
@@ -175,7 +181,7 @@ function QuoteModal(props: ModalProps) {
                 {isUserCustomCapable && 
                 (
                     <>
-                        <TextInput onChange={(change) => {customMessage = change; GeneratePreview()}} placeholder="Custom Message"></TextInput>
+                        <TextInput onChange={setCustom} placeholder="Custom Message"></TextInput>
                         <br/>
                     </>
                 )}
