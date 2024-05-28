@@ -514,7 +514,7 @@ export const Devs = /* #__PURE__*/ Object.freeze({
         name: "verticalsync",
         id: 328165170536775680n
     },
-    MrDiamond: 
+    MrDiamond:
     {
         name: "MrDiamond",
         id: 523338295644782592n

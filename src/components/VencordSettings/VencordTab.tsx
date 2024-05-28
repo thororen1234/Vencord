@@ -22,12 +22,9 @@ import { Margins } from "@utils/margins";
 import { identity } from "@utils/misc";
 import { relaunch, showItemInFolder } from "@utils/native";
 import { useAwaiter } from "@utils/react";
-import { rebuildAndRestart } from "@utils/Rebuild";
 import { Button, Card, Forms, React, Select, Switch } from "@webpack/common";
 
 import { SettingsTab, wrapTab } from "./shared";
-import { title } from "process";
-import { notEqual } from "assert";
 
 const cl = classNameFactory("vc-settings-");
 type KeysOfType<Object, Type> = {
@@ -194,7 +191,7 @@ function VencordSettings() {
                     serialize={identity} />
             </>}
 
-            {/*typeof Notification !== "undefined" && <NotificationSection settings={settings.notifications} />*/}
+            {/* typeof Notification !== "undefined" && <NotificationSection settings={settings.notifications} />*/}
         </SettingsTab>
     );
 }

@@ -18,11 +18,11 @@
 
 import "./addonCard.css";
 
+import { Settings } from "@api/Settings";
 import { classNameFactory } from "@api/Styles";
 import { Badge } from "@components/Badge";
 import { Switch } from "@components/Switch";
 import { Text } from "@webpack/common";
-import { Settings } from "@api/Settings";
 import type { MouseEventHandler, ReactNode } from "react";
 
 const cl = classNameFactory("vc-addon-");

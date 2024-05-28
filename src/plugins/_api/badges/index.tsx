@@ -22,6 +22,7 @@ import { BadgePosition, BadgeUserArgs, ProfileBadge } from "@api/Badges";
 import DonateButton from "@components/DonateButton";
 import ErrorBoundary from "@components/ErrorBoundary";
 import { Flex } from "@components/Flex";
+import GridCollage from "@components/GridCollage";
 import { Heart } from "@components/Heart";
 import { openContributorModal } from "@components/PluginSettings/ContributorModal";
 import { Devs } from "@utils/constants";
@@ -30,7 +31,6 @@ import { isPluginDev } from "@utils/misc";
 import { closeModal, Modals, openModal } from "@utils/modal";
 import definePlugin from "@utils/types";
 import { Forms, Toasts } from "@webpack/common";
-import GridCollage from "@components/GridCollage";
 
 const CONTRIBUTOR_BADGE = "https://vencord.dev/assets/favicon.png";
 

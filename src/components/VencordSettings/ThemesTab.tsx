@@ -34,9 +34,8 @@ import { UserThemeHeader } from "main/themes";
 import type { ComponentType, Ref, SyntheticEvent } from "react";
 
 import { AddonCard } from "./AddonCard";
+import { getThemeList,renderBrowseThemes, Theme } from "./BrowseThemes";
 import { SettingsTab, wrapTab } from "./shared";
-
-import { renderBrowseThemes, Theme, getThemeList } from "./BrowseThemes";
 
 type FileInput = ComponentType<{
     ref: Ref<HTMLInputElement>;
@@ -347,7 +346,7 @@ function ThemesTab() {
                     id={ThemeTab.ONLINE}
                 >
                     Online Links
-                </TabBar.Item>          
+                </TabBar.Item>
             </TabBar>
 
             {currentTab === ThemeTab.LOCAL && renderLocalThemes()}

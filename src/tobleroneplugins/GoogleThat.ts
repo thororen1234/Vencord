@@ -8,13 +8,11 @@ import { ApplicationCommandOptionType,findOption } from "@api/Commands";
 import { definePluginSettings } from "@api/Settings";
 import { Devs } from "@utils/constants";
 import definePlugin, { OptionType } from "@utils/types";
-import { search } from "@webpack";
-import { PluginSettingSelectOption } from "@utils/types";
 function getMessage(opts)
 {
     const inputOption = findOption(opts, "input", "");
 
-    let chosenEngine = searchEngines[settings.store.defaultEngine];
+    const chosenEngine = searchEngines[settings.store.defaultEngine];
 
     const queryURL = "" + chosenEngine + encodeURIComponent(inputOption);
 
@@ -45,7 +43,7 @@ const settings = definePluginSettings({
         description: "If the sent link should hyperlink with the query as the label",
         default: true
     },
-    defaultEngine: 
+    defaultEngine:
     {
         type: OptionType.SELECT,
         description: "The default search engine to use when no parameter is provided",

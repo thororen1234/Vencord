@@ -4,15 +4,15 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SendListener, addPreSendListener, removePreSendListener, } from "@api/MessageEvents";
-import { Settings, definePluginSettings } from "@api/Settings";
+import { addPreSendListener, removePreSendListener,SendListener, } from "@api/MessageEvents";
+import { definePluginSettings,Settings } from "@api/Settings";
 import { Devs } from "@utils/constants";
 import definePlugin, { OptionType } from "@utils/types";
 
-let presendObject : SendListener = (channelId, msg) =>
+const presendObject : SendListener = (channelId, msg) =>
 {
     msg.content = textProcessing(msg.content);
-}
+};
 
 const settings = definePluginSettings(
     {
@@ -26,7 +26,7 @@ const settings = definePluginSettings(
             description: "If some shorthands should be corrected to their better forms- eg: \"ur\" to \"you're\"",
             default: true
         }
-    })
+    });
 export default definePlugin({
     name: "Grammar",
     description: "Tweaks your messages to make them look nicer and have better grammar",
@@ -56,12 +56,12 @@ function textProcessing(input : string)
 
 function formalWords(textInput : string)
 {
-    interface WordMap 
+    interface WordMap
     {
         [key: string]: string;
     }
 
-    //idk anything else to put here lmao
+    // idk anything else to put here lmao
     const wordDictionary: WordMap = {
         "ur": "youre",
         "u": "you",
@@ -69,8 +69,8 @@ function formalWords(textInput : string)
         "thx": "thanks"
     };
 
-    return textInput.split(' ').map(word => wordDictionary[word] || word).join(' ');
-      
+    return textInput.split(" ").map(word => wordDictionary[word] || word).join(" ");
+
 }
 function apostrophe(textInput: string): string
 {

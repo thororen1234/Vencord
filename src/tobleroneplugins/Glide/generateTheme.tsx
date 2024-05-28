@@ -1,3 +1,9 @@
+/*
+ * Vencord, a Discord client mod
+ * Copyright (c) 2024 Vendicated and contributors
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
 export function generateRandomColorHex(): string {
     const r = Math.floor(Math.random() * 90);
     const g = Math.floor(Math.random() * 90);
@@ -19,6 +25,6 @@ export function darkenColorHex(color: string): string {
 }
 
 export function saturateColorHex(color: string): string {
-    //i should really do something with this at some point :P
+    // i should really do something with this at some point :P
     return color;
 }

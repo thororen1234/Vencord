@@ -1,6 +1,12 @@
+/*
+ * Vencord, a Discord client mod
+ * Copyright (c) 2024 Vendicated and contributors
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
 import { ThemePreset } from ".";
 
-export let themes : ThemePreset[] = [
+export const themes : ThemePreset[] = [
     {
         bgcol: "000000",
         accentcol: "020202",
@@ -119,7 +125,7 @@ export let themes : ThemePreset[] = [
         textcol: "ddd0d0",
         brand: "06403d",
         name: "Tealish"
-    },      
+    },
     {
         bgcol: "273b0b",
         accentcol: "223606",

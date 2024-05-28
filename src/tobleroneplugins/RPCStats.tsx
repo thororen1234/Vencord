@@ -4,27 +4,26 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-
 import { DataStore } from "@api/index";
 import { Devs } from "@utils/constants";
-import definePlugin, { OptionType } from "@utils/types";
+import definePlugin from "@utils/types";
 import { FluxDispatcher } from "@webpack/common";
-import { getApplicationAsset } from "plugins/customRPC";
-import { Message } from "discord-types/general";
 import { UserStore } from "@webpack/common";
+import { Message } from "discord-types/general";
+import { getApplicationAsset } from "plugins/customRPC";
 
 async function setRpc(disable?: boolean, details?: string) {
 
     const activity = {
         "application_id": "0",
         "name": "Today's Stats",
-        "details": details ? details : "No info right now :(",
+        "details": details || "No info right now :(",
         "type": 0,
         "flags": 1,
         "assets": {
             "large_image": await getApplicationAsset(UserStore.getCurrentUser().getAvatarURL())
         }
-    }
+    };
     FluxDispatcher.dispatch({
         type: "LOCAL_ACTIVITY_UPDATE",
         activity: !disable ? activity : null,
@@ -36,8 +35,8 @@ async function setRpc(disable?: boolean, details?: string) {
 function getCurrentDate(): string {
     const today = new Date();
     const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, '0');
-    const day = String(today.getDate()).padStart(2, '0');
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const day = String(today.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}`;
 }
 
@@ -45,11 +44,11 @@ function getCurrentTime(): string {
     const today = new Date();
     let hour = today.getHours();
     const minute = today.getMinutes();
-    const ampm = hour >= 12 ? 'PM' : 'AM';
-    hour = hour % 12 || 12
+    const ampm = hour >= 12 ? "PM" : "AM";
+    hour = hour % 12 || 12;
 
-    const formattedHour = String(hour).padStart(2, '0');
-    const formattedMinute = String(minute).padStart(2, '0');
+    const formattedHour = String(hour).padStart(2, "0");
+    const formattedMinute = String(minute).padStart(2, "0");
 
     return `${formattedHour}:${formattedMinute} ${ampm}`;
 }
@@ -91,7 +90,7 @@ export default definePlugin({
     {
         setRpc(true);
     },
-    flux: 
+    flux:
     {
         async MESSAGE_CREATE({ optimistic, type, message }: IMessageCreate) {
             if (optimistic || type !== "MESSAGE_CREATE") return;
@@ -113,4 +112,4 @@ function checkForNewDay(): void {
     }
 }
 
-setInterval(checkForNewDay, 1000 * 60); 
+setInterval(checkForNewDay, 1000 * 60);

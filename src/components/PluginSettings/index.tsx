@@ -150,7 +150,7 @@ export function PluginCard({ plugin, disabled, onRestartNeeded, onMouseEnter, on
     }
 
     function favouritePlugin() {
-        settings.favourited =  !settings.favourited;
+        settings.favourited = !settings.favourited;
     }
 
     function isPluginFavourited() {
@@ -244,13 +244,13 @@ export default function PluginSettings() {
         plugin.name.toLowerCase().includes(v) ||
         plugin.description.toLowerCase().includes(v) ||
         plugin.tags?.some(t => t.toLowerCase().includes(v));
-        let favTrue = settings.plugins[plugin.name]?.favourited;
+        const favTrue = settings.plugins[plugin.name]?.favourited;
 
-        //return values
-        let returnValueEnabled = enabled && matchesSearch;
-        let returnValueDisabled = !enabled && matchesSearch;
-        let returnValueNew = newPlugins?.includes(plugin.name) && matchesSearch;
-        let returnValueAll = matchesSearch;
+        // return values
+        const returnValueEnabled = enabled && matchesSearch;
+        const returnValueDisabled = !enabled && matchesSearch;
+        const returnValueNew = newPlugins?.includes(plugin.name) && matchesSearch;
+        const returnValueAll = matchesSearch;
 
         switch (searchValue.status) {
             case SearchStatus.ALL:
@@ -293,7 +293,7 @@ export default function PluginSettings() {
         }
         return false;
     }
-    
+
     function PluginList(props) {
         type P = JSX.Element | JSX.Element[];
         let plugins: P, requiredPlugins: P;
@@ -303,16 +303,16 @@ export default function PluginSettings() {
             for (const p of sortedPlugins) {
                 if (!p.options && p.name.endsWith("API") && searchValue.value !== "API")
                     continue;
-    
+
                 if (!pluginFilter(p, props.favourited)) continue;
-    
+
                 const isRequired = p.required || depMap[p.name]?.some(d => settings.plugins[d].enabled);
-    
+
                 if (isRequired) {
                     const tooltipText = p.required
                         ? "This plugin is required for Vencord to function."
                         : makeDependencyList(depMap[p.name]?.filter(d => settings.plugins[d].enabled));
-    
+
                     requiredPlugins.push(
                         <Tooltip text={tooltipText} key={p.name}>
                             {({ onMouseLeave, onMouseEnter }) => (
@@ -342,12 +342,12 @@ export default function PluginSettings() {
             plugins = [];
             requiredPlugins = [];
         }
-    
+
         // Display a message if there are no plugins meeting the search criteria
         if (plugins.length === 0 && requiredPlugins.length === 0) {
             plugins = <Text variant="text-md/normal">No plugins meet search criteria.</Text>;
         }
-    
+
         return (
             <>
                 {props.required && requiredPlugins}
@@ -355,35 +355,35 @@ export default function PluginSettings() {
             </>
         );
     }
-    
+
     const isAnyPluginFavorited = pluginFilterAll(sortedPlugins, true);
 
     const options = [
         { label: "All", value: SearchStatus.ALL },
         { label: "Enabled", value: SearchStatus.ENABLED },
         { label: "Disabled", value: SearchStatus.DISABLED },
-    ]; 
+    ];
     if(settings.newPlugins) { options.push({ label: "New", value: SearchStatus.NEW }); }
 
     return (
         <SettingsTab title="Plugins">
             <ReloadRequiredCard required={changes.hasChanges} />
 
-            {isAnyPluginFavorited &&             
+            {isAnyPluginFavorited &&
                 <>
                     <Forms.FormTitle className={Margins.top20}>Favourite Plugins</Forms.FormTitle>
                     <div className={cl("grid")}>
                         <PluginList required={false} favourited={true}></PluginList>
                     </div>
                 </>
-            
+
             }
 
             <Forms.FormTitle tag="h5" className={classes(Margins.top20, Margins.bottom8)}>
                 Filters
             </Forms.FormTitle>
 
-            
+
             <div className={cl("filter-controls")}>
                 <TextInput autoFocus value={searchValue.value} placeholder="Search for a plugin..." onChange={onSearch} className={Margins.bottom20} />
                 <div className={InputStyles.inputWrapper}>

@@ -14,7 +14,7 @@ import { Button, Forms } from "@webpack/common";
 import { UserStore } from "@webpack/common";
 import { TextInput } from "@webpack/common";
 import { useState } from "@webpack/common";
-import { Margins } from "@utils/margins";
+
 import { darkenColorHex, generateRandomColorHex, saturateColorHex } from "./generateTheme";
 import { themes } from "./themeDefinitions";
 
@@ -55,7 +55,7 @@ function mute(hex, amount) {
 
 function copyPreset(name : string)
 {
-    let template = 
+    const template =
     `
 {
     bgcol: "${settings.store.Primary}",
@@ -64,16 +64,16 @@ function copyPreset(name : string)
     brand: "${settings.store.Brand}",
     name: "${name}"
 }
-    `
+    `;
     if (Clipboard.SUPPORTS_COPY) {
         Clipboard.copy(template);
     }
-    
+
 }
 
 function CopyPresetComponent() {
 
-    let [inputtedName, setInputtedName] = useState("");
+    const [inputtedName, setInputtedName] = useState("");
 
     const currentUser = UserStore.getCurrentUser();
     return (
@@ -96,7 +96,7 @@ function CopyPresetComponent() {
                 }}>Generate Random</Button>
             </>
         )
-        || 
+        ||
         (
             <></>
         )
@@ -106,7 +106,7 @@ function CopyPresetComponent() {
 const ColorPicker = findComponentByCodeLazy(".Messages.USER_SETTINGS_PROFILE_COLOR_SELECT_COLOR", ".BACKGROUND_PRIMARY)");
 
 export function generateAndApplyProceduralTheme() {
-    
+
     const randomBackgroundColor = generateRandomColorHex();
     const accentColor = darkenColorHex(randomBackgroundColor);
     const textColor = "ddd0d0";
@@ -162,7 +162,7 @@ const settings = definePluginSettings({
         description: "Some pre-made color presets (more soon hopefully)",
         options: themes.map(theme => ({ label: theme.name, value: themes.indexOf(theme), default: themes.indexOf(theme) === 0 })),
         onChange: () => { LoadPreset(); }
-    },    
+    },
     Primary: {
         type: OptionType.COMPONENT,
         description: "",
@@ -759,7 +759,7 @@ export default definePlugin({
         }
     },
     startAt: StartAt.DOMContentLoaded,
-    //preview thing, kinda low effort but eh
+    // preview thing, kinda low effort but eh
     settingsAboutComponent: () => <img src="https://files.catbox.moe/j8y2gt.webp" width="568px" border-radius="30px" ></img>
 });
 

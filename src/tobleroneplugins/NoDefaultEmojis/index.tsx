@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { addContextMenuPatch } from "@api/ContextMenu";
 import { NavContextMenuPatchCallback } from "@api/ContextMenu";
 import { findGroupChildrenByChildId } from "@api/ContextMenu";
 import { definePluginSettings } from "@api/Settings";
@@ -101,7 +100,7 @@ export default definePlugin({
             }
         }
     ],
-    contextMenus: 
+    contextMenus:
     {
         "expression-picker": expressionPickerPatch,
         "message": messageContextMenuPatch

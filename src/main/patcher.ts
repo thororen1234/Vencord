@@ -17,13 +17,12 @@
 */
 
 import { onceDefined } from "@shared/onceDefined";
-import electron, { app, BrowserWindowConstructorOptions, Menu } from "electron";
+import electron, { app, BrowserWindowConstructorOptions } from "electron";
 import { dirname, join } from "path";
 
 import { initIpc } from "./ipcMain";
 import { RendererSettings } from "./settings";
 import { IS_VANILLA } from "./utils/constants";
-import { rebuildAndRestart } from "@utils/Rebuild";
 
 console.log("[Vencord] Starting up...");
 

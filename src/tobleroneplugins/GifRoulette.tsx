@@ -1,3 +1,9 @@
+/*
+ * Vencord, a Discord client mod
+ * Copyright (c) 2024 Vendicated and contributors
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
 import { definePluginSettings } from "@api/Settings";
 import { Devs } from "@utils/constants";
 import definePlugin, { OptionType } from "@utils/types";
@@ -5,11 +11,11 @@ import { UserSettingsActionCreators } from "@webpack/common";
 
 function getMessage(opts, other)
 {
-    let frecencyStore = UserSettingsActionCreators.FrecencyUserSettingsActionCreators.getCurrentValue();
+    const frecencyStore = UserSettingsActionCreators.FrecencyUserSettingsActionCreators.getCurrentValue();
 
-    let gifsArray = Object.keys(frecencyStore.favoriteGifs.gifs);
+    const gifsArray = Object.keys(frecencyStore.favoriteGifs.gifs);
 
-    let chosenGifUrl = gifsArray[Math.floor(Math.random() * gifsArray.length)];
+    const chosenGifUrl = gifsArray[Math.floor(Math.random() * gifsArray.length)];
 
     let ownerPing = "";
 

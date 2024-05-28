@@ -1,13 +1,16 @@
-import { Devs } from "@utils/constants";
-import definePlugin from "@utils/types";
+/*
+ * Vencord, a Discord client mod
+ * Copyright (c) 2024 Vendicated and contributors
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
 import { BadgeUserArgs, ProfileBadge } from "@api/Badges";
-import { RelationshipStore } from "@webpack/common";
-import { ModalSize, openModal } from "@utils/modal";
 import ErrorBoundary from "@components/ErrorBoundary";
-import { Modals } from "@utils/modal";
-import { Flex } from "@webpack/common";
-import { Forms } from "@webpack/common";
+import { Devs } from "@utils/constants";
 import { Margins } from "@utils/margins";
+import { Modals,ModalSize, openModal } from "@utils/modal";
+import definePlugin from "@utils/types";
+import { Flex, Forms, RelationshipStore } from "@webpack/common";
 
 interface rankInfo
 {
@@ -25,10 +28,10 @@ function daysSince(dateString: string): number {
 
     const days = differenceInMs / (1000 * 60 * 60 * 24);
 
-    return Math.floor(days); 
+    return Math.floor(days);
 }
 
-let ranks : rankInfo[] = 
+const ranks : rankInfo[] =
 [
     {
         title: "Sprout",
@@ -66,7 +69,7 @@ let ranks : rankInfo[] =
         assetURL: "https://files.catbox.moe/qojb7d.webp",
         requirement: 1826.25
     }
-]
+];
 
 function openRankModal(rank : rankInfo)
 {
@@ -89,7 +92,7 @@ function openRankModal(rank : rankInfo)
                 </Modals.ModalHeader>
                 <Modals.ModalContent>
                     <div style={{ padding: "1em", textAlign: "center" }}>
-                        <img src={rank.assetURL} style={{height: "150px"}}/>
+                        <img src={rank.assetURL} style={{ height: "150px" }}/>
                         <Forms.FormText className={Margins.top16}>
                             {rank.description}
                         </Forms.FormText>
@@ -102,32 +105,32 @@ function openRankModal(rank : rankInfo)
 
 function getBadgesToApply()
 {
-            
-    let badgesToApply : ProfileBadge[] = ranks.map((rank, index, self) => { return (
-    {
-        description: rank.title,
-        image: rank.assetURL,
-        props: {
-            style: {
-                transform: "scale(0.8)"
-            }
-        },
-        shouldShow: (info : BadgeUserArgs) => 
-        { 
-            if(!RelationshipStore.isFriend(info.user.id)) { return false; }
 
-            let days = daysSince(RelationshipStore.getSince(info.user.id));
-
-            if(self[index + 1] == null)
+    const badgesToApply : ProfileBadge[] = ranks.map((rank, index, self) => { return (
+        {
+            description: rank.title,
+            image: rank.assetURL,
+            props: {
+                style: {
+                    transform: "scale(0.8)"
+                }
+            },
+            shouldShow: (info : BadgeUserArgs) =>
             {
-                return days > rank.requirement;
-            }
+                if(!RelationshipStore.isFriend(info.user.id)) { return false; }
 
-            return ( days > rank.requirement && days < self[index + 1].requirement ); 
-        },
-        onClick: () => openRankModal(rank)
-    })});
-    
+                const days = daysSince(RelationshipStore.getSince(info.user.id));
+
+                if(self[index + 1] == null)
+                {
+                    return days > rank.requirement;
+                }
+
+                return (days > rank.requirement && days < self[index + 1].requirement);
+            },
+            onClick: () => openRankModal(rank)
+        }); });
+
     return badgesToApply;
 }
 
@@ -139,11 +142,11 @@ export default definePlugin({
     ],
     start()
     {
-        getBadgesToApply().forEach((thing) => Vencord.Api.Badges.addBadge(thing));
+        getBadgesToApply().forEach(thing => Vencord.Api.Badges.addBadge(thing));
 
     },
     stop()
     {
-        getBadgesToApply().forEach((thing) => Vencord.Api.Badges.removeBadge(thing));
+        getBadgesToApply().forEach(thing => Vencord.Api.Badges.removeBadge(thing));
     },
 });
