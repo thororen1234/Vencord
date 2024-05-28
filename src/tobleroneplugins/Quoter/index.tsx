@@ -8,12 +8,13 @@ import { findGroupChildrenByChildId, NavContextMenuPatchCallback } from "@api/Co
 import { Devs } from "@utils/constants";
 import { getCurrentChannel } from "@utils/discord";
 import { ModalCloseButton, ModalContent, ModalHeader, ModalProps, ModalRoot, ModalSize, openModal } from "@utils/modal";
-import definePlugin from "@utils/types";
+import definePlugin, { OptionType } from "@utils/types";
 import { Button, Menu, Select, Switch, Text, TextInput, UploadHandler, useEffect, UserStore,useState } from "@webpack/common";
 import { Message } from "discord-types/general";
 
 import { QuoteIcon } from "./components";
 import { canvasToBlob, fetchImageAsBlob,FixUpQuote, wrapText } from "./utils";
+import { definePluginSettings } from "@api/Settings";
 
 enum ImageStyle
 {
@@ -51,13 +52,34 @@ let grayscale;
 let setStyle : ImageStyle = ImageStyle.inspirational;
 let customMessage : string = "";
 let isUserCustomCapable = false;
+
+enum userIDOptions
+{
+    displayName,
+    userName,
+    userId
+}
+const settings = definePluginSettings({
+    userIdentifier:
+    {
+        type: OptionType.SELECT,
+        description: "What the author's name should be displayed as",
+        options: [
+            { label: "Display Name", value: userIDOptions.displayName, default: true},
+            { label: "Username", value: userIDOptions.userName},
+            { label: "User ID", value: userIDOptions.userId}
+        ]
+    }
+});
+
 export default definePlugin({
     name: "Quoter",
     description: "Adds the ability to create an inspirational quote image from a message",
     authors: [Devs.Samwich],
     contextMenus: {
         "message": messagePatch
-    }
+    },
+    settings
 });
 
 function sizeUpgrade(url) {
@@ -69,8 +91,9 @@ function sizeUpgrade(url) {
 const preparingSentence: string[] = [];
 const lines: string[] = [];
 
-async function createQuoteImage(avatarUrl: string, name: string, quoteOld: string, grayScale: boolean): Promise<Blob> {
+async function createQuoteImage(avatarUrl: string, quoteOld: string, grayScale: boolean): Promise<Blob> {
     let quote;
+
     if(isUserCustomCapable && customMessage.length > 0)
     {
         quote = FixUpQuote(customMessage);
@@ -84,6 +107,24 @@ async function createQuoteImage(avatarUrl: string, name: string, quoteOld: strin
 
     if (!ctx) {
         throw new Error("Cant get 2d rendering context :(");
+    }
+
+    let name : string = "";
+
+    switch(settings.store.userIdentifier)
+    {
+        case userIDOptions.displayName:
+            name = recentmessage.author.globalName;
+        break;
+        case userIDOptions.userName:
+            name = recentmessage.author.username;
+        break;
+        case userIDOptions.userId:
+            name = recentmessage.author.id;
+        break;
+        default:
+            name = "MAN WTF HAPPENED";
+        break;
     }
 
     switch(setStyle)
@@ -208,7 +249,7 @@ function QuoteModal(props: ModalProps) {
 }
 
 async function SendInChat(onClose) {
-    const image = await createQuoteImage(sizeUpgrade(recentmessage.author.getAvatarURL()), recentmessage.author.username, recentmessage.content, grayscale);
+    const image = await createQuoteImage(sizeUpgrade(recentmessage.author.getAvatarURL()), recentmessage.content, grayscale);
     const preview = generateFileNamePreview(recentmessage.content);
     const imageName = `${preview} - ${recentmessage.author.username}`;
     const file = new File([image], `${imageName}.png`, { type: "image/png" });
@@ -217,7 +258,7 @@ async function SendInChat(onClose) {
 }
 
 async function Export() {
-    const image = await createQuoteImage(sizeUpgrade(recentmessage.author.getAvatarURL()), recentmessage.author.username, recentmessage.content, grayscale);
+    const image = await createQuoteImage(sizeUpgrade(recentmessage.author.getAvatarURL()), recentmessage.content, grayscale);
     const link = document.createElement("a");
     link.href = URL.createObjectURL(image);
     const preview = generateFileNamePreview(recentmessage.content);
@@ -229,7 +270,7 @@ async function Export() {
 }
 
 async function GeneratePreview() {
-    const image = await createQuoteImage(sizeUpgrade(recentmessage.author.getAvatarURL()), recentmessage.author.username, recentmessage.content, grayscale);
+    const image = await createQuoteImage(sizeUpgrade(recentmessage.author.getAvatarURL()), recentmessage.content, grayscale);
     document.getElementById("quoterPreview")?.setAttribute("src", URL.createObjectURL(image));
 }
 
