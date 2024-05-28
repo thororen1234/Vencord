@@ -44,7 +44,7 @@ let ranks : rankInfo[] =
     },
     {
         title: "Burning",
-        description: "Your friendship has reached terminal velocity :o (3 Months)",
+        description: "Your friendship has reached terminal velocity (3 Months)",
         requirement: 90,
         assetURL: "https://files.catbox.moe/8oiu0o.png"
     },
@@ -83,15 +83,12 @@ function openRankModal(rank : rankInfo)
                                 margin: 0
                             }}
                         >
-                            Your friendship rank
+                            {rank.title}
                         </Forms.FormTitle>
                     </Flex>
                 </Modals.ModalHeader>
                 <Modals.ModalContent>
                     <div style={{ padding: "1em", textAlign: "center" }}>
-                        <Forms.FormText className={Margins.bottom20}>
-                            {rank.title}
-                        </Forms.FormText>
                         <img src={rank.assetURL} style={{height: "150px"}}/>
                         <Forms.FormText className={Margins.top16}>
                             {rank.description}
@@ -107,29 +104,30 @@ function getBadgesToApply()
 {
             
     let badgesToApply : ProfileBadge[] = ranks.map((rank, index, self) => { return (
-        {
-            description: rank.title,
-            image: rank.assetURL,
-            props: {
-                style: {
-                    transform: "scale(0.8)"
-                }
-            },
-            shouldShow: (info : BadgeUserArgs) => 
-            { 
-                if(!RelationshipStore.isFriend(info.user.id)) { return false; }
+    {
+        description: rank.title,
+        image: rank.assetURL,
+        props: {
+            style: {
+                transform: "scale(0.8)"
+            }
+        },
+        shouldShow: (info : BadgeUserArgs) => 
+        { 
+            if(!RelationshipStore.isFriend(info.user.id)) { return false; }
 
-                let days = daysSince(RelationshipStore.getSince(info.user.id));
+            let days = daysSince(RelationshipStore.getSince(info.user.id));
 
-                if(self[index + 1] == null)
-                {
-                    return days > rank.requirement;
-                }
+            if(self[index + 1] == null)
+            {
+                return days > rank.requirement;
+            }
 
-                return ( days > rank.requirement && days < self[index + 1].requirement ); 
-            },
-            onClick: () => openRankModal(rank)
-        })});
+            return ( days > rank.requirement && days < self[index + 1].requirement ); 
+        },
+        onClick: () => openRankModal(rank)
+    })});
+    
     return badgesToApply;
 }
 
