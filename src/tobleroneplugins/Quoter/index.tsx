@@ -218,11 +218,15 @@ function QuoteModal(props: ModalProps) {
         grayscale = gray;
         GeneratePreview();
     }, [gray]);
-    const [custom, setCustom] = useState("");
+
+    const safeContent = recentmessage && recentmessage.content ? recentmessage.content : "";
+
+    const [custom, setCustom] = useState(safeContent);
     useEffect(() => {
         customMessage = custom;
         GeneratePreview();
     }, [custom]);
+    
     return (
         <ModalRoot {...props} size={ModalSize.MEDIUM}>
             <ModalHeader separator={false}>
@@ -237,7 +241,7 @@ function QuoteModal(props: ModalProps) {
                 {isUserCustomCapable &&
                 (
                     <>
-                        <TextInput onChange={setCustom} placeholder="Custom Message"></TextInput>
+                        <TextInput onChange={setCustom} value={custom} placeholder="Custom Message"></TextInput>
                         <br/>
                     </>
                 )}
@@ -283,12 +287,21 @@ async function GeneratePreview() {
 }
 
 function generateFileNamePreview(message) {
-    const words = message.split(" ");
+    let words;
+
+    if(isUserCustomCapable && customMessage.length)
+    {
+        words = customMessage.split(" ");
+    }
+    else
+    {
+        words = message.split(" ");
+    }
     let preview;
     if (words.length >= 6) {
         preview = words.slice(0, 6).join(" ");
     } else {
-        preview = words.slice(0, words.length).join(" ");
+        preview = words.join(" ");
     }
     return preview;
 }
