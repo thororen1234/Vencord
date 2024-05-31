@@ -1,23 +1,18 @@
- 
 /*
  * Vencord, a Discord client mod
  * Copyright (c) 2024 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { Devs } from "@utils/constants";
-import definePlugin from "@utils/types";
-import { Modals } from "@utils/modal";
-import ErrorBoundary from "@components/ErrorBoundary";
 import { addChatBarButton } from "@api/ChatButtons";
 import { ChatBarButton } from "@api/ChatButtons";
-import { getCurrentChannel, insertTextIntoChatInputBox } from "@utils/discord";
-import { chooseFile } from "@utils/web";
-import { PluginNative } from "@utils/types";
+import { Devs } from "@utils/constants";
+import { getCurrentChannel } from "@utils/discord";
 import { sendMessage } from "@utils/discord";
+import definePlugin from "@utils/types";
 
 async function handleButtonClick()
-{                
+{
     sendMessage(getCurrentChannel().id, { content: "meow" });
 }
 
