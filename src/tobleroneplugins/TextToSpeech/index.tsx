@@ -11,7 +11,7 @@ const settings = definePluginSettings({
         type: OptionType.STRING,
         description: "Your OpenAI API Key",
         default: "",
-        restartNeeded: false
+        restartNeeded: true
     }
 });
 
