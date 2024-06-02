@@ -337,9 +337,9 @@ function getCSS(fontName)
             --bgcol: #${Settings.plugins.Glide.Primary};
             --text: #${Settings.plugins.Glide.Text};
             --brand: #${Settings.plugins.Glide.Brand};
-            --mutedtext: ${mute(Settings.plugins.Glide.Text, 30)};
-            --mutedbrand: ${mute(Settings.plugins.Glide.Brand, 30)};
-            --mutedaccent: ${mute(Settings.plugins.Glide.Accent, 3)};
+            --mutedtext: ${mute(Settings.plugins.Glide.Text, 10)};
+            --mutedbrand: ${mute(Settings.plugins.Glide.Brand, 10)};
+            --mutedaccent: ${mute(Settings.plugins.Glide.Accent, 10)};
         }
 :root
 {
@@ -365,6 +365,7 @@ function getCSS(fontName)
             /*also buttons*/
             --brand-experiment: var(--brand);
             --brand-experiment-560: var(--brand);
+            --brand-500: var(--brand);
             
             /*message bar*/
             --channeltextarea-background: var(--accent);
@@ -389,7 +390,7 @@ function getCSS(fontName)
             --profile-body-background-color: var(--accent);
 
             /*the weird hover thing idk*/
-            --background-modifier-hover: var(--accent);
+            --background-modifier-hover: var(--mutedaccent) !important;
 
 
         /*background based*/
@@ -511,7 +512,7 @@ function getCSS(fontName)
                 {
                     background-color: var(--bgcol) !important;
                 }
-                .userPanelOverlayBackground__41589, .badgeList__76720
+                .userPanelOverlayBackground_a2b6ae, .badgeList__76720
                 {
                     background-color: var(--accent) !important;
                     border-radius: 15px !important;
@@ -669,12 +670,12 @@ function getCSS(fontName)
                   border-radius: 20px;
                 }
                 /*round the user popout*/
-                .userPopoutOuter__3884e
+                .userPopoutOuter_d67f56
                 {
                   border-radius: 25px;
                 }                       
                 /*round the inner profile popout*/
-                [class="userPopoutInner_e90432 userProfileInner__61cc1 userProfileInnerThemedWithBanner__2152d"]::before
+                [class="userPopoutInner_ac0960 userProfileInner__8ff35 userProfileInnerThemedWithBanner_e9e7c5"]::before
                 {
                 border-radius: 20px;
                 }
@@ -717,11 +718,11 @@ function getCSS(fontName)
                 /*pfp uploader crosshair*/
                 .overlayAvatar__5b2a6
                 {
-                background-image: url(https://raw.githubusercontent.com/cheesesamwich/Glide/main/crosshair.png);
-                background-repeat: no-repeat;
-                background-position-x: 50%;
-                background-position-y: 50%;
-                border-width: 2px;
+                    background-image: url(https://raw.githubusercontent.com/cheesesamwich/Tobleronecord/main/src/tobleroneplugins/Glide/crosshair.png);
+                    background-repeat: no-repeat;
+                    background-position-x: 50%;
+                    background-position-y: 50%;
+                    border-width: 2px;
                 }
 
                 /*change highlighted text color*/
@@ -729,15 +730,24 @@ function getCSS(fontName)
                 {
                     color: inherit;
                     background-color: transparent;
-                    text-shadow: 0px 0px 3px var(--highlightcol);
+                    text-shadow: 0px 0px 2px var(--highlightcol);
                 }
                 /*hide the line between connections and note*/
                 [class="connectedAccounts__7a8e6 userInfoSection_e816c1"]
                 {
                     border-top: transparent !important;
                 }
+                .container__2ed72:not(.checked__36fdc)
+                {
+                    background-color: var(--mutedbrand) !important;
+                }
+                .checked__36fdc
+                {
+                    background-color: var(--brand) !important;
+                }
 `;
 }
+
 export default definePlugin({
     name: "Glide",
     description: "A sleek, rounded theme for discord.",

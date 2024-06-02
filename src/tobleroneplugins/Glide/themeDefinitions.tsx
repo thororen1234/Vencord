@@ -153,5 +153,12 @@ export const themes : ThemePreset[] = [
         textcol: "c6d0f5",
         brand: "414559",
         name: "Catppuccin Frappé"
-    }
+    },
+    {
+        bgcol: "6b422e",
+        accentcol: "754b36",
+        textcol: "ead9c9",
+        brand: "8b5032",
+        name: "Relax"
+    }  
 ];
