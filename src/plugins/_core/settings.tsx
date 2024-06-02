@@ -105,12 +105,12 @@ export default definePlugin({
         return [
             {
                 section: SectionTypes.HEADER,
-                label: "Vencord",
+                label: "Toblerone",
                 className: "vc-settings-header"
             },
             {
                 section: "VencordSettings",
-                label: "Vencord",
+                label: "Settings",
                 element: VencordTab,
                 className: "vc-settings"
             },

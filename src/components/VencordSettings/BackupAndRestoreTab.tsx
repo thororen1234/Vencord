@@ -39,11 +39,16 @@ function BackupRestoreTab() {
                 or recover your settings after reinstalling Vencord or Discord.
             </Text>
             <Text variant="text-md/normal" className={Margins.bottom8}>
-                Settings Export contains:
+                Your settings export will contain:
                 <ul>
                     <li>&mdash; Custom QuickCSS</li>
                     <li>&mdash; Theme Links</li>
                     <li>&mdash; Plugin Settings</li>
+                    <li>&mdash; Stock Tobleronecord Configuration</li>
+                </ul>
+                Your settings export will <b>not</b> contain:
+                <ul>
+                    <li>&mdash; Information stored using the datastore api</li>
                 </ul>
             </Text>
             <Flex>
