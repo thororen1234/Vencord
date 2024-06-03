@@ -3,7 +3,7 @@ import { Devs } from "@utils/constants";
 import { getCurrentChannel } from "@utils/discord";
 import definePlugin, { OptionType, PluginDef } from "@utils/types";
 import OpenAI from "openai";
-
+import { Message } from "discord-types/general";
 let openai;
 
 const settings = definePluginSettings({
@@ -12,19 +12,27 @@ const settings = definePluginSettings({
         description: "Your OpenAI API Key",
         default: "",
         restartNeeded: true
+    },
+    voiceToUse: 
+    {
+        type: OptionType.SELECT,
+        description: "The text to speech voice to use",
+        options: [
+            { value: "alloy", label: "Alloy" },
+            { value: "echo", label: "Echo" },
+            { value: "fable", label: "Fable" },
+            { value: "onyx", label: "Onyx" },
+            { value: "nova", label: "Nova", default: true },
+            { value: "shimmer", label: "Shimmer" }
+        ]
     }
 });
 
 async function readOutText(text) {
 
-    const voices = ["alloy", "echo", "fable", "onyx", "nova", "shimmer"];
-
-    const randomVoiceIndex = Math.floor(Math.random() * voices.length);
-    const randomVoice = voices[randomVoiceIndex];
-
     const mp3Response = await openai.audio.speech.create({
         model: "tts-1",
-        voice: randomVoice,
+        voice: settings.store.voiceToUse,
         input: text,
     });
 
@@ -56,8 +64,7 @@ export default definePlugin({
             if (message.state === "SENDING") return;
             if (!message.content) return;
             if(message.channel_id !== getCurrentChannel().id) return;
-
-            console.log("running;");
+            
             readOutText(message.content);
         }
     },
