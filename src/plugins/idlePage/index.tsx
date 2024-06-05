@@ -18,25 +18,51 @@
 
 import "./style.css";
 
+import { definePluginSettings } from "@api/Settings";
 import { LazyComponent } from "@utils/lazyReact";
 import { Modals, openModalLazy } from "@utils/modal";
-import definePlugin from "@utils/types";
+import definePlugin, { OptionType } from "@utils/types";
+import { wreq } from "@webpack";
 export const ModalRootdiv = LazyComponent(() => Modals.ModalRoot);
+export const settings = definePluginSettings({
+    BackgroundColor: {
+        type: OptionType.STRING,
+        description: "Hex code of the backgorund. needs #",
+        default: "#1a1b26"
+    },
+    onHomeClick: {
+        type: OptionType.BOOLEAN,
+        description: "run when the home button is click while already on the homepage",
+        restartNeeded: true,
+        default: true
+    }
+}
+);
+let c = 0;
 function openThing() {
     openModalLazy(async() => {
-        return m => (
-            <div className="custom-idle-div-page">
+        return ()=> (
+            <div className="custom-idle-div-page" style={{
+                backgroundColor: settings.store.BackgroundColor
+            }}>
                 <h1>You are now idle</h1>
             </div>
         );
     });
 }
 export default definePlugin({
+    settings,
+    // flux: {
+    //     AFK
+    // },
     name: "_IdlePage",
     description: "Shows a blank page when you go idle",
     patches: [
         {
             find: ".Messages.DISCODO_DISABLED",
+            predicate() {
+                return settings.store.onHomeClick;
+            },
             replacement: {
                 match: /onClick:\(\)=>{/,
                 replace: "$&$self.startIdle();"
@@ -50,15 +76,26 @@ export default definePlugin({
             id: 521819891141967883n
         }
     ],
+    start(){
+        if (settings.store.onHomeClick)
+            this.interval = setInterval(() => c = 0, 1000);
+    },
+    stop() {
+        if (settings.store.onHomeClick)
+            clearInterval(this.interval);
+    },
     startIdle(){
-        console.log("clicked");
+        c++;
+        if(c === 3){
+            c = 0;
+            openThing();
+        }
     },
     commands: [
         {
             name:"test",
             description:"test command",
             execute(){
-                console.log("OPENING");
                 openThing();
             }
         }
