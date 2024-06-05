@@ -12,9 +12,7 @@ function getMessage(opts)
 {
     const inputOption = findOption(opts, "input", "");
 
-    const chosenEngine = searchEngines[settings.store.defaultEngine];
-
-    const queryURL = "" + chosenEngine + encodeURIComponent(inputOption);
+    const queryURL = "" + searchEngines[settings.store.defaultEngine]+ encodeURIComponent(inputOption);
 
     if(settings.store.hyperlink)
     {
@@ -34,7 +32,8 @@ const searchEngines = {
     "baidu": "https://www.baidu.com/s?wd=",
     "yandex": "https://yandex.com/search/?text=",
     "ecosia": "https://www.ecosia.org/search?q=",
-    "ask": "https://www.ask.com/web?q="
+    "ask": "https://www.ask.com/web?q=",
+    "letmegooglethatforyou": "https://letmegooglethat.com/?q="
 };
 
 const settings = definePluginSettings({
@@ -46,7 +45,7 @@ const settings = definePluginSettings({
     defaultEngine:
     {
         type: OptionType.SELECT,
-        description: "The default search engine to use when no parameter is provided",
+        description: "The search engine to use",
         options: Object.keys(searchEngines).map((key, index) => ({
             label: key.charAt(0).toUpperCase() + key.slice(1),
             value: key,
@@ -59,12 +58,13 @@ export default definePlugin({
     name: "GoogleThat",
     description: "Adds a command to send a google search link to a query",
     authors: [Devs.Samwich],
+    tags: ["search", "google", "query", "duckduckgo", "command"],
     dependencies: ["CommandsAPI"],
     settings,
     commands: [
         {
             name: "googlethat",
-            description: "send a google search link to a query",
+            description: "send a search engine link to a query",
             options: [
                 {
                     name: "input",
