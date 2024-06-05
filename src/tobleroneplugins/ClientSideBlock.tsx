@@ -14,7 +14,7 @@ const settings = definePluginSettings(
     },
     hideBlockedUsers: {
         type: OptionType.BOOLEAN,
-        description: "If blocked users should also be fully hidden",
+        description: "If blocked users should also be hidden everywhere",
         default: true,
         restartNeeded: true
     },
@@ -62,7 +62,7 @@ export default definePlugin({
     shouldShowUser: shouldShowUser,
     hiddenReplyComponent: hiddenReplyComponent,
     patches: [
-        // messages
+        //message
         {
             find: ".messageListItem",
             replacement: {
@@ -86,34 +86,44 @@ export default definePlugin({
                 replace: "$&if($self.shouldShowUser(this.props.user.id)) return null; "
             }
         },
-        //replies
+        //"message from blocked user"
         {
             find: ".MessageFlags.IS_VOICE_MESSAGE)",
             replacement: {
                 match: /new Date\(\i\):null;/,
-                replace: "$&if($self.shouldShowUser(this.props.user.id)) return null; "
-            }
+                replace: 
+                `
+                    $&if($self.shouldShowUser(this.props.user.id)) return null;
+                `
+            },
+            predicate: () => settings.store.hideBlockedMessages
         },
-        //Hide blocked messages
+        //replies
         {
             find: ".MessageTypes.GUILD_APPLICATION_PREMIUM_SUBSCRIPTION||",
             replacement: [
                 {
                     match: /let \i;let\{repliedAuthor:/,
-                    replace: "if($self.shouldShowUser(arguments[0].referencedMessage.message.author.id)){return $self.hiddenReplyComponent();} $&"
+                    replace: `
+                        if(arguments[0] != null && arguments[0].referencedMessage.message != null)
+                        {
+                            if($self.shouldShowUser(arguments[0].referencedMessage.message.author.id))
+                            {
+                                return $self.hiddenReplyComponent();
+                            }
+                        }$&
+                    `
                 }
             ]
         },
-        //got to work on this, arguments[0] returns a module instead of the actual arguments. i may be stupid ;-;
-        /*
+        //dm list
         {
             find: "PrivateChannel.renderAvatar",
-            replacement: 
-            {
-                match: /,\[\i,\i,\i\]\);/,
-                replace: "$&if($self.shouldShowUser(arguments[0].channel.rawRecipients[0].id)) return null;"
+            replacement: {
+                //horror but it works
+                match: /function\(\i,(\i),\i\){.*,\[\i,\i,\i\]\);/,
+                replace: "$&if($self.shouldShowUser($1.rawRecipients[0].id)) return null;"
             }
         }
-        */
     ]
 });
