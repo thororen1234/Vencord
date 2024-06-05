@@ -52,7 +52,7 @@ function hiddenReplyComponent()
 
 export default definePlugin({
     name: "ClientSideBlock",
-    description: "Allows you to locally hide almost all content from any user (messages (including repies), friends list objects, dm buttons, member list objects)",
+    description: "Allows you to locally hide almost all content from any user",
     tags: ["blocked", "block", "hide", "hidden", "noblockedmessages"],
     authors:
     [
