@@ -25,6 +25,7 @@ import { getCloudAuth, getCloudUrl } from "./cloud";
 import { Logger } from "./Logger";
 import { relaunch } from "./native";
 import { chooseFile, saveFile } from "./web";
+import { DataStore } from "@api/index";
 
 export async function importSettings(data: string) {
     try {
@@ -38,6 +39,7 @@ export async function importSettings(data: string) {
         Object.assign(PlainSettings, parsed.settings);
         await VencordNative.settings.set(parsed.settings);
         await VencordNative.quickCss.set(parsed.quickCss);
+        await DataStore.setMany(parsed.dataStore);
     } else
         throw new Error("Invalid Settings. Is this even a Vencord Settings file?");
 }
@@ -45,7 +47,9 @@ export async function importSettings(data: string) {
 export async function exportSettings({ minify }: { minify?: boolean; } = {}) {
     const settings = VencordNative.settings.get();
     const quickCss = await VencordNative.quickCss.get();
-    return JSON.stringify({ settings, quickCss }, null, minify ? undefined : 4);
+    const dataStore = await DataStore.entries();
+
+    return JSON.stringify({ settings, quickCss, dataStore }, null, minify ? undefined : 4);
 }
 
 export async function downloadSettingsBackup() {
