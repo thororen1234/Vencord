@@ -2,6 +2,7 @@ import { definePluginSettings } from "@api/Settings";
 import { Devs } from "@utils/constants";
 import definePlugin, { OptionType } from "@utils/types";
 import { RelationshipStore } from "@webpack/common";
+import { Text } from "@webpack/common";
 
 const settings = definePluginSettings(
 {
@@ -33,13 +34,25 @@ function shouldShowUser(id)
     {
         return true;
     }
+    //failsafe that is needed for some reason
+    if(settings.store.usersToBlock.length == 0)
+    {
+        return false;
+    }
     //hide the user if the id is in the users to block setting
     return settings.store.usersToBlock.split(", ").includes(id);
 }
 
+function hiddenReplyComponent()
+{
+    return(
+        <Text tag="p" selectable={false} variant="text-sm/normal"><i>↓ Replying to blocked message</i></Text>
+    )
+}
+
 export default definePlugin({
     name: "ClientSideBlock",
-    description: "Allows you to locally hide most content related to a specific user (messages, friends list object, dms, member list). Also allows you to enable this capability for blocked users and/or hide their messages completely",
+    description: "Allows you to locally hide almost all content from any user (messages (including repies), friends list objects, dm buttons, member list objects)",
     tags: ["blocked", "block", "hide", "hidden", "noblockedmessages"],
     authors:
     [
@@ -47,6 +60,7 @@ export default definePlugin({
     ],
     settings,
     shouldShowUser: shouldShowUser,
+    hiddenReplyComponent: hiddenReplyComponent,
     patches: [
         // messages
         {
@@ -72,16 +86,23 @@ export default definePlugin({
                 replace: "$&if($self.shouldShowUser(this.props.user.id)) return null; "
             }
         },
+        //replies
+        {
+            find: ".MessageFlags.IS_VOICE_MESSAGE)",
+            replacement: {
+                match: /new Date\(\i\):null;/,
+                replace: "$&if($self.shouldShowUser(this.props.user.id)) return null; "
+            }
+        },
         //Hide blocked messages
         {
-            find: "default.Messages.BLOCKED_MESSAGES_HIDE",
+            find: ".MessageTypes.GUILD_APPLICATION_PREMIUM_SUBSCRIPTION||",
             replacement: [
                 {
-                    match: /memo\(function\(\i\){var \i;/,
-                    replace: "$& return null;"
+                    match: /let \i;let\{repliedAuthor:/,
+                    replace: "if($self.shouldShowUser(arguments[0].referencedMessage.message.author.id)){return $self.hiddenReplyComponent();} $&"
                 }
-            ],
-            predicate: () => settings.store.hideBlockedMessages
+            ]
         },
         //got to work on this, arguments[0] returns a module instead of the actual arguments. i may be stupid ;-;
         /*
