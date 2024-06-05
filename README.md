@@ -6,6 +6,7 @@ A vencord fork focused on quality of life features and more plugins
 
 -   More plugins than stock vencord
 -   Plugin favouriting
+-   Datastore values in data exports, no more js snippets to migrate your settings
 -   Various quality of life settings
   
 ## Installing / Uninstalling
