@@ -25,15 +25,15 @@ function getMessage(opts)
 }
 
 const searchEngines = {
-    "google": "https://www.google.com/search?q=",
-    "bing": "https://www.bing.com/search?q=",
-    "yahoo": "https://search.yahoo.com/search?p=",
-    "duckduckgo": "https://duckduckgo.com/?q=",
-    "baidu": "https://www.baidu.com/s?wd=",
-    "yandex": "https://yandex.com/search/?text=",
-    "ecosia": "https://www.ecosia.org/search?q=",
-    "ask": "https://www.ask.com/web?q=",
-    "letmegooglethatforyou": "https://letmegooglethat.com/?q="
+    "Google": "https://www.google.com/search?q=",
+    "Bing": "https://www.bing.com/search?q=",
+    "Yahoo": "https://search.yahoo.com/search?p=",
+    "DuckDuckGo": "https://duckduckgo.com/?q=",
+    "Baidu": "https://www.baidu.com/s?wd=",
+    "Yandex": "https://yandex.com/search/?text=",
+    "Ecosia": "https://www.ecosia.org/search?q=",
+    "Ask": "https://www.ask.com/web?q=",
+    "LetMeGoogleThatForYou": "https://letmegooglethat.com/?q="
 };
 
 const settings = definePluginSettings({
@@ -47,7 +47,7 @@ const settings = definePluginSettings({
         type: OptionType.SELECT,
         description: "The search engine to use",
         options: Object.keys(searchEngines).map((key, index) => ({
-            label: key.charAt(0).toUpperCase() + key.slice(1),
+            label: key,
             value: key,
             default: index == 0
         }))
