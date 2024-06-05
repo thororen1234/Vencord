@@ -26,6 +26,7 @@ import { Logger } from "./Logger";
 import { relaunch } from "./native";
 import { chooseFile, saveFile } from "./web";
 import { DataStore } from "@api/index";
+import { SettingsStore } from "@api/Settings";
 
 export async function importSettings(data: string) {
     try {
@@ -39,7 +40,10 @@ export async function importSettings(data: string) {
         Object.assign(PlainSettings, parsed.settings);
         await VencordNative.settings.set(parsed.settings);
         await VencordNative.quickCss.set(parsed.quickCss);
-        await DataStore.setMany(parsed.dataStore);
+        if(parsed.dataStore)
+        {
+            await DataStore.setMany(parsed.dataStore);
+        }
     } else
         throw new Error("Invalid Settings. Is this even a Vencord Settings file?");
 }
@@ -49,7 +53,14 @@ export async function exportSettings({ minify }: { minify?: boolean; } = {}) {
     const quickCss = await VencordNative.quickCss.get();
     const dataStore = await DataStore.entries();
 
-    return JSON.stringify({ settings, quickCss, dataStore }, null, minify ? undefined : 4);
+    if(SettingsStore.store.exportDatastore)
+    {
+        return JSON.stringify({ settings, quickCss, dataStore }, null, minify ? undefined : 4);
+    }
+    else
+    {
+        return JSON.stringify({ settings, quickCss }, null, minify ? undefined : 4);
+    }
 }
 
 export async function downloadSettingsBackup() {

@@ -82,6 +82,11 @@ function VencordSettings() {
                 title: "New Plugin Badge",
                 note: "Show the \"NEW\" badge on plugins"
             },
+            {
+                key: "exportDatastore",
+                title: "Export Datastore In Backup",
+                note: "If JSON Settings backups should contain datastore data"
+            },
         ];
 
     return (
