@@ -23,6 +23,12 @@ const settings = definePluginSettings(
         description: "If messages from blocked users should be hidden fully (same as the old noblockedmessages plugin)",
         default: true,
         restartNeeded: true
+    },
+    blockedReplyDisplay: {
+        type: OptionType.SELECT,
+        description: "What should display instead of the message when someone replies to someone you have hidden",
+        restartNeeded: true,
+        options: [{value: "displayText", label: "Display text saying a hidden message was replied to", default: true},{value: "hideReply", label: "Literally nothing"}]
     }
 });
 
@@ -45,9 +51,13 @@ function shouldShowUser(id)
 
 function hiddenReplyComponent()
 {
-    return(
-        <Text tag="p" selectable={false} variant="text-sm/normal"><i>↓ Replying to blocked message</i></Text>
-    )
+    switch(settings.store.blockedReplyDisplay)
+    {
+        case "displayText":
+            return <Text tag="p" selectable={false} variant="text-sm/normal" style={{marginTop: "0px", marginBottom: "0px"}}><i>↓ Replying to blocked message</i></Text>
+        case "hideReply":
+            return null;
+    }
 }
 
 export default definePlugin({
@@ -86,15 +96,12 @@ export default definePlugin({
                 replace: "$&if($self.shouldShowUser(this.props.user.id)) return null; "
             }
         },
-        //"message from blocked user"
+        //"1 blocked message"
         {
-            find: ".MessageFlags.IS_VOICE_MESSAGE)",
+            find: ".default.Messages.BLOCKED_MESSAGES_HIDE.format(",
             replacement: {
-                match: /new Date\(\i\):null;/,
-                replace: 
-                `
-                    $&if($self.shouldShowUser(this.props.user.id)) return null;
-                `
+                match: /\i.memo\(function\(\i\){/,
+                replace: "$&return null;"
             },
             predicate: () => settings.store.hideBlockedMessages
         },
