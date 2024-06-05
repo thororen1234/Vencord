@@ -20,9 +20,9 @@ import "./style.css";
 
 import { definePluginSettings } from "@api/Settings";
 import { LazyComponent } from "@utils/lazyReact";
-import { Modals, openModalLazy } from "@utils/modal";
+import { closeModal, Modals, openModalLazy } from "@utils/modal";
 import definePlugin, { OptionType } from "@utils/types";
-import { wreq } from "@webpack";
+
 export const ModalRootdiv = LazyComponent(() => Modals.ModalRoot);
 export const settings = definePluginSettings({
     BackgroundColor: {
@@ -35,6 +35,16 @@ export const settings = definePluginSettings({
         description: "run when the home button is click while already on the homepage",
         restartNeeded: true,
         default: true
+    },
+    text: {
+        type: OptionType.STRING,
+        description: "string to display on the idle page",
+        default: ""
+    },
+    onIdle: {
+        type: OptionType.BOOLEAN,
+        description: "activate on idle",
+        default: false
     }
 }
 );
@@ -44,17 +54,26 @@ function openThing() {
         return ()=> (
             <div className="custom-idle-div-page" style={{
                 backgroundColor: settings.store.BackgroundColor
-            }}>
-                <h1>You are now idle</h1>
+            }}
+            onClick={()=>{
+                closeModal("idle-modal");
+            }}
+            >
+                <h1>{settings.store.text}</h1>
             </div>
         );
+    }, {
+        modalKey: "idle-modal"
     });
 }
 export default definePlugin({
     settings,
-    // flux: {
-    //     AFK
-    // },
+    flux: {
+        IDLE: () =>{
+            if (settings.store.onIdle)
+                openThing();
+        }
+    },
     name: "_IdlePage",
     description: "Shows a blank page when you go idle",
     patches: [
