@@ -58,7 +58,14 @@ function shouldShowUser(id)
 }
 
 //This is really horror
-function isRoleAllBlockedMembers(roleId, guildId) {
+function isRoleAllBlockedMembers(roleId, guildId) 
+{
+    
+    if(!settings.store.hideEmptyRoles)
+    {
+        return false;
+    }
+
     const role = GuildStore.getRole(guildId, roleId);
     if (!role) return false;
 
