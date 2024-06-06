@@ -705,7 +705,7 @@ export const SuncordDevs = /* #__PURE__*/ Object.freeze({
     KrystalSkull: {
         name: "krystalskullofficial",
         id: 929208515883569182n
-    }
+    },
     nekohaxx: {
         name: "nekohaxx",
         id: 1176270221628153886n
