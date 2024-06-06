@@ -442,6 +442,14 @@ export const Devs = /* #__PURE__*/ Object.freeze({
         name: "Elvyra",
         id: 708275751816003615n,
     },
+    HappyEnderman: {
+        name: "Happy enderman",
+        id: 1083437693347827764n
+    },
+    Vishnya: {
+        name: "Vishnya",
+        id: 282541644484575233n
+    },
     Inbestigator: {
         name: "Inbestigator",
         id: 761777382041714690n
@@ -697,6 +705,10 @@ export const SuncordDevs = /* #__PURE__*/ Object.freeze({
     KrystalSkull: {
         name: "krystalskullofficial",
         id: 929208515883569182n
+    }
+    nekohaxx: {
+        name: "nekohaxx",
+        id: 1176270221628153886n
     }
 } satisfies Record<string, Dev>);
 

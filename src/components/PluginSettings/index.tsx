@@ -300,8 +300,9 @@ export default function PluginSettings() {
         if (sortedPlugins?.length) {
             plugins = [];
             requiredPlugins = [];
-            for (const p of sortedPlugins) {
-                if (!p.options && p.name.endsWith("API") && searchValue.value !== "API")
+            const showApi = searchValue.value === "API";
+        for (const p of sortedPlugins) {
+                if (p.hidden || (!p.options && p.name.endsWith("API") && !showApi))
                     continue;
 
                 if (!pluginFilter(p, props.favourited)) continue;
