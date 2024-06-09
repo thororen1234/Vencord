@@ -11,9 +11,21 @@ import { FluxDispatcher } from "@webpack/common";
 import { UserStore } from "@webpack/common";
 import { Message } from "discord-types/general";
 import { getApplicationAsset } from "plugins/customRPC";
+import { definePluginSettings } from "@api/Settings";
+import { OptionType } from "@utils/types";
+
+const settings = definePluginSettings(
+{
+    assetURL: {
+        type: OptionType.STRING,
+        description: "The image to use for your rpc. Your profile picture if left blank",
+        default: "",
+        restartNeeded: false,
+        onChange: () => { updateData(); }
+    },
+});
 
 async function setRpc(disable?: boolean, details?: string) {
-
     const activity = {
         "application_id": "0",
         "name": "Today's Stats",
@@ -21,7 +33,7 @@ async function setRpc(disable?: boolean, details?: string) {
         "type": 0,
         "flags": 1,
         "assets": {
-            "large_image": await getApplicationAsset(UserStore.getCurrentUser().getAvatarURL())
+            "large_image": await getApplicationAsset(settings.store.assetURL.length ? settings.store.assetURL : UserStore.getCurrentUser().getAvatarURL())
         }
     };
     FluxDispatcher.dispatch({
@@ -31,7 +43,6 @@ async function setRpc(disable?: boolean, details?: string) {
     });
 }
 
-
 function getCurrentDate(): string {
     const today = new Date();
     const year = today.getFullYear();
@@ -39,20 +50,6 @@ function getCurrentDate(): string {
     const day = String(today.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}`;
 }
-
-function getCurrentTime(): string {
-    const today = new Date();
-    let hour = today.getHours();
-    const minute = today.getMinutes();
-    const ampm = hour >= 12 ? "PM" : "AM";
-    hour = hour % 12 || 12;
-
-    const formattedHour = String(hour).padStart(2, "0");
-    const formattedMinute = String(minute).padStart(2, "0");
-
-    return `${formattedHour}:${formattedMinute} ${ampm}`;
-}
-
 
 interface IMessageCreate {
     type: "MESSAGE_CREATE";
@@ -75,7 +72,7 @@ async function updateData()
         await DataStore.set("RPCStatsMessages", 0);
         messagesSent = 0;
     }
-    setRpc(false, `Messages sent: ${messagesSent}`);
+    setRpc(false, `Messages sent: ${messagesSent}\n`);
 }
 
 export default definePlugin({
@@ -86,6 +83,7 @@ export default definePlugin({
     {
         updateData();
     },
+    settings,
     stop()
     {
         setRpc(true);
@@ -112,4 +110,4 @@ function checkForNewDay(): void {
     }
 }
 
-setInterval(checkForNewDay, 1000 * 60);
+setInterval(checkForNewDay, 1000);

@@ -1,24 +1,29 @@
- 
+/*
+ * Vencord, a Discord client mod
+ * Copyright (c) 2024 Vendicated and contributors
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
+import { definePluginSettings } from "@api/Settings";
 import { Devs } from "@utils/constants";
 import definePlugin from "@utils/types";
-import { definePluginSettings } from "@api/Settings";
 import { OptionType } from "@utils/types";
 
 const settings = definePluginSettings(
-{
-    targetLanguage: {
-        type: OptionType.STRING,
-        description: "The language messages should be translated to",
-        default: "en",
-        restartNeeded: true
-    },
-    confidenceRequirement: {
-        type: OptionType.NUMBER,
-        description: "The confidence required to translated the message. Best not to edit unless you know what you're doing",
-        default: 0.8,
-        restartNeeded: true
-    },
-});
+    {
+        targetLanguage: {
+            type: OptionType.STRING,
+            description: "The language messages should be translated to",
+            default: "en",
+            restartNeeded: true
+        },
+        confidenceRequirement: {
+            type: OptionType.NUMBER,
+            description: "The confidence required to translated the message. Best not to edit unless you know what you're doing",
+            default: 0.8,
+            restartNeeded: true
+        },
+    });
 
 async function translateAPI(sourceLang: string, targetLang: string, text: string): Promise<any> {
 
@@ -33,12 +38,12 @@ async function translateAPI(sourceLang: string, targetLang: string, text: string
 
 async function TranslateMessage(string)
 {
-    //there may be a better way to do this lmao
+    // there may be a better way to do this lmao
     if(string.includes("(Translated)")) return string;
 
-    let response = await translateAPI("auto", settings.store.targetLanguage, string);
+    const response = await translateAPI("auto", settings.store.targetLanguage, string);
 
-    if(response.src == settings.store.targetLanguage || response.confidence < settings.store.confidenceRequirement) return string;;
+    if(response.src == settings.store.targetLanguage || response.confidence < settings.store.confidenceRequirement) return string;
 
     const { sentences }: { sentences: { trans?: string }[] } = await response;
     const translatedText = sentences.map(s => s?.trans).filter(Boolean).join("");

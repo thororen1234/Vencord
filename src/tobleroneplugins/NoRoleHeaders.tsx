@@ -1,10 +1,11 @@
- 
-import { definePluginSettings } from "@api/Settings";
+/*
+ * Vencord, a Discord client mod
+ * Copyright (c) 2024 Vendicated and contributors
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
 import { Devs } from "@utils/constants";
-import definePlugin, { OptionType } from "@utils/types";
-import { RelationshipStore } from "@webpack/common";
-import { Text } from "@webpack/common";
-import { GuildStore, GuildMemberStore } from "@webpack/common";
+import definePlugin from "@utils/types";
 
 export default definePlugin({
     name: "NoRoleHeaders",
@@ -20,6 +21,6 @@ export default definePlugin({
                 match: /\i.memo\(function\(\i\){/,
                 replace: "$&return null;"
             }
-        } 
+        }
     ]
 });

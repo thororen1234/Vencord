@@ -15,18 +15,18 @@ const presendObject : SendListener = (channelId, msg) =>
 };
 
 const settings = definePluginSettings(
-{
-    blockedWords: {
-        type: OptionType.STRING,
-        description: "Words that will not be capitalised",
-        default: ""
-    },
-    correctWords: {
-        type: OptionType.BOOLEAN,
-        description: "If some shorthands should be corrected to their better forms- eg: \"ur\" to \"you're\"",
-        default: true
-    }
-});
+    {
+        blockedWords: {
+            type: OptionType.STRING,
+            description: "Words that will not be capitalised",
+            default: ""
+        },
+        correctWords: {
+            type: OptionType.BOOLEAN,
+            description: "If some shorthands should be corrected to their better forms- eg: \"ur\" to \"you're\"",
+            default: true
+        }
+    });
 
 export default definePlugin({
     name: "Grammar",

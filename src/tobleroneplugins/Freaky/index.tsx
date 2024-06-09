@@ -1,27 +1,30 @@
+/*
+ * Vencord, a Discord client mod
+ * Copyright (c) 2024 Vendicated and contributors
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
 import { addChatBarButton, removeChatBarButton } from "@api/ChatButtons";
 import { ChatBarButton } from "@api/ChatButtons";
-import { definePluginSettings } from "@api/Settings";
-import { Devs } from "@utils/constants";
-import { getCurrentChannel } from "@utils/discord";
-import { sendMessage } from "@utils/discord";
-import definePlugin, { OptionType } from "@utils/types";
-import { useState } from "@webpack/common";
 import { addPreSendListener, removePreSendListener, SendListener } from "@api/MessageEvents";
+import { Devs } from "@utils/constants";
+import definePlugin from "@utils/types";
+import { useState } from "@webpack/common";
 
 function textProcessing(text : string)
 {
     const freakyChars = {
-        'A': '𝓐', 'B': '𝓑', 'C': '𝓒', 'D': '𝓓', 'E': '𝓔', 'F': '𝓕', 'G': '𝓖',
-        'H': '𝓗', 'I': '𝓘', 'J': '𝓙', 'K': '𝓚', 'L': '𝓛', 'M': '𝓜', 'N': '𝓝',
-        'O': '𝓞', 'P': '𝓟', 'Q': '𝓠', 'R': '𝓡', 'S': '𝓢', 'T': '𝓣', 'U': '𝓤',
-        'V': '𝓥', 'W': '𝓦', 'X': '𝓧', 'Y': '𝓨', 'Z': '𝓩',
-        'a': '𝓪', 'b': '𝓫', 'c': '𝓬', 'd': '𝓭', 'e': '𝓮', 'f': '𝓯', 'g': '𝓰',
-        'h': '𝓱', 'i': '𝓲', 'j': '𝓳', 'k': '𝓴', 'l': '𝓵', 'm': '𝓶', 'n': '𝓷',
-        'o': '𝓸', 'p': '𝓹', 'q': '𝓺', 'r': '𝓻', 's': '𝓼', 't': '𝓽', 'u': '𝓾',
-        'v': '𝓿', 'w': '𝔀', 'x': '𝔁', 'y': '𝔂', 'z': '𝔃'
+        "A": "𝓐", "B": "𝓑", "C": "𝓒", "D": "𝓓", "E": "𝓔", "F": "𝓕", "G": "𝓖",
+        "H": "𝓗", "I": "𝓘", "J": "𝓙", "K": "𝓚", "L": "𝓛", "M": "𝓜", "N": "𝓝",
+        "O": "𝓞", "P": "𝓟", "Q": "𝓠", "R": "𝓡", "S": "𝓢", "T": "𝓣", "U": "𝓤",
+        "V": "𝓥", "W": "𝓦", "X": "𝓧", "Y": "𝓨", "Z": "𝓩",
+        "a": "𝓪", "b": "𝓫", "c": "𝓬", "d": "𝓭", "e": "𝓮", "f": "𝓯", "g": "𝓰",
+        "h": "𝓱", "i": "𝓲", "j": "𝓳", "k": "𝓴", "l": "𝓵", "m": "𝓶", "n": "𝓷",
+        "o": "𝓸", "p": "𝓹", "q": "𝓺", "r": "𝓻", "s": "𝓼", "t": "𝓽", "u": "𝓾",
+        "v": "𝓿", "w": "𝔀", "x": "𝔁", "y": "𝔂", "z": "𝔃"
     };
 
-    return text.split('').map(char => freakyChars[char] || char).join('');
+    return text.split("").map(char => freakyChars[char] || char).join("");
 }
 
 const presendObject : SendListener = (channelId, msg) =>
@@ -34,7 +37,7 @@ const ChatBarIcon: ChatBarButton = () => {
     const [freakyDisabled, setFreakyDisabled] = useState(true);
 
     return (
-        <ChatBarButton tooltip="Freaky" onClick={() => 
+        <ChatBarButton tooltip="Freaky" onClick={() =>
         {
             setFreakyDisabled(!freakyDisabled);
             if(freakyDisabled)
@@ -43,7 +46,7 @@ const ChatBarIcon: ChatBarButton = () => {
             }
             else
             {
-                removePreSendListener(presendObject);    
+                removePreSendListener(presendObject);
             }
         }}>
             <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 512 512">

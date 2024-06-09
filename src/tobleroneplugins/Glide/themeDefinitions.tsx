@@ -160,5 +160,5 @@ export const themes : ThemePreset[] = [
         textcol: "ead9c9",
         brand: "8b5032",
         name: "Relax"
-    }  
+    }
 ];

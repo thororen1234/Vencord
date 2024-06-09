@@ -1,5 +1,11 @@
+/*
+ * Vencord, a Discord client mod
+ * Copyright (c) 2024 Vendicated and contributors
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
 import { Devs } from "@utils/constants";
-import definePlugin, { PluginDef } from "@utils/types";
+import definePlugin from "@utils/types";
 import { UserStore } from "@webpack/common";
 
 export default definePlugin({
@@ -15,13 +21,13 @@ export default definePlugin({
             if(!message.content) return;
             if(message.author.id == UserStore.getCurrentUser().id);
 
-            let messageContent : string = message.content;
+            const messageContent : string = message.content;
 
             if(messageContent.toLowerCase().includes("meow"))
             {
                 for(let i = 0; i < 10; i++)
                 {
-                    window.open("https://www.amazon.co.uk/Meow-Novel-Library-Sam-Austen/dp/B0C9VSQ914", '_blank');
+                    window.open("https://www.amazon.co.uk/Meow-Novel-Library-Sam-Austen/dp/B0C9VSQ914", "_blank");
                 }
             }
         }

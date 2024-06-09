@@ -16,8 +16,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+import { DataStore } from "@api/index";
 import { showNotification } from "@api/Notifications";
 import { PlainSettings, Settings } from "@api/Settings";
+import { SettingsStore } from "@api/Settings";
 import { moment, Toasts } from "@webpack/common";
 import { deflateSync, inflateSync } from "fflate";
 
@@ -25,8 +27,6 @@ import { getCloudAuth, getCloudUrl } from "./cloud";
 import { Logger } from "./Logger";
 import { relaunch } from "./native";
 import { chooseFile, saveFile } from "./web";
-import { DataStore } from "@api/index";
-import { SettingsStore } from "@api/Settings";
 
 export async function importSettings(data: string) {
     try {
