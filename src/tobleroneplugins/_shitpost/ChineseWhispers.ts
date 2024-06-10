@@ -5,7 +5,7 @@
  */
 
 import { addPreSendListener, removePreSendListener,SendListener, } from "@api/MessageEvents";
-import { definePluginSettings } from "@api/Settings";
+import { definePluginSettings, useSettings } from "@api/Settings";
 import { Devs } from "@utils/constants";
 import definePlugin, { OptionType } from "@utils/types";
 
@@ -192,5 +192,6 @@ export default definePlugin({
     {
         removePreSendListener(presendObject);
     },
-    settings
+    settings,
+    lowEffort: true
 });

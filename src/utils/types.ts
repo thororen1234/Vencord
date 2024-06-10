@@ -141,6 +141,8 @@ export interface PluginDef {
     toolboxActions?: Record<string, () => void>;
 
     tags?: string[];
+
+    lowEffort?: boolean;
 }
 
 export const enum StartAt {

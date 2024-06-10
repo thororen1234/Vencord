@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { definePluginSettings } from "@api/Settings";
+import { definePluginSettings, useSettings } from "@api/Settings";
 import { Devs } from "@utils/constants";
 import definePlugin, { OptionType } from "@utils/types";
 
@@ -18,7 +18,7 @@ const settings = definePluginSettings({
 
 export default definePlugin({
     name: "NewHere",
-    description: "Replaces the newleaf text with whatever you want",
+    description: "Replaces the new user text with whatever you want",
     settings,
     authors: [Devs.Samwich],
     patches: [
@@ -37,5 +37,5 @@ export default definePlugin({
             },
         }
     ],
-
+    lowEffort: true
 });

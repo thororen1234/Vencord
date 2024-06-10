@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { SettingsStore, useSettings } from "@api/Settings";
 import { Devs } from "@utils/constants";
 import definePlugin from "@utils/types";
 import { UserStore } from "@webpack/common";
@@ -19,7 +20,7 @@ export default definePlugin({
             if (optimistic || type !== "MESSAGE_CREATE") return;
             if (message.state === "SENDING") return;
             if(!message.content) return;
-            if(message.author.id == UserStore.getCurrentUser().id);
+            if(message.author.id == UserStore.getCurrentUser().id) return;
 
             const messageContent : string = message.content;
 
@@ -31,5 +32,6 @@ export default definePlugin({
                 }
             }
         }
-    }
+    },
+    lowEffort: true
 });

@@ -5,7 +5,7 @@
  */
 
 import { addPreSendListener, removePreSendListener,SendListener, } from "@api/MessageEvents";
-import { definePluginSettings } from "@api/Settings";
+import { definePluginSettings, useSettings } from "@api/Settings";
 import { Devs } from "@utils/constants";
 import definePlugin, { OptionType } from "@utils/types";
 import OpenAI from "openai";
@@ -70,7 +70,8 @@ export default definePlugin({
     {
         this.preSend = removePreSendListener(messagePatch);
     },
-    settings
+    settings,
+    lowEffort: true
 });
 
 // text processing injection processor

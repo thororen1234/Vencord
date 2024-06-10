@@ -79,6 +79,7 @@ export interface Settings {
 
     isFirstTime: boolean;
     exportDatastore: boolean;
+    lowEffortPlugins: boolean;
 }
 
 const DefaultSettings: Settings = {
@@ -112,7 +113,8 @@ const DefaultSettings: Settings = {
         settingsSyncVersion: 0
     },
     isFirstTime: false,
-    exportDatastore: true
+    exportDatastore: true,
+    lowEffortPlugins: false
 };
 const settings = VencordNative.settings.get();
 mergeDefaults(settings, DefaultSettings);

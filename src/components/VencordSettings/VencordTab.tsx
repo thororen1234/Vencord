@@ -87,6 +87,11 @@ function VencordSettings() {
                 title: "Export Datastore In Backup",
                 note: "If JSON Settings backups should contain datastore data"
             },
+            {
+                key: "lowEffortPlugins",
+                title: "Low Effort Plugins",
+                note: "Should low effort plugins be displayed in the list? These types of plugins usually have no practical use, and are just made for a laugh. If a low effort plugin is enabled while you have this setting disabled, the plugin will be displayed in the list until you disable the plugin."
+            },
         ];
 
     return (

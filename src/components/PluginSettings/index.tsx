@@ -246,12 +246,20 @@ export default function PluginSettings() {
         plugin.tags?.some(t => t.toLowerCase().includes(v));
         const favTrue = settings.plugins[plugin.name]?.favourited;
 
+        if(!settings.lowEffortPlugins)
+        {
+            if(plugin.lowEffort && !enabled)
+            {
+                return false;
+            }
+        }
+
         // return values
         const returnValueEnabled = enabled && matchesSearch;
         const returnValueDisabled = !enabled && matchesSearch;
         const returnValueNew = newPlugins?.includes(plugin.name) && matchesSearch;
         const returnValueAll = matchesSearch;
-
+        
         switch (searchValue.status) {
             case SearchStatus.ALL:
                 return favourite ? (returnValueAll && favTrue) : returnValueAll;
@@ -262,7 +270,6 @@ export default function PluginSettings() {
             case SearchStatus.NEW:
                 return favourite ? (returnValueNew && favTrue) : returnValueNew;
         }
-
     };
 
     const [newPlugins] = useAwaiter(() => DataStore.get("Vencord_existingPlugins").then((cachedPlugins: Record<string, number> | undefined) => {

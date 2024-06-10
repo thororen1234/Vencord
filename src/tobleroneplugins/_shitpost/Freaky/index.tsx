@@ -7,6 +7,7 @@
 import { addChatBarButton, removeChatBarButton } from "@api/ChatButtons";
 import { ChatBarButton } from "@api/ChatButtons";
 import { addPreSendListener, removePreSendListener, SendListener } from "@api/MessageEvents";
+import { useSettings } from "@api/Settings";
 import { Devs } from "@utils/constants";
 import definePlugin from "@utils/types";
 import { useState } from "@webpack/common";
@@ -70,5 +71,6 @@ export default definePlugin({
     {
         removeChatBarButton("vc-freaky");
         removePreSendListener(presendObject);
-    }
+    },
+    lowEffort: true
 });

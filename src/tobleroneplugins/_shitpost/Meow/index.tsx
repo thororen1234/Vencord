@@ -6,6 +6,7 @@
 
 import { addChatBarButton } from "@api/ChatButtons";
 import { ChatBarButton } from "@api/ChatButtons";
+import { useSettings } from "@api/Settings";
 import { Devs } from "@utils/constants";
 import { getCurrentChannel } from "@utils/discord";
 import { sendMessage } from "@utils/discord";
@@ -34,5 +35,6 @@ export default definePlugin({
     start()
     {
         addChatBarButton("vc-meow", ChatBarIcon);
-    }
+    },
+    lowEffort: true
 });

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { definePluginSettings } from "@api/Settings";
+import { definePluginSettings, useSettings } from "@api/Settings";
 import { Devs } from "@utils/constants";
 import definePlugin, { OptionType } from "@utils/types";
 import { Text } from "@webpack/common";
@@ -56,5 +56,6 @@ export default definePlugin({
                 replace: "$&return $self.newMessageComponent(arguments[0]);"
             }
         }
-    ]
+    ],
+    lowEffort: true
 });
