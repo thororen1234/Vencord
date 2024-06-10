@@ -5,25 +5,25 @@
  */
 
 import { DataStore } from "@api/index";
+import { definePluginSettings } from "@api/Settings";
 import { Devs } from "@utils/constants";
 import definePlugin from "@utils/types";
+import { OptionType } from "@utils/types";
 import { FluxDispatcher } from "@webpack/common";
 import { UserStore } from "@webpack/common";
 import { Message } from "discord-types/general";
 import { getApplicationAsset } from "plugins/customRPC";
-import { definePluginSettings } from "@api/Settings";
-import { OptionType } from "@utils/types";
 
 const settings = definePluginSettings(
-{
-    assetURL: {
-        type: OptionType.STRING,
-        description: "The image to use for your rpc. Your profile picture if left blank",
-        default: "",
-        restartNeeded: false,
-        onChange: () => { updateData(); }
-    },
-});
+    {
+        assetURL: {
+            type: OptionType.STRING,
+            description: "The image to use for your rpc. Your profile picture if left blank",
+            default: "",
+            restartNeeded: false,
+            onChange: () => { updateData(); }
+        },
+    });
 
 async function setRpc(disable?: boolean, details?: string) {
     const activity = {
