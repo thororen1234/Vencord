@@ -35,7 +35,7 @@ function generateSearchResults(query)
 
 export default definePlugin({
     name: "FrequentQuickSwitcher",
-    description: "Changes the quick switcher results to your most frequent channels",
+    description: "Rewrites and filters the quick switcher results to be your most frequent channels",
     authors:
     [
         Devs.Samwich
