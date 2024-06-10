@@ -92,6 +92,11 @@ function VencordSettings() {
                 title: "Low Effort Plugins",
                 note: "Should low effort plugins be displayed in the list? These types of plugins usually have no practical use, and are just made for a laugh. If a low effort plugin is enabled while you have this setting disabled, the plugin will be displayed in the list until you disable the plugin."
             },
+            {
+                key: "dynamicPluginModal",
+                title: "Dynamic Plugin Modal Size",
+                note: "If the size of the plugin info modal should change with it's content. This looks good most of the time, but can make some small plugins look weird"
+            },
         ];
 
     return (

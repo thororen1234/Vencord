@@ -180,42 +180,41 @@ export default function PluginModal({ plugin, onRestartNeeded, onClose, transiti
         );
     }
 
+    let settings = useSettings();
+
     return (
-        <ModalRoot transitionState={transitionState} size={ModalSize.MEDIUM} className="vc-text-selectable">
+        <ModalRoot transitionState={transitionState} size={settings.dynamicPluginModal ? ModalSize.DYNAMIC : ModalSize.MEDIUM} className="vc-text-selectable">
             <ModalHeader separator={false}>
-                <Text variant="heading-lg/semibold" style={{ flexGrow: 1 }}>{plugin.name}</Text>
-                <ModalCloseButton onClick={onClose} />
+                <Text variant="heading-lg/semibold">{plugin.name}</Text>
+                    <div style={{ width: "fit-content", marginLeft: "7.5px" }}>
+                            <UserSummaryItem
+                                users={authors}
+                                count={plugin.authors.length}
+                                guildId={undefined}
+                                renderIcon={false}
+                                max={6}
+                                showDefaultAvatarsForNullUsers
+                                showUserPopout
+                                renderMoreUsers={renderMoreUsers}
+                                renderUser={(user: User) => (
+                                    <Clickable
+                                        className={AvatarStyles.clickableAvatar}
+                                        onClick={() => openContributorModal(user)}
+                                    >
+                                        <img
+                                            className={AvatarStyles.avatar}
+                                            src={user.getAvatarURL(void 0, 80, true)}
+                                            alt={user.username}
+                                            title={user.username}
+                                        />
+                                    </Clickable>
+                                )}
+                            />
+                    </div>
             </ModalHeader>
             <ModalContent>
                 <Forms.FormSection>
-                    <Forms.FormTitle tag="h3">About {plugin.name}</Forms.FormTitle>
-                    <Forms.FormText>{plugin.description}</Forms.FormText>
-                    <Forms.FormTitle tag="h3" style={{ marginTop: 8, marginBottom: 0 }}>Authors</Forms.FormTitle>
-                    <div style={{ width: "fit-content", marginBottom: 8 }}>
-                        <UserSummaryItem
-                            users={authors}
-                            count={plugin.authors.length}
-                            guildId={undefined}
-                            renderIcon={false}
-                            max={6}
-                            showDefaultAvatarsForNullUsers
-                            showUserPopout
-                            renderMoreUsers={renderMoreUsers}
-                            renderUser={(user: User) => (
-                                <Clickable
-                                    className={AvatarStyles.clickableAvatar}
-                                    onClick={() => openContributorModal(user)}
-                                >
-                                    <img
-                                        className={AvatarStyles.avatar}
-                                        src={user.getAvatarURL(void 0, 80, true)}
-                                        alt={user.username}
-                                        title={user.username}
-                                    />
-                                </Clickable>
-                            )}
-                        />
-                    </div>
+                    <Forms.FormTitle tag="h3">{plugin.description}</Forms.FormTitle>
                 </Forms.FormSection>
                 {!!plugin.settingsAboutComponent && (
                     <div className={classes(Margins.bottom8, "vc-text-selectable")}>
