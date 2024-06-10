@@ -5,8 +5,6 @@ import { UserSettingsActionCreators } from "@webpack/common";
 
 function generateSearchResults(query)
 {
-    console.log(query);
-
     let frequentChannelsWithQuery = Object.entries(UserSettingsActionCreators.FrecencyUserSettingsActionCreators.getCurrentValue().guildAndChannelFrecency.guildAndChannels)
     .map(([key, value]) => key)
     .filter((id) => ChannelStore.getChannel(id) != null)
