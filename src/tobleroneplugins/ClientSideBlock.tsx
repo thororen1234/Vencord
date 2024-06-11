@@ -174,7 +174,15 @@ export default definePlugin({
             replacement: {
                 // horror but it works
                 match: /function\(\i,(\i),\i\){.*,\[\i,\i,\i\]\);/,
-                replace: "$&if($1.rawRecipients[0].id != null){if($self.shouldShowUser($1.rawRecipients[0].id)) return null;}"
+                replace: `
+                    $&
+                        if($1.rawRecipients[0] != null)
+                        {
+                            if($1.rawRecipients[0].id != null)
+                            {
+                                if($self.shouldShowUser($1.rawRecipients[0].id)) return null;
+                            }  
+                        }`
             }
         }
     ]
