@@ -8,7 +8,7 @@ import { disableStyle, enableStyle } from "@api/Styles";
 import { Devs } from "@utils/constants";
 import definePlugin from "@utils/types";
 
-import style from "./style.css";
+import style from "./style.css?managed";
 
 export default definePlugin({
     name: "BetterUserArea",
