@@ -18,9 +18,9 @@ const settings = definePluginSettings(
             restartNeeded: true
         },
         confidenceRequirement: {
-            type: OptionType.NUMBER,
+            type: OptionType.STRING,
             description: "The confidence required to translated the message. Best not to edit unless you know what you're doing",
-            default: 0.8,
+            default: "0.8",
             restartNeeded: true
         },
     });
