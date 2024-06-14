@@ -237,29 +237,21 @@ export default function PluginSettings() {
     const onSearch = (query: string) => setSearchValue(prev => ({ ...prev, value: query }));
     const onStatusChange = (status: SearchStatus) => setSearchValue(prev => ({ ...prev, status }));
 
-    const pluginFilter = (plugin: typeof Plugins[keyof typeof Plugins], favourite : boolean) => {
+    const pluginFilter = (plugin: typeof Plugins[keyof typeof Plugins], favourite: boolean) => {
         const enabled = settings.plugins[plugin.name]?.enabled;
         const v = searchValue.value.toLowerCase();
         const matchesSearch =
-        plugin.name.toLowerCase().includes(v) ||
-        plugin.description.toLowerCase().includes(v) ||
-        plugin.tags?.some(t => t.toLowerCase().includes(v));
+            plugin.name.toLowerCase().includes(v) ||
+            plugin.description.toLowerCase().includes(v) ||
+            plugin.tags?.some(t => t.toLowerCase().includes(v));
         const favTrue = settings.plugins[plugin.name]?.favourited;
-
-        if(!settings.lowEffortPlugins)
-        {
-            if(plugin.lowEffort && !enabled)
-            {
-                return false;
-            }
-        }
 
         // return values
         const returnValueEnabled = enabled && matchesSearch;
         const returnValueDisabled = !enabled && matchesSearch;
         const returnValueNew = newPlugins?.includes(plugin.name) && matchesSearch;
         const returnValueAll = matchesSearch;
-        
+
         switch (searchValue.status) {
             case SearchStatus.ALL:
                 return favourite ? (returnValueAll && favTrue) : returnValueAll;
@@ -289,12 +281,9 @@ export default function PluginSettings() {
         return lodash.isEqual(newPlugins, sortedPluginNames) ? [] : newPlugins;
     }));
 
-    function pluginFilterAll(plugins, favourite)
-    {
-        for (const plugin of plugins)
-        {
-            if(pluginFilter(plugin,favourite))
-            {
+    function pluginFilterAll(plugins, favourite) {
+        for (const plugin of plugins) {
+            if (pluginFilter(plugin, favourite)) {
                 return true;
             }
         }
@@ -334,7 +323,7 @@ export default function PluginSettings() {
                             )}
                         </Tooltip>
                     );
-                } else if (props.favourited && settings.plugins[p.name].favourited || !props.favourited && !settings.plugins[p.name].favourited){
+                } else if (props.favourited && settings.plugins[p.name].favourited || !props.favourited && !settings.plugins[p.name].favourited) {
                     plugins.push(
                         <PluginCard
                             onRestartNeeded={name => changes.handleChange(name)}
@@ -371,7 +360,7 @@ export default function PluginSettings() {
         { label: "Enabled", value: SearchStatus.ENABLED },
         { label: "Disabled", value: SearchStatus.DISABLED },
     ];
-    if(settings.newPlugins) { options.push({ label: "New", value: SearchStatus.NEW }); }
+    if (settings.newPlugins) { options.push({ label: "New", value: SearchStatus.NEW }); }
 
     return (
         <SettingsTab title="Plugins">

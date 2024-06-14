@@ -80,6 +80,17 @@ const settings = definePluginSettings(
     });
 
 async function setRpc(disable?: boolean, details?: string, imageURL?: string) {
+    if(!disable)
+    {
+        if(!settings.store.lastFMApiKey.length && settings.store.statDisplay == StatsDisplay.mostListenedAlbum)
+        {
+            FluxDispatcher.dispatch({
+                type: "LOCAL_ACTIVITY_UPDATE",
+                activity: null,
+                socketId: "RPCStats",
+            });
+        }
+    }
     const activity = {
         "application_id": "0",
         "name": settings.store.RPCTitle,
@@ -97,7 +108,7 @@ async function setRpc(disable?: boolean, details?: string, imageURL?: string) {
     FluxDispatcher.dispatch({
         type: "LOCAL_ACTIVITY_UPDATE",
         activity: !disable ? activity : null,
-        socketId: "CustomRPC",
+        socketId: "RPCStats",
     });
 }
 
@@ -167,7 +178,7 @@ async function updateData()
 
 export default definePlugin({
     name: "RPCStats",
-    description: "Displays stats about your activity as an rpc (i will add more last fm stuff soon i swear)",
+    description: "Displays stats about your activity as an rpc",
     authors: [Devs.Samwich],
     async start()
     {
