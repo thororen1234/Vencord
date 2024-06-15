@@ -11,7 +11,8 @@ import definePlugin from "@utils/types";
 import { OptionType } from "@utils/types";
 import { FluxDispatcher } from "@webpack/common";
 import { UserStore } from "@webpack/common";
-import { Message } from "discord-types/general";
+import { Message } from "discord-types/general"
+//you may have to export this from customrpc
 import { getApplicationAsset } from "plugins/customRPC";
 import { PluginNative } from "@utils/types";
 
