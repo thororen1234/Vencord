@@ -47,7 +47,30 @@ const ContributorBadge: ProfileBadge = {
 
 let DonorBadges = {} as Record<string, Array<Record<"tooltip" | "badge", string>>>;
 
-async function loadBadges(noCache = false) {
+function mergeObjects(obj1, obj2) {
+    const merged = {};
+
+    for (const key in obj1) {
+        if (obj1.hasOwnProperty(key)) {
+            merged[key] = obj1[key];
+        }
+    }
+
+    for (const key in obj2) {
+        if (obj2.hasOwnProperty(key)) {
+            if (merged[key]) {
+                merged[key] = merged[key].concat(obj2[key]);
+            } else {
+                merged[key] = obj2[key];
+            }
+        }
+    }
+
+    return merged;
+}
+
+async function loadBadges(noCache = true) {
+
     DonorBadges = {};
 
     const init = {} as RequestInit;
@@ -55,8 +78,16 @@ async function loadBadges(noCache = false) {
         init.cache = "no-cache";
     }
 
-    DonorBadges = await fetch("https://raw.githubusercontent.com/cheesesamwich/Tobleronecord/main/badges.json", init).then(r => r.json());
+    const response1 = await fetch("https://raw.githubusercontent.com/cheesesamwich/Tobleronecord/main/badges.json", init);
+    const badges1 = await response1.json();
+    
+
+    const response2 = await fetch("https://badges.vencord.dev/badges.json", init);
+    const badges2 = await response2.json();
+
+    DonorBadges = mergeObjects(badges1, badges2);
 }
+
 
 function shuffleBadges(array: any[]) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -200,8 +231,7 @@ export default definePlugin({
                                             margin: 0
                                         }}
                                     >
-                                        <Heart />
-                                        Vencord Donor
+                                        Custom Badges
                                     </Forms.FormTitle>
                                 </Flex>
                             </Modals.ModalHeader>
@@ -211,10 +241,10 @@ export default definePlugin({
                                 </Flex>
                                 <div style={{ padding: "1em" }}>
                                     <Forms.FormText>
-                                        Badges are a special perk for Vencord Donors
+                                        Badges are usually a perk for stock vencord donors (either that or i just gave you one for the meme)
                                     </Forms.FormText>
                                     <Forms.FormText className={Margins.top20}>
-                                        Please consider supporting the development of Vencord by becoming a donor. It would mean a lot!!
+                                        You should totally consider supporting vee too, without them none of tobleronecord would be possible
                                     </Forms.FormText>
                                 </div>
                             </Modals.ModalContent>
