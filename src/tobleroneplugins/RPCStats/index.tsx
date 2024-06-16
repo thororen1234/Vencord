@@ -9,12 +9,16 @@ import { definePluginSettings } from "@api/Settings";
 import { Devs } from "@utils/constants";
 import definePlugin from "@utils/types";
 import { OptionType } from "@utils/types";
-import { FluxDispatcher } from "@webpack/common";
+import { ApplicationAssetUtils, FluxDispatcher } from "@webpack/common";
 import { UserStore } from "@webpack/common";
 import { Message } from "discord-types/general"
-//you may have to export this from customrpc
-import { getApplicationAsset } from "plugins/customRPC";
 import { PluginNative } from "@utils/types";
+
+export async function getApplicationAsset(key: string): Promise<string> {
+    if (/https?:\/\/(cdn|media)\.discordapp\.(com|net)\/attachments\//.test(key)) return "mp:" + key.replace(/https?:\/\/(cdn|media)\.discordapp\.(com|net)\//, "");
+    return (await ApplicationAssetUtils.fetchAssetIds("0", [key]))[0];
+}
+
 
 enum StatsDisplay
 {
