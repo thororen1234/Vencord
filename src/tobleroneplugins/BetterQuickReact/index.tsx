@@ -55,7 +55,7 @@ export default definePlugin({
         },
         // Override limit of emojis to display
         {
-            find: "default.Messages.ADD_REACTION_NAMED.format",
+            find: ".Messages.ADD_REACTION_NAMED.format",
             replacement: {
                 match: /(\i)\.length>4&&\((\i)\.length=4\);/,
                 replace: "$1.length>$self.getMaxQuickReactions()&&($2.length=$self.getMaxQuickReactions());"
@@ -63,13 +63,13 @@ export default definePlugin({
         },
         // Add a custom class to identify the quick reactions have been modified and a CSS variable for the number of columns to display
         {
-            find: "default.Messages.ADD_REACTION_NAMED.format",
+            find: ".Messages.ADD_REACTION_NAMED.format",
             replacement: {
                 match: /className:(\i)\.wrapper,/,
                 replace: "className:\"vc-better-quick-react \"+($self.settings.store.compactMode?\"vc-better-quick-react-compact \":\"\")+$1.wrapper,style:{\"--vc-better-quick-react-columns\":$self.settings.store.columns},"
             }
         },
-        // MenuGroup doesn't accept styles or anything special by default :/
+        // MenuGroup doesn't accept styles or anything special by default :/ (This is still broken right now, no idea how to fix it.)
         {
             find: "{MenuGroup:function()",
             replacement: {
