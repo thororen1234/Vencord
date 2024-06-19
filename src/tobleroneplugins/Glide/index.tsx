@@ -279,26 +279,26 @@ function getCSS(fontName)
     /*Settings things*/
         /*Server list animation*/
         ${Settings.plugins.Glide.serverListAnim ? `
-        .guilds__2b93a {
+        .guilds_a4d4d9 {
             width: 10px;
             transition: width var(--animspeed) ease 0.1s, opacity var(--animspeed) ease 0.1s;
             opacity: 0;
         }
-        .guilds__2b93a:hover {
+        .guilds_a4d4d9:hover {
             width: 65px;
             opacity: 100;
         }
         ` : ""}         
         /*Member list anim toggle*/
         ${Settings.plugins.Glide.memberListAnim ? `
-            .container_f79ab4 
+            .container_cbd271 
             {
                 width: 60px;
                 opacity: 0.2;
                 transition: width var(--animspeed) ease 0.1s, opacity var(--animspeed) ease 0.1s;
             
             }
-            .container_f79ab4:hover 
+            .container_cbd271:hover 
             {
                 width: 250px;
                 opacity: 1;    
@@ -306,20 +306,20 @@ function getCSS(fontName)
         ` : ""}
         /*Privacy blur*/
         ${Settings.plugins.Glide.privacyBlur ? `
-                .header__6a14d,
-                .container__7e23c,
-                .title_d4ba1a,
-                .layout__59abc,
+                .header_ec86aa,
+                .container_ee69e0,
+                .title_a7d72e,
+                .layout_f9647d,
                 [aria-label="Members"] {
                 filter: blur(0); 
                 transition: filter 0.2s ease-in-out; 
                 }
 
-                body:not(:hover) .header__6a14d,
-                body:not(:hover) .container__7e23c,
-                body:not(:hover) .title_d4ba1a,
+                body:not(:hover) .header_ec86aa,
+                body:not(:hover) .container_ee69e0,
+                body:not(:hover) .title_a7d72e,
                 body:not(:hover) [aria-label="Members"],
-                body:not(:hover) .layout__59abc {
+                body:not(:hover) .layout_f9647d {
                 filter: blur(5px); 
                 }
         ` : ""}
@@ -454,11 +454,11 @@ function getCSS(fontName)
                     border-top-color: var(--mutedaccent) !important;
                 }
                 /*sorry, forgot to document what these are when i was adding them*/
-                .inspector__80c84, .scroller_ac6d1c, .unicodeShortcut__01a83
+                .inspector_c3120f, .scroller_dcade6, .unicodeShortcut_dfa278
                 {
                     background-color: var(--bgcol);
                 }
-                .inner__178b2
+                .inner_effbe2
                 {
                     background-color: var(--accent);
                 }
@@ -469,24 +469,24 @@ function getCSS(fontName)
                     background: var(--accent);
                 }
                 /*emoji menu recolor*/
-                .contentWrapper_e0bb2c, .header__3028e
+                .contentWrapper_af5dbb, .header_a3bc57
                 {
                 background-color: var(--bgcol);
                 }
                 /*vc background recolor*/
-                .root__3eef0
+                .root_dd069c
                 {
                     background-color: var(--bgcol);
                 }
 
                 /*Fix the forum page*/
                 /*Set the bg color*/
-                .container_b92032
+                .container_a6d69a
                 {
                     background-color: var(--bgcol);
                 }
                 /*Recolor the posts to the accent*/
-                .container_de2a56
+                .container_d331f1
                 {
                     background-color: var(--accent);
                 }
@@ -497,33 +497,33 @@ function getCSS(fontName)
                     background-color: var(--bgcol);
                 }
                 /* profile sidebar*/
-                [class="none__7a473 scrollerBase_f742b2"]
+                [class="none_eed6a8 scrollerBase_eed6a8"]
                 {
                     background-color: var(--bgcol) !important;
                 }
                 /*Recolor the emoji, gif, and sticker picker selected button*/
-                .navButtonActive__0c878, .stickerCategoryGenericSelected_b553f9, .categoryItemDefaultCategorySelected__7d6e0
+                .navButtonActive_af5dbb, .stickerCategoryGenericSelected_a7a485, .categoryItemDefaultCategorySelected_dfa278
                 {
                     background-color: var(--accent) !important;
                 }
 
                 /*side profile bar*/
-                [class="none_ff9f86 scrollerBase__65223"]
+                [class="none_c49869 scrollerBase_c49869"]
                 {
                     background-color: var(--bgcol) !important;
                 }
-                .userPanelOverlayBackground_a2b6ae, .badgeList__76720
+                .userPanelOverlayBackground_a2b6ae, .badgeList_ab525a
                 {
                     background-color: var(--accent) !important;
                     border-radius: 15px !important;
                 }
                 /*uhhhhhhhhhhhhhhh*/
-                .headerText__88997
+                .headerText_c47fa9
                 {
                     color: var(--text) !important;
                 }
                 /*message bar placeholder*/
-                .placeholder_dec8c7
+                .placeholder_a552a6
                 {
                     color: var(--mutedtext) !important
                 }
@@ -531,7 +531,7 @@ function getCSS(fontName)
         /*ROUNDING (rounding)*/
 
                 /*round message bar, some buttons, dm list button, new messages notif bar, channel buttons, emoji menu search bar, context menus, account connections(in that order)*/
-                .scrollableContainer_ff917f, .button__581d0, .interactive__0786a, .newMessagesBar__8b272, .link_ddbb36, .searchBar__57f39, .menu__088f7, .connectedAccountContainer__5972d
+                .scrollableContainer_d0696b, .button_dd4f85, .interactive_f5eb4b, .newMessagesBar_cf58b5, .link_d8bfb3, .searchBar_c6ee36, .menu_d90b3d, .connectedAccountContainer_f3eb60
                 {
                     border-radius: 25px;
                 }
@@ -546,7 +546,7 @@ function getCSS(fontName)
                     border-radius: 20px;
                 }      
                 
-                .item__183e8
+                .item_d90b3d
                 {
                   border-radius: 15px;
                 }
@@ -554,13 +554,13 @@ function getCSS(fontName)
             
 
                 /*slightly move messages right when hovered*/
-                .cozyMessage__9f4fd
+                .cozyMessage_d5deea
                 {
                     left: 0px;
                 
                     transition-duration: 0.2s;
                 }
-                .cozyMessage__9f4fd:hover 
+                .cozyMessage_d5deea:hover 
                 {
                     left: 3px;
                 }
@@ -569,7 +569,7 @@ function getCSS(fontName)
         /*CONTENT (Typically changing values or hiding elements)*/
 
                 /*remove status text in user thing*/
-                .panelSubtextContainer_fd5930
+                .panelSubtextContainer_b2ca13
                 {
                     display: none !important;
                 }
@@ -581,14 +581,14 @@ function getCSS(fontName)
 
 
                 /*Hide user profile button, the dm favourite, dm close, support, gift buttons, the now playing column, and the channel + favourite icons*/
-                [aria-label="Hide User Profile"], .favoriteIcon__03348, .closeButton__116c3, [href="https://support.discord.com"], .nowPlayingColumn_b025fe, button[aria-label="Send a gift"], .icon__67ab4, .iconContainer__6a580
+                [aria-label="Hide User Profile"], .favoriteIcon_c91bad, .closeButton_c91bad, [href="https://support.discord.com"], .nowPlayingColumn_c2739c, button[aria-label="Send a gift"], .icon_d8bfb3, .iconContainer_d8bfb3
                 {
                     display :none;
                 }
 
                 /*yeet the shitty nitro and family link tabs that no one likes*/
-                .channel__0aef5[aria-posinset="2"],
-                .familyCenterLinkButton_ab1e00 
+                .channel_c91bad[aria-posinset="2"],
+                .familyCenterLinkButton_f0963d 
                 {
                     display: none;
                 
@@ -600,17 +600,17 @@ function getCSS(fontName)
                 }
                 
                 /*No more useless spotify activity header*/
-                .headerContainer_b7a30f
+                .headerContainer_d5089b
                 {
                     display: none;
                 }
                 /*hide sidebar connections*/
-                .profilePanelConnections__34438
+                .profilePanelConnections_b433b4
                 {
                   display: none;
                 }
                 /*pad the message bar right slightly. Not sure what caused the buttons to flow out of it, might be something in the theme :shrug:*/         
-                .inner__9fd0b
+                .inner_d0696b
                 {
                     padding-right: 10px;
                 }
@@ -622,13 +622,13 @@ function getCSS(fontName)
                 }
 
                 /*Hide icon on file uploading status*/
-                .icon_df1a3e
+                .icon_a4623d
                 {
                     display: none;
                 }
                 
                 /*hide the play button while a soundmoji is playing*/
-                .playing_a99371 [viewBox="0 0 24 24"] 
+                .playing_bf9443 [viewBox="0 0 24 24"] 
                 {
                     display:none;
                 }
@@ -638,44 +638,44 @@ function getCSS(fontName)
                     display: none;
                 }
                 /*fix context menu being not symmetrical*/
-                .scroller__8f066
+                .scroller_d90b3d
                 {
                     padding: 6px 8px !important;
                 }        
                 /*Hide the icon that displays what platform the user is listening with on spotify status*/
-                .platformIcon_a2d873
+                .platformIcon_d5089b
                 {
                     display: none !important;
                 }
                 /*hide the album name on spotify statuses (who cares)*/
-                [class="state_a85ac0 ellipsis__46552 textRow_c835f1"]
+                [class="state_d5089b ellipsis_d5089b textRow_d5089b"]
                 {
                     display: none;
                 }
                 /*space the connections a bit better*/
-                .userInfoSection_e816c1
+                .userInfoSection_a24910
                 {
                     margin-bottom: 0px;
                     padding-bottom: 0px;
                 }
                 /*Space channels*/
-                .containerDefault_ae2ea4
+                .containerDefault_f6f816
                 {
                 padding-top: 5px;
                 }
 
                 /*round banners in profile popout*/
-                .banner__6d414:not(.panelBanner__7d7e2)
+                .banner_c3e427:not(.panelBanner_c3e427)
                 {
                   border-radius: 20px;
                 }
                 /*round the user popout*/
-                .userPopoutOuter_d67f56
+                .userPopoutOuter_c69a7b
                 {
                   border-radius: 25px;
                 }                       
                 /*round the inner profile popout*/
-                [class="userPopoutInner_ac0960 userProfileInner__8ff35 userProfileInnerThemedWithBanner_e9e7c5"]::before
+                [class="userPopoutInner_c69a7b userProfileInner_c69a7b userProfileInnerThemedWithBanner_c69a7b"]::before
                 {
                 border-radius: 20px;
                 }
@@ -683,13 +683,13 @@ function getCSS(fontName)
         /*STYLING (Modification of content to fit the theme)*/
 
                 /*Round and scale down the users banner*/
-                .panelBanner__7d7e2
+                .panelBanner_c3e427
                 {
                 border-radius: 20px;
                 transform: scale(0.95);
                 }
                 /*add a soft glow to message bar contents, user panel, dms, channel names (in that order)*/
-                .inner__9fd0b .layout__59abc, .name__4eb92
+                .inner_d0696b .layout_f9647d, .name_d8bfb3
                 {
                 filter: drop-shadow(0px 0px 3px var(--glowcol));
                 }
@@ -709,14 +709,14 @@ function getCSS(fontName)
                 }
 
                 /*Round all status symbols. basically does what that one plugin does but easier (disabled because of a bug)
-                .pointerEvents__585e6
+                .pointerEvents_c51b4e
                 {
                     mask: url(#svg-mask-status-online);
                 }
                 */
 
                 /*pfp uploader crosshair*/
-                .overlayAvatar__5b2a6
+                .overlayAvatar_ba5b9e
                 {
                     background-image: url(https://raw.githubusercontent.com/cheesesamwich/Tobleronecord/main/src/tobleroneplugins/Glide/crosshair.png);
                     background-repeat: no-repeat;
@@ -733,15 +733,15 @@ function getCSS(fontName)
                     text-shadow: 0px 0px 2px var(--highlightcol);
                 }
                 /*hide the line between connections and note*/
-                [class="connectedAccounts__7a8e6 userInfoSection_e816c1"]
+                [class="connectedAccounts_f3eb60 userInfoSection_a24910"]
                 {
                     border-top: transparent !important;
                 }
-                .container__2ed72:not(.checked__36fdc)
+                .container_cebd1c:not(.checked_cebd1c)
                 {
                     background-color: var(--mutedbrand) !important;
                 }
-                .checked__36fdc
+                .checked_cebd1c
                 {
                     background-color: var(--brand) !important;
                 }
