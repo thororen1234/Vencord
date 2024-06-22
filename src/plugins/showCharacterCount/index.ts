@@ -36,7 +36,7 @@ export default definePlugin({
                 match: /(,\i=)(\i-\i)(,)/,
                 replace: "$1$self.genNumber(e)$3"
             }
-        }
+        },
     ],
     name: "ShowCharacterCount",
     authors: [{
