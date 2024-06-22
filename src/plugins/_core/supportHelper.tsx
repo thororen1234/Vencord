@@ -134,7 +134,8 @@ const checkForUpdatesOnce = onlyOnce(checkForUpdates);
 
 export default definePlugin({
     name: "SupportHelper",
-    required: true,
+    required: false,
+    enabledByDefault: true,
     description: "Helps us provide support to you",
     authors: [Devs.Ven],
     dependencies: ["CommandsAPI", "UserSettingsAPI", "MessageAccessoriesAPI"],
