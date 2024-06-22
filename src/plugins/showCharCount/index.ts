@@ -24,26 +24,26 @@ import style from "./style.css?managed";
 export default definePlugin({
     patches: [
         {
-            find: "let{type:N,textValue:p,maxCharacterCount",
+            find: ".CHARACTER_COUNT_OVER_LIMIT",
             replacement: {
-                match: /let{type/,
-                replace: "e.showRemainingCharsAfterCount=4000;e.maxCharacterCount=0;$&"
+                match: /let/,
+                replace: "arguments[0].showRemainingCharsAfterCount=4000;arguments[0].maxCharacterCount=0;$&"
             }
         },
         {
-            find: "let{type:N,textValue:p,maxCharacterCount",
+            find: ".CHARACTER_COUNT_OVER_LIMIT",
             replacement: {
-                match: /(,.=)(.-.)(,)/,
+                match: /(,\i=)(\i-\i)(,)/,
                 replace: "$1$self.genNumber(e)$3"
             }
         }
     ],
-    name: "_Show Character Count",
+    name: "ShowCharacterCount",
     authors: [{
         name: "sadan",
         id: 521819891141967883n
     }],
-    description: "Show your character count while typing",
+    description: "Show your character count while typing.",
     genNumber(e: any): string {
         console.log(e);
         if (!e.textValue) return "";
