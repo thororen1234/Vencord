@@ -45,7 +45,6 @@ export default definePlugin({
     }],
     description: "Show your character count while typing.",
     genNumber(e: any): string {
-        console.log(e);
         if (!e.textValue) return "";
         return e.textValue.length.toString();
     },
