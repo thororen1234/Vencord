@@ -16,9 +16,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import "./style.css";
-
+import { disableStyle, enableStyle } from "@api/Styles";
 import definePlugin from "@utils/types";
+
+import style from "./style.css?managed";
+
 export default definePlugin({
     patches: [
         {
@@ -46,5 +48,11 @@ export default definePlugin({
         console.log(e);
         if (!e.textValue) return "";
         return e.textValue.length.toString();
+    },
+    start() {
+        enableStyle(style);
+    },
+    stop(){
+        disableStyle(style);
     }
 });
