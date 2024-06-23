@@ -209,6 +209,33 @@ export default definePlugin({
                 match: /function\(\i,(\i),\i\){.*,\[\i,\i,\i\]\);/,
                 replace: "$&if($1.rawRecipients[0] != null){if($1.rawRecipients[0].id != null){if($self.shouldHideUser($1.rawRecipients[0].id)) return null;}}"
             }
+        },
+
+        //thank nick (644298972420374528) for these patches :3 
+
+        // filter relationships
+        {
+            find: "getFriendIDs(){",
+            replacement: {
+                match: /\i.FRIEND\)/,
+                replace: "$&.filter(id => !$self.shouldHideUser(id))"
+            }
+        },
+        //active now list
+        {
+            find: "getUserAffinitiesUserIds(){",
+            replacement: {
+                match: /return (\i.affinityUserIds)/,
+                replace: "return new Set(Array.from($1).filter(id => !$self.shouldHideUser(id)))"
+            }
+        },
+        // mutual friends list in user profile
+        {
+            find: "}getMutualFriends(",
+            replacement: {
+                match: /(getMutualFriends\(\i\){)return (\i[\i])/,
+                replace: "$1if($2 != undefined) return $2.filter(u => !$self.shouldHideUser(u.key))"
+            }
         }
     ]
 });
