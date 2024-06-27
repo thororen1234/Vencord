@@ -336,8 +336,8 @@ export default definePlugin({
                     const name = user.globalName || user.username;
 
                     showNotification({
-                        title: shouldBeNative() ? `User ${name} changed status` : "User status change",
-                        body: `Now ${status}`,
+                        title: shouldBeNative() ? `${name} changed status` : "User status change",
+                        body: `They are now ${status}`,
                         noPersist: !settings.store.persistNotifications,
                         richBody: getRichBody(user, `${name}'s status is now ${status}`),
                     });
