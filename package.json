@@ -45,6 +45,7 @@
         "gifenc": "github:mattdesl/gifenc#64842fca317b112a8590f8fef2bf3825da8f6fe3",
         "monaco-editor": "^0.50.0",
         "nanoid": "^4.0.2",
+        "node-vibrant": "3.2.1-alpha.1",
         "openai": "^4.30.0",
         "virtual-merge": "^1.0.1"
     },
