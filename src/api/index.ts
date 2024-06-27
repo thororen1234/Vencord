@@ -21,10 +21,6 @@ import * as $ChatButtons from "./ChatButtons";
 import * as $Commands from "./Commands";
 import * as $ContextMenu from "./ContextMenu";
 import * as $DataStore from "./DataStore";
-<<<<<<< HEAD
-import * as $MarkdownRules from "./MarkDownRules";
-=======
->>>>>>> parent of b2f0797a (Merge remote-tracking branch 'markdownapi/MarkDownRules')
 import * as $MemberListDecorators from "./MemberListDecorators";
 import * as $MessageAccessories from "./MessageAccessories";
 import * as $MessageDecorations from "./MessageDecorations";
