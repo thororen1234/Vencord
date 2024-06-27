@@ -318,7 +318,6 @@ export default definePlugin({
             if (!settings.store.notifyStatus || !settings.store.userIds) {
                 return;
             }
-            console.log(updates);
             for (const { user: { id: userId, username }, status, clientStatus } of updates) {
                 const isFollowed = getUserIdList().includes(userId);
                 if (!isFollowed) {
