@@ -177,6 +177,8 @@ export default definePlugin({
     },
 
     getBadges(props: { userId: string; user?: User; guildId: string; }) {
+        if (!props) return [];
+
         try {
             props.userId ??= props.user?.id!;
 
