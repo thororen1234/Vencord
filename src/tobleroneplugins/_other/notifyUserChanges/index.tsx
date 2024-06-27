@@ -281,25 +281,6 @@ const UserContext: NavContextMenuPatchCallback = (children, { user }: UserContex
 
 const lastStatuses = new Map<string, string>();
 
-function generateClientStatusList(clientStatus): string[] {
-    const statusList: string[] = [];
-
-    if (clientStatus.desktop) {
-        statusList.push(`Desktop - ${clientStatus.desktop}`);
-    }
-    if (clientStatus.web) {
-        statusList.push(`Web - ${clientStatus.web}`);
-    }
-    if (clientStatus.mobile) {
-        statusList.push(`Mobile - ${clientStatus.mobile}`);
-    }
-    if (clientStatus.console) {
-        statusList.push(`Console - ${clientStatus.console}`);
-    }
-
-    return statusList;
-}
-
 export default definePlugin({
     name: "NotifyUserChanges",
     description: "Adds a notify option in the user context menu to get notified when a user changes voice channels or online status",
@@ -356,7 +337,7 @@ export default definePlugin({
 
                     showNotification({
                         title: shouldBeNative() ? `User ${name} changed status` : "User status change",
-                        body: generateClientStatusList(clientStatus).join(", "),
+                        body: `Now ${status}`,
                         noPersist: !settings.store.persistNotifications,
                         richBody: getRichBody(user, `${name}'s status is now ${status}`),
                     });
