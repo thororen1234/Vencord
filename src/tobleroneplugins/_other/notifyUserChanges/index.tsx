@@ -281,6 +281,25 @@ const UserContext: NavContextMenuPatchCallback = (children, { user }: UserContex
 
 const lastStatuses = new Map<string, string>();
 
+function generateClientStatusList(clientStatus): string[] {
+    const statusList: string[] = [];
+
+    if (clientStatus.desktop) {
+        statusList.push(`Desktop - ${clientStatus.desktop}`);
+    }
+    if (clientStatus.web) {
+        statusList.push(`Web - ${clientStatus.web}`);
+    }
+    if (clientStatus.mobile) {
+        statusList.push(`Mobile - ${clientStatus.mobile}`);
+    }
+    if (clientStatus.console) {
+        statusList.push(`Console - ${clientStatus.console}`);
+    }
+
+    return statusList;
+}
+
 export default definePlugin({
     name: "NotifyUserChanges",
     description: "Adds a notify option in the user context menu to get notified when a user changes voice channels or online status",
@@ -318,20 +337,26 @@ export default definePlugin({
             if (!settings.store.notifyStatus || !settings.store.userIds) {
                 return;
             }
-            for (const { user: { id: userId, username }, status } of updates) {
+            console.log(updates);
+            for (const { user: { id: userId, username }, status, clientStatus } of updates) {
                 const isFollowed = getUserIdList().includes(userId);
                 if (!isFollowed) {
                     continue;
                 }
-
+                if(!clientStatus)
+                {
+                    continue;
+                }
                 // this is also triggered for multiple guilds and when only the activities change, so we have to check if the status actually changed
                 if (lastStatuses.has(userId) && lastStatuses.get(userId) !== status) {
                     const user = UserStore.getUser(userId);
-                    const name = username ?? user.username;
+
+                    //@ts-ignore
+                    const name = user.globalName || user.username;
 
                     showNotification({
                         title: shouldBeNative() ? `User ${name} changed status` : "User status change",
-                        body: `is now ${status}`,
+                        body: generateClientStatusList(clientStatus).join(", "),
                         noPersist: !settings.store.persistNotifications,
                         richBody: getRichBody(user, `${name}'s status is now ${status}`),
                     });

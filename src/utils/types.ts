@@ -18,7 +18,6 @@
 
 import { Command } from "@api/Commands";
 import { NavContextMenuPatchCallback } from "@api/ContextMenu";
-import { PluginMarkDownRules } from "@api/MarkdownRules";
 import { FluxEvents } from "@webpack/types";
 import { Promisable } from "type-fest";
 
@@ -140,10 +139,6 @@ export interface PluginDef {
      * The key will be used as text for the button
      */
     toolboxActions?: Record<string, () => void>;
-    /**
-     * Allows you to add custom Rules to markdown
-     */
-    Rules?(r: PluginMarkDownRules): PluginMarkDownRules;
 
     tags?: string[];
 
