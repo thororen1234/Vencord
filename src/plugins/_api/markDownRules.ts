@@ -4,7 +4,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+<<<<<<< HEAD
 import { patchMarkdownRules } from "@api/MarkDownRules";
+=======
+>>>>>>> parent of 87c416a1 (adding the Rules api)
 import { Devs } from "@utils/constants";
 import definePlugin, { StartAt } from "@utils/types";
 
@@ -21,6 +24,5 @@ export default definePlugin({
             }
         }
     ],
-    startAt: StartAt.Init,
-    patchMarkdownRules
+    startAt: StartAt.Init
 });
