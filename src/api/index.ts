@@ -21,10 +21,6 @@ import * as $ChatButtons from "./ChatButtons";
 import * as $Commands from "./Commands";
 import * as $ContextMenu from "./ContextMenu";
 import * as $DataStore from "./DataStore";
-<<<<<<< HEAD
-import * as $MarkdownRules from "./MarkDownRules";
-=======
->>>>>>> parent of 87c416a1 (adding the Rules api)
 import * as $MemberListDecorators from "./MemberListDecorators";
 import * as $MessageAccessories from "./MessageAccessories";
 import * as $MessageDecorations from "./MessageDecorations";
