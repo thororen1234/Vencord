@@ -23,7 +23,7 @@ import { Flex } from "@components/Flex";
 import { proxyLazy } from "@utils/lazy";
 import { Margins } from "@utils/margins";
 import { classes, isObjectEmpty } from "@utils/misc";
-import { ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalProps, ModalRoot, ModalSize } from "@utils/modal";
+import { ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalProps, ModalRoot, ModalSize, openModal } from "@utils/modal";
 import { OptionType, Plugin } from "@utils/types";
 import { findByPropsLazy, findComponentByCodeLazy } from "@webpack";
 import { Button, Clickable, FluxDispatcher, Forms, React, Text, Tooltip, UserStore, UserUtils } from "@webpack/common";
@@ -261,4 +261,14 @@ export default function PluginModal({ plugin, onRestartNeeded, onClose, transiti
             </ModalFooter>}
         </ModalRoot>
     );
+}
+
+export function openPluginModal(plugin: Plugin, onRestartNeeded?: (pluginName: string) => void) {
+    openModal(modalProps => (
+        <PluginModal
+            {...modalProps}
+            plugin={plugin}
+            onRestartNeeded={() => onRestartNeeded?.(plugin.name)}
+        />
+    ));
 }
