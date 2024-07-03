@@ -343,7 +343,7 @@ function getCSS(fontName)
             --bgcol: #${Settings.plugins.Glide.Primary};
             --text: #${Settings.plugins.Glide.Text};
             --brand: #${Settings.plugins.Glide.Brand};
-            --mutedtext: ${mute(Settings.plugins.Glide.Text, 10)};
+            --mutedtext: ${mute(Settings.plugins.Glide.Text, 20)};
             --mutedbrand: ${mute(Settings.plugins.Glide.Brand, 10)};
             --mutedaccent: ${mute(Settings.plugins.Glide.Accent, 10)};
         }
@@ -553,6 +553,14 @@ function getCSS(fontName)
                         fill: #ac7de6 important;
                     }
                 ` : ""}
+                .name_d8bfb3
+                {
+                    color: var(--text) !important;
+                }
+                .unread_d8bfb3
+                {
+                    background-color: var(--text) !important;
+                }
 
         /*ROUNDING (rounding)*/
 
