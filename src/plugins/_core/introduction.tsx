@@ -22,6 +22,8 @@ export default definePlugin({
     settingsAboutComponent: () => <Button onClick={openInfoModal}>Open Modal</Button>,
     start()
     {
+        //do nothing for now since apparently datastore doesnt work on browser
+        return;
         if(!VencordNative.settings.get().isFirstTime)
         {
             openInfoModal();
