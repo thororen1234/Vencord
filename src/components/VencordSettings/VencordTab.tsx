@@ -23,8 +23,11 @@ import { identity } from "@utils/misc";
 import { relaunch, showItemInFolder } from "@utils/native";
 import { useAwaiter } from "@utils/react";
 import { Button, Card, Forms, React, Select, Switch } from "@webpack/common";
-
+import { QuickActionCard, QuickAction } from "./quickActions";
 import { SettingsTab, wrapTab } from "./shared";
+import { Flex, FolderIcon, GithubIcon, LogIcon, PaintbrushIcon, RestartIcon } from "..";
+import { gitRemote } from "@shared/vencordUserAgent";
+import { openNotificationLogModal } from "@api/Notifications/notificationLog";
 
 const cl = classNameFactory("vc-settings-");
 type KeysOfType<Object, Type> = {
@@ -92,31 +95,37 @@ function VencordSettings() {
     return (
         <SettingsTab title="Tobler, uh. settings (or something)">
             <InfoCard />
-            <Card className={cl("quick-actions-card")}>
-                <React.Fragment>
-                    {!IS_WEB && (
-                        <Button
-                            onClick={relaunch}
-                            size={Button.Sizes.SMALL}>
-                            Restart Client
-                        </Button>
-                    )}
-                    <Button
-                        onClick={() => VencordNative.quickCss.openEditor()}
-                        size={Button.Sizes.SMALL}
-                        disabled={settingsDir === "Loading..."}>
-                        Open QuickCSS File
-                    </Button>
-                    {!IS_WEB && (
-                        <Button
-                            onClick={() => showItemInFolder(settingsDir)}
-                            size={Button.Sizes.SMALL}
-                            disabled={settingsDirPending}>
-                            Open Settings Folder
-                        </Button>
-                    )}
-                </React.Fragment>
-            </Card>
+            <QuickActionCard>
+                <QuickAction
+                    Icon={LogIcon}
+                    text="Notification Log"
+                    action={openNotificationLogModal}
+                />
+                <QuickAction
+                    Icon={PaintbrushIcon}
+                    text="Edit QuickCSS"
+                    action={() => VencordNative.quickCss.openEditor()}
+                />
+                {!IS_WEB && (
+                    <QuickAction
+                        Icon={RestartIcon}
+                        text="Relaunch Discord"
+                        action={relaunch}
+                    />
+                )}
+                {!IS_WEB && (
+                    <QuickAction
+                        Icon={FolderIcon}
+                        text="Open Settings Folder"
+                        action={() => showItemInFolder(settingsDir)}
+                    />
+                )}
+                <QuickAction
+                    Icon={GithubIcon}
+                    text="View Source Code"
+                    action={() => VencordNative.native.openExternal("https://github.com/" + gitRemote)}
+                />
+            </QuickActionCard>
             <Forms.FormDivider />
             <Forms.FormSection className={Margins.top16} title="Settings" tag="h5">
                 {Switches.map(s => s && (
