@@ -46,7 +46,7 @@ export default definePlugin({
             return (
                 <div
                     style={{
-                        backgroundColor: int2rgba(props.folderNode.color, .4),
+                        backgroundColor: int2rgba(props.folderNode.color, +settings.store.transparentIcon || .4),
                         display: "flex",
                         justifyContent: "center",
                         alignItems: "center",

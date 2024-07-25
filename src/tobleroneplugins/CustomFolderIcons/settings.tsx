@@ -14,11 +14,17 @@ export interface folderIcon{
 export type folderIconsData = Record<string, folderIcon | null>;
 
 const settings = definePluginSettings({
+    transparentIcon: {
+        type: OptionType.BOOLEAN,
+        default: false,
+        description: "Use a solid background on the background of the image"
+    },
     folderIcons: {
         type: OptionType.COMPONENT,
         hidden: true,
         description: "folder icon settings",
         component: () => <></>
-    }
+    },
+
 });
 export default settings;
