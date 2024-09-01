@@ -266,6 +266,7 @@ export default definePlugin({
                 replace: (m, props, nowPlaying) => `${m}$self.renderToggleGameActivityButton(${props},${nowPlaying}),`
             }
         },
+        // Discord has 3 different components for activities. Currently, the last is the one being used
         {
             find: ".activityTitleText,variant",
             replacement: {
@@ -277,6 +278,13 @@ export default definePlugin({
             find: ".activityCardDetails,children",
             replacement: {
                 match: /\.activityCardDetails.+?children:(\i\.application)\.name.*?}\),/,
+                replace: (m, props) => `${m}$self.renderToggleActivityButton(${props}),`
+            }
+        },
+        {
+            find: ".promotedLabelWrapperNonBanner,children",
+            replacement: {
+                match: /\.appDetailsHeaderContainer.+?children:\i.*?}\),(?<=application:(\i).+?)/,
                 replace: (m, props) => `${m}$self.renderToggleActivityButton(${props}),`
             }
         }
