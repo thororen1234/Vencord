@@ -38,7 +38,6 @@ const JumpIconLast = () => {
     );
 };
 
-
 function jumpToFirstMessage(channelId: string, guildId?: string | null) {
     NavigationRouter.transitionTo(`/channels/${guildId ?? "@me"}/${channelId}/0`);
 }
